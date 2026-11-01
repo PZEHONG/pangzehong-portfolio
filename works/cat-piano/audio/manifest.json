@@ -1,0 +1,110 @@
+{
+  "source": "User-supplied reference video, sampled from 3.76-4.57s, then pitch shifted to C5-B5",
+  "updated": "2026-10-12",
+  "method": "User-supplied cleaned WAV audio copied without further processing.",
+  "audio_cleanup": {
+    "date": "2026-10-12",
+    "description": "Preserved original PCM through 0.46 s; cosine fade from 0.46 to 0.54 s; silence after 0.54 s to remove the unrelated tail. Original 0.81 s sample duration retained.",
+    "fade_start_seconds": 0.46,
+    "fade_end_seconds": 0.54,
+    "sample_rate_hz": 32000,
+    "channels": 1,
+    "wav_bit_depth": 16,
+    "mp3_bitrate_kbps": 128,
+    "original_backup": "audio_backup_20261012_before_tail_cleanup",
+    "embedded_web_audio_updated": true
+  },
+  "notes": [
+    {
+      "name": "C5",
+      "solfege": "Do",
+      "file": "meow-C5.wav",
+      "mp3": "meow-C5.mp3",
+      "frequency": 523.251,
+      "duration": 0.81,
+      "sampleRate": 32000,
+      "channels": 1,
+      "bitDepth": 16,
+      "peak": 0.760009765625,
+      "sha256": "5c0619af2d7330157e98084798e7694fc5f6f3d7aaeab8a2be15fb49fc99f81d"
+    },
+    {
+      "name": "D5",
+      "solfege": "Re",
+      "file": "meow-D5.wav",
+      "mp3": "meow-D5.mp3",
+      "frequency": 587.33,
+      "duration": 0.81,
+      "sampleRate": 32000,
+      "channels": 1,
+      "bitDepth": 16,
+      "peak": 0.759979248046875,
+      "sha256": "232e6a09978bec43d5981ffbed8c32c47ea8272e537889a891fd84518e2e3116"
+    },
+    {
+      "name": "E5",
+      "solfege": "Mi",
+      "file": "meow-E5.wav",
+      "mp3": "meow-E5.mp3",
+      "frequency": 659.255,
+      "duration": 0.81,
+      "sampleRate": 32000,
+      "channels": 1,
+      "bitDepth": 16,
+      "peak": 0.760009765625,
+      "sha256": "53cce693ce5e4959c8d526429abd348d4dd4aac2c69a3bf6ee062532d735d797"
+    },
+    {
+      "name": "F5",
+      "solfege": "Fa",
+      "file": "meow-F5.wav",
+      "mp3": "meow-F5.mp3",
+      "frequency": 698.456,
+      "duration": 0.81,
+      "sampleRate": 32000,
+      "channels": 1,
+      "bitDepth": 16,
+      "peak": 0.760009765625,
+      "sha256": "cf286c1630532d0e6f651d1c12c02a9fc4491f083fa291379308386502c651aa"
+    },
+    {
+      "name": "G5",
+      "solfege": "Sol",
+      "file": "meow-G5.wav",
+      "mp3": "meow-G5.mp3",
+      "frequency": 783.991,
+      "duration": 0.81,
+      "sampleRate": 32000,
+      "channels": 1,
+      "bitDepth": 16,
+      "peak": 0.759979248046875,
+      "sha256": "b6eaa387792e81d50cc6b6b79deb139cee75de20015fdb76ce7006b55ddb035a"
+    },
+    {
+      "name": "A5",
+      "solfege": "La",
+      "file": "meow-A5.wav",
+      "mp3": "meow-A5.mp3",
+      "frequency": 880,
+      "duration": 0.81,
+      "sampleRate": 32000,
+      "channels": 1,
+      "bitDepth": 16,
+      "peak": 0.760009765625,
+      "sha256": "2feb3205309f22ff2301d6b908352ad7c4b1769ed87570d5ccf1d0cc3d15487e"
+    },
+    {
+      "name": "B5",
+      "solfege": "Si",
+      "file": "meow-B5.wav",
+      "mp3": "meow-B5.mp3",
+      "frequency": 987.767,
+      "duration": 0.81,
+      "sampleRate": 32000,
+      "channels": 1,
+      "bitDepth": 16,
+      "peak": 0.760009765625,
+      "sha256": "ab7d4078934e431ea8ccd91335d00e5a888e68e9da454fad5dfa81fc2e4cc881"
+    }
+  ]
+}

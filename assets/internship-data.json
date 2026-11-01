@@ -1,0 +1,15 @@
+[
+  {"id":1,"file":"IMG_20260621_182044.jpg","period":"2026-06-19","kind":"归因 GMV","gmv":397.03,"display":"$397.03","items":2,"note":"单日快照（GMT-6）；不与月报累加。"},
+  {"id":2,"file":"IMG_20260625_183112.jpg","period":"2026-06-23","kind":"Commission GMV","gmv":223.9,"display":"$223.90","items":1,"note":"单日快照（GMT-6）；不与月报累加。"},
+  {"id":3,"file":"IMG_20260721_173448.jpg","period":"拍摄于 2026-07-21","kind":"账号首页","gmv":0,"display":"$0.00","items":0,"note":"今日数据；账号状态展示，不计入月度统计。"},
+  {"id":4,"file":"IMG_20260804_185240.jpg","period":"2026-06-01 — 06-30","kind":"归因 GMV","gmv":156.27,"display":"$156.27","items":9,"note":"完整月报；账号标识未显示，独立列示。"},
+  {"id":5,"file":"IMG_20260804_185511_edit_55536.jpg","period":"2026-07-01 — 07-31","kind":"Commission GMV","gmv":433.78,"display":"$433.78","items":29,"note":"完整月报；账号标识未显示，不与其他报表合并。"},
+  {"id":6,"file":"IMG_20260804_185833_edit_19619.jpg","period":"2026-07-01 — 07-31","kind":"归因 GMV","gmv":141.35,"display":"$141.35","items":11,"note":"完整月报；与 Commission GMV 分开列示。"},
+  {"id":7,"file":"IMG_20260804_190036.jpg","period":"2026-06-01 — 06-30","kind":"归因 GMV","gmv":824.04,"display":"$824.04","items":52,"note":"完整月报；账号标识未显示，独立列示。"},
+  {"id":8,"file":"IMG_20260804_190153.jpg","period":"2026-06-01 — 06-30","kind":"归因 GMV","gmv":333.45,"display":"$333.45","items":27,"note":"完整月报；账号标识未显示，独立列示。"},
+  {"id":9,"file":"IMG_20260804_191111_edit_64650.jpg","period":"2026-06-01 — 06-30","kind":"Commission GMV","gmv":4800,"display":"约 $4.8K","items":259,"note":"精选月报 A；后台以 K 缩写显示，金额为约数。"},
+  {"id":10,"file":"IMG_20260804_191227.jpg","period":"2026-07-01 — 07-31","kind":"Commission GMV","gmv":2800,"display":"约 $2.8K","items":153,"note":"精选月报 B；后台以 K 缩写显示，金额为约数。"},
+  {"id":11,"file":"IMG_20260831_161457.jpg","period":"2026-08-01 — 08-29","kind":"归因 GMV","gmv":1300,"display":"约 $1.3K","items":107,"note":"8 月阶段快照；可能与完整 8 月报重叠，不累加。"},
+  {"id":12,"file":"IMG_20260901_185859.jpg","period":"2026-08-31","kind":"归因 GMV","gmv":198.71,"display":"$198.71","items":15,"note":"单日快照；可能已包含在 8 月完整月报中，不累加。"},
+  {"id":13,"file":"IMG_20260912_111418.jpg","period":"2026-08-01 — 08-31","kind":"归因 GMV","gmv":1700,"display":"约 $1.7K","items":134,"note":"完整月报；商品曝光约 115.4K 次，点击约 7.9K 次。"}
+]

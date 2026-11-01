@@ -1,0 +1,996 @@
+{
+  "source": "http://shop.website88.net/gpt6-works/index.html",
+  "createdAt": "2026-11-01T07:17:54.606Z",
+  "workCount": 45,
+  "files": [
+    {
+      "url": "http://shop.website88.net/gpt6-works/index.html",
+      "path": "gpt6-works/index.html",
+      "bytes": 32703,
+      "sha256": "746cf1d2aa6daf12a6cff600a906488a82388cee352626b17c17cb5f89fed1f2",
+      "dependencies": [
+        "http://shop.website88.net/gpt6-works/cycling.html",
+        "http://shop.website88.net/re-form.html",
+        "http://shop.website88.net/pelican-bicycle-3d.html",
+        "http://shop.website88.net/shanghai-voxel.html",
+        "http://shop.website88.net/auto-windtunnel.html",
+        "http://shop.website88.net/mona-lisa.html",
+        "http://shop.website88.net/gourd-courtyard.html",
+        "http://shop.website88.net/pelican-bicycle.html",
+        "http://shop.website88.net/painting-paradise.html",
+        "http://shop.website88.net/voxel-odyssey.html",
+        "http://shop.website88.net/aether-voyager.html",
+        "http://shop.website88.net/visual-lab/index.html",
+        "http://shop.website88.net/lonely-desert-road.html",
+        "http://shop.website88.net/ten-mu-farm.html",
+        "http://shop.website88.net/entropy-sea-3d.html",
+        "http://shop.website88.net/houdoumen/index.html",
+        "http://shop.website88.net/patrick-bicycle-3d.html",
+        "http://shop.website88.net/patrick-cycling.html",
+        "http://shop.website88.net/xingwei/index.html",
+        "http://shop.website88.net/wendao.html",
+        "http://shop.website88.net/nezha.html",
+        "http://shop.website88.net/frog-ride.html",
+        "http://shop.website88.net/cyberpunk-pelican-bike.html",
+        "http://shop.website88.net/pelican-slow-ride.html",
+        "http://shop.website88.net/pelican-express.html",
+        "http://shop.website88.net/cloud-adventure.html",
+        "http://shop.website88.net/pelican-neon-coast.html",
+        "http://shop.website88.net/teapot-cycling.html",
+        "http://shop.website88.net/frog-pond-ride.html",
+        "http://shop.website88.net/storm-sea.html",
+        "http://shop.website88.net/hippo-cycling.html",
+        "http://shop.website88.net/pelican-seaside.html",
+        "http://shop.website88.net/hanzi-mario.html",
+        "http://shop.website88.net/coastal-house.html",
+        "http://shop.website88.net/pelican-countryside.html",
+        "http://shop.website88.net/pelican-day-out.html",
+        "http://shop.website88.net/pelican-sea-breeze.html",
+        "http://shop.website88.net/pelican-seaside-loop.html",
+        "http://shop.website88.net/octopus-drummer.html",
+        "http://shop.website88.net/solar-system.html",
+        "http://shop.website88.net/yong-calligraphy.html",
+        "http://shop.website88.net/solar-system-orbits.html",
+        "http://shop.website88.net/pelican-daynight.html",
+        "http://shop.website88.net/panda-cycling.html",
+        "http://shop.website88.net/pixel-cat.html",
+        "http://shop.website88.net/ak47-hd-pixel.html"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/gpt6-works/cycling.html",
+      "path": "gpt6-works/cycling.html",
+      "bytes": 16355,
+      "sha256": "e1d4724cb378b6a8af1b543fd0908b176a57ed80267098c05f5f228956bfe560",
+      "dependencies": [
+        "http://shop.website88.net/gpt6-works/index.html",
+        "http://shop.website88.net/pelican-bicycle-3d.html",
+        "http://shop.website88.net/pelican-bicycle.html",
+        "http://shop.website88.net/patrick-bicycle-3d.html",
+        "http://shop.website88.net/patrick-cycling.html",
+        "http://shop.website88.net/frog-ride.html",
+        "http://shop.website88.net/cyberpunk-pelican-bike.html",
+        "http://shop.website88.net/pelican-slow-ride.html",
+        "http://shop.website88.net/pelican-express.html",
+        "http://shop.website88.net/pelican-neon-coast.html",
+        "http://shop.website88.net/teapot-cycling.html",
+        "http://shop.website88.net/frog-pond-ride.html",
+        "http://shop.website88.net/hippo-cycling.html",
+        "http://shop.website88.net/pelican-seaside.html",
+        "http://shop.website88.net/pelican-countryside.html",
+        "http://shop.website88.net/pelican-day-out.html",
+        "http://shop.website88.net/pelican-sea-breeze.html",
+        "http://shop.website88.net/pelican-seaside-loop.html",
+        "http://shop.website88.net/pelican-daynight.html",
+        "http://shop.website88.net/panda-cycling.html"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/pelican-bicycle-3d.html",
+      "path": "pelican-bicycle-3d.html",
+      "bytes": 585192,
+      "sha256": "dcd5730f8a3fafea17245d7cedb80a0326fa3ee83539d12c7c8e1b442549b9ed",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/shanghai-voxel.html",
+      "path": "shanghai-voxel.html",
+      "bytes": 625294,
+      "sha256": "b3e0eb3e172879c60a1e277e73449d4a0ec4e3e6551eb79f08183b34972bcd99",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/re-form.html",
+      "path": "re-form.html",
+      "bytes": 2908071,
+      "sha256": "6b08b3413e46b3a72e5ceb8211b01372d8b0f22944dec30ebae378f8dca63fb4",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/auto-windtunnel.html",
+      "path": "auto-windtunnel.html",
+      "bytes": 8028612,
+      "sha256": "274710da2f510a041edb36b7c6219c904ba70d603e1e0f6907667b63905eacbc",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/gourd-courtyard.html",
+      "path": "gourd-courtyard.html",
+      "bytes": 40894,
+      "sha256": "8ed6550ee237ff20786abf5d697a8130f8fe53563e71f70890c9306521fffb5b",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-bicycle.html",
+      "path": "pelican-bicycle.html",
+      "bytes": 25809,
+      "sha256": "03b46b3a832defa07f3e0631689d9f5198e5c067938656edfe433d4387756798",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/voxel-odyssey.html",
+      "path": "voxel-odyssey.html",
+      "bytes": 645870,
+      "sha256": "f0ab89ecb99cb44d060b171c28c74a36ad1d554ffeb27ccff9b4788e81d12b90",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/aether-voyager.html",
+      "path": "aether-voyager.html",
+      "bytes": 3200332,
+      "sha256": "78659864d1823212ba39f7e376364265c31a457f6d25ddf0ab0ceffee9371513",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/painting-paradise.html",
+      "path": "painting-paradise.html",
+      "bytes": 4498056,
+      "sha256": "419d2bb6d9d3ed62d638a7003ae28a65a66d919f69536286301158dd9a03acd9",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/mona-lisa.html",
+      "path": "mona-lisa.html",
+      "bytes": 11935131,
+      "sha256": "006cee43f800d7b3af87fd4fe7598b122b383298c4e9a263afc46f8169af2520",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/index.html",
+      "path": "visual-lab/index.html",
+      "bytes": 2886,
+      "sha256": "3d80e7296f388ecf59d84b3c337f469c38477a19757773849afd66264bce80fc",
+      "dependencies": [
+        "http://shop.website88.net/visual-lab/01-polar.html",
+        "http://shop.website88.net/visual-lab/02-keyboard.html",
+        "http://shop.website88.net/visual-lab/03-gravity.html",
+        "http://shop.website88.net/visual-lab/04-metro.html",
+        "http://shop.website88.net/visual-lab/05-poster.html"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/index.html",
+      "path": "houdoumen/index.html",
+      "bytes": 4205,
+      "sha256": "124b8d70d89e51ed15cfcce9fdfa675579b1b11f3b1082304984c3393cd9ee1a",
+      "dependencies": [
+        "http://shop.website88.net/houdoumen/style.css",
+        "http://shop.website88.net/houdoumen/content.js",
+        "http://shop.website88.net/houdoumen/season-two.js",
+        "http://shop.website88.net/houdoumen/season-three.js",
+        "http://shop.website88.net/houdoumen/season-four.js",
+        "http://shop.website88.net/houdoumen/rogue-content.js",
+        "http://shop.website88.net/houdoumen/game.js"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/patrick-bicycle-3d.html",
+      "path": "patrick-bicycle-3d.html",
+      "bytes": 559317,
+      "sha256": "35c59097d4910e3e2be899731aed351db7a604014bd051cf691ce58a4d6493ad",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/lonely-desert-road.html",
+      "path": "lonely-desert-road.html",
+      "bytes": 984783,
+      "sha256": "a8393e5c3d34f141c2e08c08c9a709252314ba4544aeca95082746091c378c25",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/entropy-sea-3d.html",
+      "path": "entropy-sea-3d.html",
+      "bytes": 667852,
+      "sha256": "be41a33f7ab06df0e7ff01c9864714120ad212a59ab18df741229b3d1c8b263c",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/ten-mu-farm.html",
+      "path": "ten-mu-farm.html",
+      "bytes": 2357083,
+      "sha256": "1ee00d99ab9fe446dd6ac2fdc3dfc29362d139ea81fa6a5bcfbb4a14a4804d58",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/index.html",
+      "path": "xingwei/index.html",
+      "bytes": 1120,
+      "sha256": "ac7715d961d67607d8921312c15821e7ad7cd53972879e5a1cda7022d3431f74",
+      "dependencies": [
+        "http://shop.website88.net/xingwei/assets/icon-192.png",
+        "http://shop.website88.net/xingwei/manifest.webmanifest",
+        "http://shop.website88.net/xingwei/styles.css",
+        "http://shop.website88.net/xingwei/assets/flagship.webp",
+        "http://shop.website88.net/xingwei/src/app.js"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/nezha.html",
+      "path": "nezha.html",
+      "bytes": 34375,
+      "sha256": "e57f5cc40bf1c824f3b647b687c9c1edd9a3e8412c59b33c422e25442d35c4bf",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/frog-ride.html",
+      "path": "frog-ride.html",
+      "bytes": 57142,
+      "sha256": "93be5d09c7c98af916a1811d304b543f3889e6066bd7373c557ceb0beac826d5",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/wendao.html",
+      "path": "wendao.html",
+      "bytes": 671524,
+      "sha256": "12731e2fdaf98510d5c0c51202e47e2e3dde648f618677587e178c1bd9106c75",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/cyberpunk-pelican-bike.html",
+      "path": "cyberpunk-pelican-bike.html",
+      "bytes": 18432,
+      "sha256": "94582ed2c1d1e6ad6eb9aea973c9740e6de6821fbdeab5413a9f8714a9c5237a",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/patrick-cycling.html",
+      "path": "patrick-cycling.html",
+      "bytes": 49290512,
+      "sha256": "744b784013d8d579c28a8c84d60b2d9d2ed345e0acf50b195ae36df1450d7801",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-slow-ride.html",
+      "path": "pelican-slow-ride.html",
+      "bytes": 47066,
+      "sha256": "a4d762d079c1ce9ac885b59fdc9a77c3090f1844345e3f2145029fd1387006b0",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-express.html",
+      "path": "pelican-express.html",
+      "bytes": 15441,
+      "sha256": "41eeb5dc7c52a47be1b8ae335f477380bc4f48a92595c6e06a0d8f21edc9223f",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/frog-pond-ride.html",
+      "path": "frog-pond-ride.html",
+      "bytes": 31474,
+      "sha256": "87aec0ad21837a113f94c554a380e37b485995f36dc14e19419e505d02452dca",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/teapot-cycling.html",
+      "path": "teapot-cycling.html",
+      "bytes": 29277,
+      "sha256": "f3aeaed0ca17e38e0d5c827d2864b0f71f22c2af4d9bd00b2d0d6c174078fd37",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/cloud-adventure.html",
+      "path": "cloud-adventure.html",
+      "bytes": 79948,
+      "sha256": "8cba74ad24dcd91533d63a0478e282de7e84e72fd7681e700623ed446e4ab19e",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-neon-coast.html",
+      "path": "pelican-neon-coast.html",
+      "bytes": 51109,
+      "sha256": "ebad92ad4b183e2006fd2e7e7888b892995d1e9a68360c59335bdf20f01fe2fa",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/hippo-cycling.html",
+      "path": "hippo-cycling.html",
+      "bytes": 26325,
+      "sha256": "5ee7cba5d10a0593f2441d719f7be8a474e2c78debbbb192feb88240a6c839d6",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/hanzi-mario.html",
+      "path": "hanzi-mario.html",
+      "bytes": 28680,
+      "sha256": "f8e1f9ce9e6f496e3730ad6d6361f59f660dc4f2cc465754ff4e56c1aba5869e",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-countryside.html",
+      "path": "pelican-countryside.html",
+      "bytes": 10063,
+      "sha256": "d951f676a59107c722d083b419f867c08b184cf16386dba3df9493054d994f04",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-seaside.html",
+      "path": "pelican-seaside.html",
+      "bytes": 30305,
+      "sha256": "9f73371d837262828df0b9a70ffb1c1f79b5a46922db883ae7c0b7859daa9e47",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/storm-sea.html",
+      "path": "storm-sea.html",
+      "bytes": 672524,
+      "sha256": "31cd3a563d387a5daab8670b35bcbe07caa1a4a739834c6e5099b3121f29d80d",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/coastal-house.html",
+      "path": "coastal-house.html",
+      "bytes": 640493,
+      "sha256": "992f0c111e6d1e432a22aff282cdd8222ffbe6c6426ae8fedcfc0000f8e89eb4",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-sea-breeze.html",
+      "path": "pelican-sea-breeze.html",
+      "bytes": 25067,
+      "sha256": "c1e6c04139cbcfedff68989a0541a3f226677b73739de8909e8934a7cf348397",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-seaside-loop.html",
+      "path": "pelican-seaside-loop.html",
+      "bytes": 27821,
+      "sha256": "9891594cf0e588d9dfff9025f3bd47789dd467670d896dd7e2c09a12ba46d593",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-day-out.html",
+      "path": "pelican-day-out.html",
+      "bytes": 24286,
+      "sha256": "20edb8e0036f6e7e2e360139e205de6995eee1988847ebfab28fffda8c6106d8",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/solar-system.html",
+      "path": "solar-system.html",
+      "bytes": 25598,
+      "sha256": "794f4924cfd7d2dd7f0d0cd2a395aebb537ae32d596b78f5add8e18e0b40ab3f",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/octopus-drummer.html",
+      "path": "octopus-drummer.html",
+      "bytes": 23430,
+      "sha256": "03e9d3168c0a68e97a2213374afd6fc34c4250777117136fca2bfa230d028299",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/yong-calligraphy.html",
+      "path": "yong-calligraphy.html",
+      "bytes": 24823,
+      "sha256": "46f232704847a9a3aefc5b4ada5fdf3cebb5c473a4db09af7e5025867aa79d47",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/solar-system-orbits.html",
+      "path": "solar-system-orbits.html",
+      "bytes": 23974,
+      "sha256": "c8e0c84bae0aa7310fc3b37bbed067992091a919086c63dc125b32b483a8c9cd",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pelican-daynight.html",
+      "path": "pelican-daynight.html",
+      "bytes": 42159,
+      "sha256": "1f2517a77f66301514de80842ab67604b91744fe1fabc28ec4461e61fbf40ec0",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/panda-cycling.html",
+      "path": "panda-cycling.html",
+      "bytes": 12556,
+      "sha256": "1da8bd94e0a60340ad23dcbd6abb003c73336413db17bf4004eef8daccd2588a",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/rice.png",
+      "path": "houdoumen/assets/rice.png",
+      "bytes": 323898,
+      "sha256": "b47471d3194a1cbe3234db0ca096873aa979c9d0f44730c7e764cb18179c2384",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/pixel-cat.html",
+      "path": "pixel-cat.html",
+      "bytes": 947328,
+      "sha256": "e4c34f47cca80a1d9a8c23f69cd3f8f53bc76f8ce33b180d457ae1529ac518f2",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/ak47-hd-pixel.html",
+      "path": "ak47-hd-pixel.html",
+      "bytes": 1854273,
+      "sha256": "22e32ad771328def8bc2238429434f94db9da138a300c4e2707cf9688a53cc25",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/rose.png",
+      "path": "houdoumen/assets/rose.png",
+      "bytes": 276251,
+      "sha256": "5cca2ac67e49563de615a60ba6e4b3db69ebc2656f0b8535747ba3a728e34fd7",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/sheep.png",
+      "path": "houdoumen/assets/sheep.png",
+      "bytes": 225480,
+      "sha256": "58f198496f29ed45f63fdfde0f32fbd224c650486301b40e91624eecde6e7df7",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/greenhouse.png",
+      "path": "houdoumen/assets/greenhouse.png",
+      "bytes": 269137,
+      "sha256": "33bf53cdd16115425f644f131c94b8ca8077f6e95403b370d797bcca7120e5ba",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/house.png",
+      "path": "houdoumen/assets/house.png",
+      "bytes": 317066,
+      "sha256": "30ba30fc2ef602f4cba141e3e311d5e139ea8614c62ded1cd85ffae4886099d0",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/wheat.png",
+      "path": "houdoumen/assets/wheat.png",
+      "bytes": 283858,
+      "sha256": "79527e62a379fc91cc4b6c02150aa29ed9fd353f705f3ea52e58872e0213d81d",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s2/strawberry.png",
+      "path": "houdoumen/assets/s2/strawberry.png",
+      "bytes": 346614,
+      "sha256": "0b9d0c5e760e8fdf6d3f146b38439bff6ab0307bf4e744d74cebc1dae297e2b9",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s2/beehive.png",
+      "path": "houdoumen/assets/s2/beehive.png",
+      "bytes": 332330,
+      "sha256": "03530dc93c26b58903bcc668c6d28d2dd9def5451a62907ebe9d1fe98f585b4a",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s2/crayfish.png",
+      "path": "houdoumen/assets/s2/crayfish.png",
+      "bytes": 283979,
+      "sha256": "84a4822e3961cbbfa9aa0a28086c37824a437944b6aba80ba44c0550d5368458",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s3/celery.png",
+      "path": "houdoumen/assets/s3/celery.png",
+      "bytes": 286264,
+      "sha256": "0a86ec0e535574630280dc46104a2755cf8c55ee08b4ae9ebac44c86244c7951",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s2/tulip.png",
+      "path": "houdoumen/assets/s2/tulip.png",
+      "bytes": 327010,
+      "sha256": "b161c5e4e4d876a671c9cce42f97ff878da544736fc2c669f35206db4ab4b5d1",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s2/jam.png",
+      "path": "houdoumen/assets/s2/jam.png",
+      "bytes": 330341,
+      "sha256": "7098be475e38618a9754c0f481eb0651285c40cfb3efb4f48eebb5915c1dd58b",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s2/stall.png",
+      "path": "houdoumen/assets/s2/stall.png",
+      "bytes": 414034,
+      "sha256": "793074fb84994b4c0fb87d7039c317f87d08f33de78c3613d599df103a5d6a3f",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s3/seabuckthorn.png",
+      "path": "houdoumen/assets/s3/seabuckthorn.png",
+      "bytes": 267224,
+      "sha256": "4a68f5d67a50a3afe08c9fc599890f774f15ef8af3cab078187469c0acd809f5",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s3/salt.png",
+      "path": "houdoumen/assets/s3/salt.png",
+      "bytes": 359660,
+      "sha256": "adea685184e0610ddb50374ac61c2975588ee48955e576c46e65c14768c6c5f5",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s3/paddyart.png",
+      "path": "houdoumen/assets/s3/paddyart.png",
+      "bytes": 255803,
+      "sha256": "f5f233a057c6b6d7dcc4878813c382523e70d3794d60b913574ef57fa6637d9c",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s3/traveler.png",
+      "path": "houdoumen/assets/s3/traveler.png",
+      "bytes": 173955,
+      "sha256": "f20fff61bd79727aa45e6bef7d373a8d5ee5216704eaaaee6b58c2a3fb2e2531",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s3/center.png",
+      "path": "houdoumen/assets/s3/center.png",
+      "bytes": 294898,
+      "sha256": "ead3464e78593e25bdc683a65a86632f373219c534a713039fd083ef811e2c9b",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s4/banana.png",
+      "path": "houdoumen/assets/s4/banana.png",
+      "bytes": 309558,
+      "sha256": "e2b5347a03ab88a436bc132065eba36f62a7dbc599ff5c507a5df675afce63f5",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s4/rose.png",
+      "path": "houdoumen/assets/s4/rose.png",
+      "bytes": 307212,
+      "sha256": "d3e87df4ab1fb07ed1f960a6e206ac3328694977cd004ee915698f38d64ddc41",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s4/dendrobium.png",
+      "path": "houdoumen/assets/s4/dendrobium.png",
+      "bytes": 326121,
+      "sha256": "58fcc946878b9b3191fd4972ed583443804418c3c7a40035f7d2480a271bae26",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/01-polar.html",
+      "path": "visual-lab/01-polar.html",
+      "bytes": 10428,
+      "sha256": "1b6b3a93820b1490bd156f9f0d30a81327ec0a17faf60bae80876a8bbd05a814",
+      "dependencies": [
+        "http://shop.website88.net/visual-lab/assets/lucide.min.js",
+        "http://shop.website88.net/visual-lab/index.html",
+        "http://shop.website88.net/visual-lab/assets/polar1.jpg",
+        "http://shop.website88.net/visual-lab/assets/polar2.jpg",
+        "http://shop.website88.net/visual-lab/assets/polar3.jpg"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s4/rail.png",
+      "path": "houdoumen/assets/s4/rail.png",
+      "bytes": 254911,
+      "sha256": "8c52c3325015ed23615cddcbb28be2267fe5dc33edf0bfaeeb1d3dbe694f7ac1",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s4/irrigation.png",
+      "path": "houdoumen/assets/s4/irrigation.png",
+      "bytes": 334981,
+      "sha256": "f5e473a4aed7a0237536de9407389c968ee06a4c4d6ae960e4b9e15015795ee5",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/s4/station.png",
+      "path": "houdoumen/assets/s4/station.png",
+      "bytes": 408345,
+      "sha256": "b58b81723482fe4a8ddc938c70c20b5b43534928ad26c94d265558f017af69c4",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/02-keyboard.html",
+      "path": "visual-lab/02-keyboard.html",
+      "bytes": 33718,
+      "sha256": "60fd0be89f17e86458968f33d8ec981cab8aea1d1aeef47f2e7616505ed74329",
+      "dependencies": [
+        "http://shop.website88.net/visual-lab/index.html",
+        "http://shop.website88.net/visual-lab/assets/three.min.js",
+        "http://shop.website88.net/visual-lab/assets/OrbitControls.js",
+        "http://shop.website88.net/visual-lab/assets/lucide.min.js"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/03-gravity.html",
+      "path": "visual-lab/03-gravity.html",
+      "bytes": 27799,
+      "sha256": "257785f58dc0b9b64d75bb903dc39e34317863857e43035ac3b20ee8e04ee580",
+      "dependencies": [
+        "http://shop.website88.net/visual-lab/index.html",
+        "http://shop.website88.net/visual-lab/assets/matter.min.js",
+        "http://shop.website88.net/visual-lab/assets/lucide.min.js"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/04-metro.html",
+      "path": "visual-lab/04-metro.html",
+      "bytes": 28557,
+      "sha256": "b4255ed8ca78163e12d2d8ce064336bf9a1fddbff278e1b8d5d5c8ced4874f03",
+      "dependencies": [
+        "http://shop.website88.net/visual-lab/index.html",
+        "http://shop.website88.net/visual-lab/assets/lucide.min.js"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/content.js",
+      "path": "houdoumen/content.js",
+      "bytes": 5632,
+      "sha256": "757376c782335d90ad53436f9f2aa3e2a7e9862f85857571811a071a7f3e45b4",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/style.css",
+      "path": "houdoumen/style.css",
+      "bytes": 28063,
+      "sha256": "7bd582907c7810b687d0f82eacd5f7ece080a6fa8e370fd21962bbe8c87f3a22",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/05-poster.html",
+      "path": "visual-lab/05-poster.html",
+      "bytes": 32554,
+      "sha256": "58addb71279036fcaffed256c195412f698c52688b1d9b6678ec53b8b534a1d3",
+      "dependencies": [
+        "http://shop.website88.net/visual-lab/assets/konva.min.js",
+        "http://shop.website88.net/visual-lab/assets/lucide.min.js",
+        "http://shop.website88.net/visual-lab/assets/photos.js",
+        "http://shop.website88.net/visual-lab/index.html"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/season-three.js",
+      "path": "houdoumen/season-three.js",
+      "bytes": 9956,
+      "sha256": "250279b8124908e6df4efec24cb08a91acc34346961ba043cbc83bef4efae96a",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/season-four.js",
+      "path": "houdoumen/season-four.js",
+      "bytes": 6789,
+      "sha256": "2b0297c1a0543cc37d79661a4f7d9067870fc103171d79cd7a59075a9150fbcb",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/icon-192.png",
+      "path": "xingwei/assets/icon-192.png",
+      "bytes": 61694,
+      "sha256": "2fc04e110b368fcc3654c1217913a2a7ac5c4c21cddd113cce2fa75d71d67b6c",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/season-two.js",
+      "path": "houdoumen/season-two.js",
+      "bytes": 9262,
+      "sha256": "1eef6f5ad4437cdf2604c5533f9c1bf10185472ca615b81a878d2ce3aed15316",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/rogue-content.js",
+      "path": "houdoumen/rogue-content.js",
+      "bytes": 3833,
+      "sha256": "115c34e42788d370962fedba4254681ab9c583bcb087c5d31a4c28579aea5075",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/game.js",
+      "path": "houdoumen/game.js",
+      "bytes": 56108,
+      "sha256": "c8263ea76949cac6fa7b36454fabe801a9a94362b14c1049c160971c5afb7641",
+      "dependencies": [
+        "http://shop.website88.net/houdoumen/assets/farmer.png"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/manifest.webmanifest",
+      "path": "xingwei/manifest.webmanifest",
+      "bytes": 469,
+      "sha256": "995a2569bb005b95d6ea38229572dfe0118d1afc48df49832fa6f9395c676257",
+      "dependencies": [
+        "http://shop.website88.net/xingwei/assets/icon-192.png",
+        "http://shop.website88.net/xingwei/assets/icon-512.png"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/flagship.webp",
+      "path": "xingwei/assets/flagship.webp",
+      "bytes": 132878,
+      "sha256": "165c2a66f9a083656517f8076b12343d40b7b8b54e81d37c9c01a4e00d60eb44",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/src/app.js",
+      "path": "xingwei/src/app.js",
+      "bytes": 42342,
+      "sha256": "5cbb021797041fd56fbb7d4f1f3ec8cc018822f79197ceda082ab1e4436e7c6c",
+      "dependencies": [
+        "http://shop.website88.net/xingwei/assets/avatar.webp",
+        "http://shop.website88.net/xingwei/assets/flagship.webp",
+        "http://shop.website88.net/xingwei/assets/portal.webp",
+        "http://shop.website88.net/xingwei/sw.js",
+        "http://shop.website88.net/xingwei/src/data.js",
+        "http://shop.website88.net/xingwei/src/engine.js",
+        "http://shop.website88.net/xingwei/src/icons.js"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/styles.css",
+      "path": "xingwei/styles.css",
+      "bytes": 48541,
+      "sha256": "b16f39c6a5cf629ccac0d9ad9a9b591fbd33662bccb4d6e7b515cad86abef0a1",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/polar1.jpg",
+      "path": "visual-lab/assets/polar1.jpg",
+      "bytes": 228715,
+      "sha256": "fcae37a516cd97c8fbeaf9075543162df03f06a9f6618b1b0ffcbd8f476d3495",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/lucide.min.js",
+      "path": "visual-lab/assets/lucide.min.js",
+      "bytes": 357796,
+      "sha256": "3411692820cb8d47543f69496aa25fd603a358f4498046f41c508a5a3342210e",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/OrbitControls.js",
+      "path": "visual-lab/assets/OrbitControls.js",
+      "bytes": 25944,
+      "sha256": "fab106fa8f5eafb9d16216c9b454d673fc5d974be2c20a7a6f05cb6d4e66cee2",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/polar3.jpg",
+      "path": "visual-lab/assets/polar3.jpg",
+      "bytes": 273729,
+      "sha256": "ab2ef7293fb47abd01239dd23a11ed5136fc617caf45d7648cd52cd5ced548c5",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/matter.min.js",
+      "path": "visual-lab/assets/matter.min.js",
+      "bytes": 83476,
+      "sha256": "72d30be0f579eb02ce1e0b6f9d359a4f392e6837e5a26ba8be5dbee7f88e24ae",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/konva.min.js",
+      "path": "visual-lab/assets/konva.min.js",
+      "bytes": 174558,
+      "sha256": "9c635447e595b43c3f6c15026e8cfa83f668066034f35d04cddf3dff6888d9b6",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/polar2.jpg",
+      "path": "visual-lab/assets/polar2.jpg",
+      "bytes": 377820,
+      "sha256": "1cd54b20dfde532aada23aba2913297a048c14483f84a6ace58366d4bae61368",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/three.min.js",
+      "path": "visual-lab/assets/three.min.js",
+      "bytes": 606296,
+      "sha256": "3a6602548c758cca4e2762d50e802a5400b4c663b6a638d76a9163598467ded4",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/houdoumen/assets/farmer.png",
+      "path": "houdoumen/assets/farmer.png",
+      "bytes": 177895,
+      "sha256": "2b454469ea0c11c11f018c117c8b311fdd9cadc70c666774b1906a59ce0b0503",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/sw.js",
+      "path": "xingwei/sw.js",
+      "bytes": 1234,
+      "sha256": "b72e7237dd56d23cc6c8273d45c9819a54c674816f7671797c2569bf4aaeddb3",
+      "dependencies": [
+        "http://shop.website88.net/xingwei/assets/flagship.webp",
+        "http://shop.website88.net/xingwei/assets/avatar.webp",
+        "http://shop.website88.net/xingwei/assets/nebula.webp",
+        "http://shop.website88.net/xingwei/assets/sentinel.webp",
+        "http://shop.website88.net/xingwei/assets/lances.webp",
+        "http://shop.website88.net/xingwei/assets/abyss.webp",
+        "http://shop.website88.net/xingwei/assets/dyson.webp",
+        "http://shop.website88.net/xingwei/assets/computer.webp",
+        "http://shop.website88.net/xingwei/assets/biopod.webp",
+        "http://shop.website88.net/xingwei/assets/portal.webp",
+        "http://shop.website88.net/xingwei/assets/collector.webp",
+        "http://shop.website88.net/xingwei/assets/fuelship.webp",
+        "http://shop.website88.net/xingwei/assets/planet.webp",
+        "http://shop.website88.net/xingwei/assets/relic.webp",
+        "http://shop.website88.net/xingwei/assets/upgrade.webp",
+        "http://shop.website88.net/xingwei/assets/cruiser.webp",
+        "http://shop.website88.net/xingwei/assets/icon-192.png",
+        "http://shop.website88.net/xingwei/assets/icon-512.png"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/icon-512.png",
+      "path": "xingwei/assets/icon-512.png",
+      "bytes": 318966,
+      "sha256": "85409f0abcb342cb42493a799b98de5025445ebd59f7e0fec03568d7dcf17c39",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/avatar.webp",
+      "path": "xingwei/assets/avatar.webp",
+      "bytes": 5504,
+      "sha256": "9e324b42e904aec326702f3ea43781d151467a0b6b71bf4619b22e3acdfb14d6",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/portal.webp",
+      "path": "xingwei/assets/portal.webp",
+      "bytes": 4668,
+      "sha256": "661a1e193d9247d88772a343f9cc5bdc35ebd4c4c87649d91c62ec6d6a700026",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/visual-lab/assets/photos.js",
+      "path": "visual-lab/assets/photos.js",
+      "bytes": 1584216,
+      "sha256": "0f990646c76e767326c56939b8fb7a10569deff68f8ba3e66290e16d9144bb07",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/src/data.js",
+      "path": "xingwei/src/data.js",
+      "bytes": 8012,
+      "sha256": "b8aa2108d79f73db59dee3299a6ec52ffcdb773b71b1f0172ed0e24c56ba826d",
+      "dependencies": [
+        "http://shop.website88.net/xingwei/assets/fuelship.webp",
+        "http://shop.website88.net/xingwei/assets/biopod.webp",
+        "http://shop.website88.net/xingwei/assets/relic.webp",
+        "http://shop.website88.net/xingwei/assets/lances.webp",
+        "http://shop.website88.net/xingwei/assets/collector.webp",
+        "http://shop.website88.net/xingwei/assets/cruiser.webp",
+        "http://shop.website88.net/xingwei/assets/computer.webp",
+        "http://shop.website88.net/xingwei/assets/planet.webp",
+        "http://shop.website88.net/xingwei/assets/portal.webp",
+        "http://shop.website88.net/xingwei/assets/dyson.webp",
+        "http://shop.website88.net/xingwei/assets/upgrade.webp",
+        "http://shop.website88.net/xingwei/assets/flagship.webp",
+        "http://shop.website88.net/xingwei/assets/abyss.webp",
+        "http://shop.website88.net/xingwei/assets/sentinel.webp"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/src/engine.js",
+      "path": "xingwei/src/engine.js",
+      "bytes": 18818,
+      "sha256": "a61b4e3ca5cfd8afbe6c869cd286d26fc2e67bc41983cc2e3359babeca8e68b8",
+      "dependencies": [
+        "http://shop.website88.net/xingwei/assets/relic.webp",
+        "http://shop.website88.net/xingwei/assets/upgrade.webp",
+        "http://shop.website88.net/xingwei/src/data.js"
+      ]
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/src/icons.js",
+      "path": "xingwei/src/icons.js",
+      "bytes": 3271,
+      "sha256": "002fa4a999c2e5ff91866c48dc6ab9668d120e445e6242ddc0e5fe805a829823",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/nebula.webp",
+      "path": "xingwei/assets/nebula.webp",
+      "bytes": 22642,
+      "sha256": "b91611e9176c2a2f236dfab200c5f3caec49fcdd078af604f9aba0fcad755098",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/lances.webp",
+      "path": "xingwei/assets/lances.webp",
+      "bytes": 22516,
+      "sha256": "c9d864768398614578153cb21204136d66ed4380a0ac61638284860956a6e7df",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/sentinel.webp",
+      "path": "xingwei/assets/sentinel.webp",
+      "bytes": 24148,
+      "sha256": "808f7c92dd9d2ded13a7459b8f4f9b38e91847db699752f4e7dacb7576f43fa4",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/abyss.webp",
+      "path": "xingwei/assets/abyss.webp",
+      "bytes": 89628,
+      "sha256": "c7ccb6ba21a064caf864934af70535136f2d0ad897b2e8934f146397c7529bfc",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/dyson.webp",
+      "path": "xingwei/assets/dyson.webp",
+      "bytes": 29370,
+      "sha256": "f244af519bf44115b178f55452c77cc54a50cedb112cb0829893015784d40fe4",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/computer.webp",
+      "path": "xingwei/assets/computer.webp",
+      "bytes": 23020,
+      "sha256": "b278c53c1339156ae5d475b448e94d329978a80cc20021c811193d08fadb2fb6",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/collector.webp",
+      "path": "xingwei/assets/collector.webp",
+      "bytes": 5512,
+      "sha256": "6163c02542a51508bebedbd02ccab4b4d10d41280571ac557588b8ef4013daba",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/fuelship.webp",
+      "path": "xingwei/assets/fuelship.webp",
+      "bytes": 6100,
+      "sha256": "7969638050ac795fb93673bea2e81b4ab9d9f6993522c28b291fad1afc851786",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/biopod.webp",
+      "path": "xingwei/assets/biopod.webp",
+      "bytes": 6164,
+      "sha256": "4b0c3dce71d97c092f9c25defdb332e3a967351d66cf96ba48319614ac6b5dbc",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/relic.webp",
+      "path": "xingwei/assets/relic.webp",
+      "bytes": 23230,
+      "sha256": "0fb6e7d7c612cc3cf5fd774dfc09ba853875a895441a44b67d21b4033a423a43",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/planet.webp",
+      "path": "xingwei/assets/planet.webp",
+      "bytes": 5452,
+      "sha256": "6e0379d40d4ce65989084c81a27474d1edd8d70fa9645d4ca887506e49b0de68",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/upgrade.webp",
+      "path": "xingwei/assets/upgrade.webp",
+      "bytes": 23348,
+      "sha256": "92dff404a2d18e5a087d06fbd2a853d5454d3fad9660d703a49fe47519455ccf",
+      "dependencies": []
+    },
+    {
+      "url": "http://shop.website88.net/xingwei/assets/cruiser.webp",
+      "path": "xingwei/assets/cruiser.webp",
+      "bytes": 22308,
+      "sha256": "a28957b841f803dda2e413d10255c271b2d16b39a35ccbcccb26e06801b1d51d",
+      "dependencies": []
+    }
+  ],
+  "failures": []
+}

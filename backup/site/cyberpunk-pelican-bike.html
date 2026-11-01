@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NEON MIGRATION / Pelican Bike</title>
+<style>
+  :root {
+    --ink: #050817;
+    --deep: #07152b;
+    --cyan: #4df7ff;
+    --cyan-dim: #1da9c7;
+    --violet: #8e64ff;
+    --magenta: #ff3cac;
+    --orange: #ff9f43;
+    --cream: #eafaff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: var(--ink); }
+  body {
+    display: grid;
+    place-items: center;
+    color: var(--cream);
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    overflow-x: hidden;
+  }
+  .shell {
+    position: relative;
+    width: min(1440px, 100vw);
+    min-height: 100vh;
+    padding: 28px 34px 30px;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      radial-gradient(1100px 620px at 67% 32%, rgba(75, 247, 255, .12), transparent 62%),
+      radial-gradient(820px 540px at 16% 72%, rgba(142, 100, 255, .14), transparent 68%),
+      linear-gradient(145deg, #03050f 2%, #09162c 54%, #100b28 100%);
+  }
+  .shell::before,
+  .shell::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .shell::before {
+    inset: 16px;
+    border: 1px solid rgba(77, 247, 255, .16);
+    clip-path: polygon(0 0, 32% 0, 34% 1.5%, 100% 1.5%, 100% 100%, 0 100%);
+  }
+  .shell::after {
+    inset: 0;
+    opacity: .12;
+    background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 100% 6px;
+    mix-blend-mode: screen;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 48px;
+    border-bottom: 1px solid rgba(77, 247, 255, .23);
+    position: relative;
+    z-index: 2;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    font-size: 12px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+  .brand-mark {
+    width: 24px; height: 24px;
+    display: grid; place-items: center;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    transform: rotate(45deg);
+    box-shadow: 0 0 16px rgba(77,247,255,.55);
+  }
+  .brand-mark span { transform: rotate(-45deg); font-size: 12px; }
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: rgba(234,250,255,.65);
+    font: 11px/1 var(--mono, Consolas, monospace);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .status b { color: var(--magenta); font-weight: 500; }
+  .dot { width: 7px; height: 7px; background: var(--magenta); box-shadow: 0 0 12px var(--magenta); border-radius: 50%; }
+  main { position: relative; z-index: 1; }
+  .eyebrow {
+    margin: 52px 0 9px;
+    color: var(--magenta);
+    font: 11px/1 var(--mono, Consolas, monospace);
+    letter-spacing: .4em;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0;
+    max-width: 730px;
+    font-size: clamp(46px, 7vw, 102px);
+    line-height: .84;
+    letter-spacing: -.075em;
+    font-weight: 760;
+    text-transform: uppercase;
+    text-wrap: balance;
+    text-shadow: 0 0 24px rgba(77,247,255,.18);
+  }
+  h1 em { color: var(--cyan); font-style: normal; }
+  .intro {
+    max-width: 410px;
+    margin: 18px 0 0;
+    color: rgba(234,250,255,.7);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .stage {
+    position: relative;
+    margin: -5px -18px -6px;
+    min-height: 630px;
+  }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .hud-label { font: 11px/1 var(--mono, Consolas, monospace); letter-spacing: .18em; fill: rgba(234,250,255,.55); text-transform: uppercase; }
+  .hud-number { font: 700 25px/1 var(--mono, Consolas, monospace); letter-spacing: .06em; fill: var(--cyan); }
+  .fine { fill: none; stroke: rgba(234,250,255,.33); stroke-width: 1; }
+  .neon-cyan { fill: none; stroke: var(--cyan); stroke-linecap: round; stroke-linejoin: round; }
+  .neon-magenta { fill: none; stroke: var(--magenta); stroke-linecap: round; stroke-linejoin: round; }
+  .glow { filter: url(#glow); }
+  .glow-soft { filter: url(#glow-soft); }
+  .bike-wheel { fill: rgba(2,10,25,.68); stroke: var(--cyan); stroke-width: 7; }
+  .bike-wheel-inner { fill: none; stroke: rgba(142,100,255,.9); stroke-width: 2; stroke-dasharray: 4 17; }
+  .bike-spoke { stroke: rgba(77,247,255,.46); stroke-width: 1; }
+  .pelican-body { fill: url(#bodyGradient); stroke: #b7fbff; stroke-width: 3; stroke-linejoin: round; }
+  .pelican-shadow { fill: #0d1b35; stroke: var(--cyan); stroke-width: 2; }
+  .accent-line { fill: none; stroke: var(--magenta); stroke-width: 5; stroke-linecap: round; }
+  .micro-grid { fill: url(#microGrid); opacity: .5; }
+  .scanline { animation: scan 5s linear infinite; }
+  .wheel-spin { transform-box: fill-box; transform-origin: center; animation: spin 12s linear infinite; }
+  .pulse { animation: pulse 2.6s ease-in-out infinite; }
+  @keyframes scan { from { transform: translateY(-40px); } to { transform: translateY(40px); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100% { opacity: .56; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .scanline, .wheel-spin, .pulse { animation: none; }
+  }
+  footer {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 20px;
+    padding-top: 3px;
+    border-top: 1px solid rgba(77, 247, 255, .2);
+    color: rgba(234,250,255,.52);
+    font: 10px/1.4 var(--mono, Consolas, monospace);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  .footer-center { color: var(--cyan); text-align: center; }
+  .footer-right { text-align: right; }
+  @media (max-width: 760px) {
+    .shell { padding: 18px 16px 20px; }
+    header { gap: 8px; }
+    .brand { letter-spacing: .18em; font-size: 10px; }
+    .status { gap: 8px; font-size: 9px; }
+    .stage { margin: 0 -10px; min-height: 440px; }
+    .eyebrow { margin-top: 34px; }
+    .intro { font-size: 13px; }
+    footer { grid-template-columns: 1fr 1fr; }
+    .footer-center { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><span class="brand-mark"><span>✦</span></span> NEON MIGRATION / 07</div>
+      <div class="status"><span class="dot"></span><b>LIVE</b><span>night route / 2088</span></div>
+    </header>
+    <main>
+      <div class="eyebrow">CYBERNETIC ORNITHOLOGY / URBAN FLIGHT SYSTEM</div>
+      <h1>Pelican<br><em>Night Ride</em></h1>
+      <p class="intro">A long-beaked courier cuts through the electric dusk. One bird, two wheels, zero traffic laws.</p>
+      <div class="stage">
+        <svg viewBox="0 0 1400 720" role="img" aria-labelledby="svgTitle svgDesc">
+          <title id="svgTitle">赛博朋克风格的鹈鹕骑自行车</title>
+          <desc id="svgDesc">一只带着霓虹护目镜的鹈鹕骑着发光自行车，穿过蓝紫色的夜色城市。</desc>
+          <defs>
+            <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#071934"/>
+              <stop offset=".52" stop-color="#12144a"/>
+              <stop offset="1" stop-color="#21082d"/>
+            </linearGradient>
+            <linearGradient id="bodyGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f0ffff"/>
+              <stop offset=".47" stop-color="#a9e5ee"/>
+              <stop offset="1" stop-color="#5b77ad"/>
+            </linearGradient>
+            <linearGradient id="beakGradient" x1="0" y1="0" x2=".92" y2="1">
+              <stop offset="0" stop-color="#ffb450"/>
+              <stop offset=".36" stop-color="#ff6d70"/>
+              <stop offset="1" stop-color="#d63caa"/>
+            </linearGradient>
+            <linearGradient id="jacketGradient" x1="0" y1="0" x2="1" y2=".8">
+              <stop offset="0" stop-color="#25f0f0"/>
+              <stop offset=".46" stop-color="#2678d7"/>
+              <stop offset="1" stop-color="#9e35c6"/>
+            </linearGradient>
+            <pattern id="microGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+              <path d="M28 0H0V28" fill="none" stroke="#4df7ff" stroke-opacity=".23" stroke-width="1"/>
+            </pattern>
+            <pattern id="horizonGrid" width="80" height="36" patternUnits="userSpaceOnUse">
+              <path d="M80 0H0V36" fill="none" stroke="#4df7ff" stroke-opacity=".2" stroke-width="1"/>
+            </pattern>
+            <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="7" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-soft" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="16" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="1400" height="720" rx="4" fill="url(#bgGradient)"/>
+          <circle cx="1110" cy="170" r="155" fill="#ff3cac" opacity=".08" class="glow-soft"/>
+          <circle cx="1110" cy="170" r="86" fill="none" stroke="#ff3cac" stroke-opacity=".25" stroke-width="1"/>
+          <circle cx="1110" cy="170" r="64" fill="none" stroke="#ff3cac" stroke-opacity=".33" stroke-width="2" stroke-dasharray="3 10"/>
+          <path d="M0 516H1400V720H0Z" fill="url(#horizonGrid)" opacity=".8"/>
+          <path d="M0 515H1400" stroke="#4df7ff" stroke-opacity=".6" stroke-width="2" class="glow"/>
+          <path d="M0 518 C220 508 360 522 550 516 S940 511 1400 519" fill="none" stroke="#ff3cac" stroke-opacity=".38" stroke-width="3" class="glow"/>
+          <g opacity=".5" class="scanline">
+            <path d="M24 102H480 M1008 102H1375 M105 300H260 M1180 360H1382" stroke="#4df7ff" stroke-width="1" stroke-dasharray="2 10"/>
+            <path d="M0 420H190 M1170 450H1400" stroke="#ff3cac" stroke-width="1" stroke-dasharray="3 11"/>
+          </g>
+
+          <!-- signal annotations -->
+          <g>
+            <path d="M92 164h152l18 18v72" class="fine"/>
+            <text x="92" y="151" class="hud-label">SPECIMEN / PL-07</text>
+            <text x="92" y="206" class="hud-number">WINGSPAN 4.8M</text>
+            <path d="M1165 270h116l20 20v42" class="fine"/>
+            <text x="1160" y="256" class="hud-label">ROUTE LOCKED / EAST ARC</text>
+            <text x="1160" y="303" class="hud-number">88 KM/H</text>
+          </g>
+
+          <!-- motion trails behind the bike -->
+          <g class="glow-soft" opacity=".65">
+            <path d="M142 632C270 607 334 619 455 604" stroke="#ff3cac" stroke-width="8" fill="none"/>
+            <path d="M80 660C242 632 320 654 424 630" stroke="#4df7ff" stroke-width="4" fill="none"/>
+            <path d="M260 583C320 574 360 576 415 566" stroke="#8e64ff" stroke-width="3" fill="none"/>
+          </g>
+
+          <!-- bicycle shadow -->
+          <ellipse cx="688" cy="683" rx="470" ry="17" fill="#000" opacity=".58"/>
+          <ellipse cx="690" cy="674" rx="398" ry="9" fill="#4df7ff" opacity=".22" class="glow-soft"/>
+
+          <!-- bicycle -->
+          <g aria-label="霓虹自行车">
+            <g class="wheel-spin">
+              <circle cx="360" cy="610" r="115" class="bike-wheel"/>
+              <circle cx="360" cy="610" r="95" class="bike-wheel-inner"/>
+              <g class="bike-spoke">
+                <path d="M360 495V725 M245 610H475 M279 529L441 691 M279 691L441 529"/>
+                <path d="M318 503L402 717 M252 568L468 652 M252 652L468 568 M318 717L402 503"/>
+              </g>
+              <circle cx="360" cy="610" r="10" fill="#07152b" stroke="#4df7ff" stroke-width="3"/>
+            </g>
+            <g class="wheel-spin">
+              <circle cx="1030" cy="610" r="115" class="bike-wheel"/>
+              <circle cx="1030" cy="610" r="95" class="bike-wheel-inner"/>
+              <g class="bike-spoke">
+                <path d="M1030 495V725 M915 610H1145 M949 529L1111 691 M949 691L1111 529"/>
+                <path d="M988 503L1072 717 M922 568L1138 652 M922 652L1138 568 M988 717L1072 503"/>
+              </g>
+              <circle cx="1030" cy="610" r="10" fill="#07152b" stroke="#4df7ff" stroke-width="3"/>
+            </g>
+            <g class="glow">
+              <path d="M360 610L590 612L780 612L1030 610L864 435L590 612L360 610" fill="none" stroke="#4df7ff" stroke-width="8" stroke-linejoin="round"/>
+              <path d="M780 612L864 435L912 612" fill="none" stroke="#ff3cac" stroke-width="6" stroke-linejoin="round"/>
+              <path d="M864 435L901 405" fill="none" stroke="#ff3cac" stroke-width="7" stroke-linecap="round"/>
+              <path d="M898 405L925 406" fill="none" stroke="#4df7ff" stroke-width="6" stroke-linecap="round"/>
+              <path d="M590 612L564 563" fill="none" stroke="#ff9f43" stroke-width="5"/>
+              <path d="M552 557h25 M564 545v24" stroke="#ff9f43" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <circle cx="864" cy="435" r="16" fill="#07152b" stroke="#ff3cac" stroke-width="4"/>
+            <circle cx="590" cy="612" r="12" fill="#07152b" stroke="#4df7ff" stroke-width="3"/>
+          </g>
+
+          <!-- pelican -->
+          <g aria-label="骑车的鹈鹕">
+            <!-- tail and body -->
+            <path d="M475 418 C420 398 388 419 360 450 C414 448 445 467 492 470Z" class="pelican-shadow"/>
+            <path d="M505 339 C548 289 654 288 734 334 C797 370 806 456 752 503 C704 544 582 535 515 490 C476 463 468 386 505 339Z" class="pelican-body"/>
+            <path d="M520 414 C584 364 660 371 744 414 C713 458 659 485 588 467 C561 460 536 441 520 414Z" fill="#13284b" opacity=".8" stroke="#4df7ff" stroke-width="2"/>
+            <!-- wing -->
+            <path d="M548 354 C603 329 677 341 732 390 C706 428 653 448 596 432 C563 422 544 394 548 354Z" fill="url(#jacketGradient)" stroke="#a8fbff" stroke-width="3"/>
+            <path d="M575 371 C608 382 638 397 680 413 M594 353 C633 368 665 387 702 407 M612 347 C650 360 682 380 720 399" class="neon-cyan" stroke-width="3" opacity=".9"/>
+            <path d="M555 414 C595 444 660 450 713 418" class="accent-line" opacity=".9"/>
+            <!-- neck -->
+            <path d="M641 317 C622 273 632 220 672 188 L746 214 C721 260 717 309 744 345Z" class="pelican-body"/>
+            <path d="M660 279 C681 281 708 278 727 265" class="accent-line"/>
+            <!-- head -->
+            <path d="M650 206 C668 144 740 120 796 158 C828 180 840 218 826 262 C816 298 784 320 740 316 C694 311 639 267 650 206Z" class="pelican-body"/>
+            <path d="M680 180 C700 146 754 143 788 160 C770 172 749 190 738 213 C714 206 697 195 680 180Z" fill="#d7ffff" opacity=".85"/>
+            <!-- cyber visor -->
+            <path d="M704 193 C736 181 781 188 804 206 L797 231 C765 222 734 221 706 231Z" fill="#061225" stroke="#4df7ff" stroke-width="4" class="glow"/>
+            <path d="M720 203L784 211" stroke="#ff3cac" stroke-width="3" class="glow"/>
+            <circle cx="735" cy="207" r="5" fill="#eaffff" class="pulse"/>
+            <!-- crest -->
+            <path d="M694 153L674 112L716 137L740 94L752 143L794 120L778 163Z" fill="#ff3cac" stroke="#ff91db" stroke-width="2" class="glow"/>
+            <!-- enormous pelican beak -->
+            <path d="M788 208 C847 206 902 225 963 252 C1029 281 1097 315 1144 349 C1160 361 1157 379 1135 387 C1057 415 966 403 894 375 C839 354 802 321 774 289 C760 271 766 222 788 208Z" fill="url(#beakGradient)" stroke="#ffc789" stroke-width="3"/>
+            <path d="M778 289 C850 300 933 319 1002 345 C1056 365 1097 371 1145 363" fill="none" stroke="#651d72" stroke-width="4"/>
+            <path d="M811 231 C877 242 945 266 1003 294" fill="none" stroke="#ffd18d" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+            <path d="M918 331 C983 358 1058 378 1121 374" fill="none" stroke="#ff3cac" stroke-width="4" stroke-dasharray="2 12" class="glow"/>
+            <!-- beak data pin -->
+            <circle cx="1102" cy="352" r="8" fill="#4df7ff" stroke="#d9ffff" stroke-width="2" class="glow"/>
+            <!-- jacket collar / chest -->
+            <path d="M650 315 C682 304 711 304 744 319 L781 384 L737 420 L681 378Z" fill="url(#jacketGradient)" stroke="#a8fbff" stroke-width="3"/>
+            <path d="M682 319L714 367L747 326" fill="none" stroke="#ff3cac" stroke-width="5"/>
+            <path d="M714 362L714 417" class="neon-cyan" stroke-width="4"/>
+            <circle cx="714" cy="381" r="5" fill="#ff9f43" class="glow"/>
+            <!-- long legs reaching pedals -->
+            <path d="M628 481 C625 523 600 561 571 596 L588 611 C630 585 668 542 680 495Z" fill="#b2edf4" stroke="#4df7ff" stroke-width="4"/>
+            <path d="M714 497 C738 532 778 566 824 587 L815 607 C759 594 704 565 676 526Z" fill="#8bd5e2" stroke="#4df7ff" stroke-width="4"/>
+            <path d="M561 603L594 603 M807 601L840 601" stroke="#ff9f43" stroke-width="7" stroke-linecap="round"/>
+            <path d="M579 598L566 582 M583 600L581 579 M584 601L596 582 M823 597L814 578 M827 599L828 577 M829 601L843 584" stroke="#ff9f43" stroke-width="3" stroke-linecap="round"/>
+            <!-- wheel light echoes -->
+            <circle cx="360" cy="610" r="124" fill="none" stroke="#ff3cac" stroke-opacity=".2" stroke-width="2" stroke-dasharray="2 16" class="pulse"/>
+            <circle cx="1030" cy="610" r="124" fill="none" stroke="#ff3cac" stroke-opacity=".2" stroke-width="2" stroke-dasharray="2 16" class="pulse"/>
+          </g>
+
+          <!-- foreground HUD -->
+          <g>
+            <path d="M70 645h165" stroke="#4df7ff" stroke-width="2"/>
+            <text x="70" y="666" class="hud-label">PEDAL POWER / NOMINAL</text>
+            <text x="70" y="696" class="hud-number">07.4 KW</text>
+            <path d="M1124 642h202" stroke="#ff3cac" stroke-width="2"/>
+            <text x="1124" y="666" class="hud-label">CITY LAYER / 03</text>
+            <text x="1124" y="696" class="hud-number" fill="#ff3cac">NEON // CLEAR</text>
+          </g>
+        </svg>
+      </div>
+    </main>
+    <footer>
+      <div>© 2088 / AERIE TRANSIT LAB</div>
+      <div class="footer-center">KEEP MOVING, KEEP GLOWING</div>
+      <div class="footer-right">SVG // SINGLE FILE // READY</div>
+    </footer>
+  </div>
+</body>
+</html>

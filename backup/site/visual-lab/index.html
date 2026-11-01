@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>视觉实验室 / Visual Lab</title>
+<style>
+*{box-sizing:border-box;letter-spacing:0}html,body{margin:0;height:100%;background:#f7f8f6;color:#212522;font-family:Arial,"Microsoft YaHei",sans-serif}.labbar{height:60px;display:flex;align-items:center;gap:32px;padding:0 28px;border-bottom:1px solid #d8ded9;background:#fff}.wordmark{font-size:16px;white-space:nowrap;font-weight:800}.wordmark span{color:#e45143}.tabs{height:100%;display:flex;gap:8px;flex:1;min-width:0}.tabs a{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;color:#727a74;text-decoration:none;font-size:12px;padding:0 17px;white-space:nowrap;border-bottom:3px solid transparent;border-top:3px solid transparent}.tabs a b{font:10px Consolas,monospace;color:#8c958f}.tabs a[aria-current="page"]{border-bottom-color:#e45143;color:#18211b}.tabs a:hover{background:#f2f5f2}.edition{font:10px Consolas,monospace;color:#67756b}iframe{display:block;width:100%;height:calc(100dvh - 60px);border:0;background:#f6f8f5}a:focus-visible{outline:2px solid #e45143;outline-offset:-4px}@media(max-width:850px){.labbar{padding:0 16px;gap:16px}.tabs{gap:0}.tabs a{padding:0 10px}.edition{display:none}}@media(max-width:600px){.labbar{height:106px;flex-wrap:wrap;gap:0;padding:0 14px;align-content:start}.wordmark{height:46px;display:flex;align-items:center;gap:4px;font-size:14px}.tabs{flex-basis:100%;height:60px;justify-content:space-between}.tabs a{font-size:11px;padding:0 5px;gap:3px;flex-direction:column}.tabs a b{font-size:9px}iframe{height:calc(100dvh - 106px)}}
+</style>
+</head>
+<body>
+<header class="labbar"><div class="wordmark">VISUAL<span>/</span>LAB</div><nav class="tabs" aria-label="作品选择"><a href="#polar" data-page="01-polar.html" aria-current="page"><b>01</b>极地来信</a><a href="#keyboard" data-page="02-keyboard.html"><b>02</b>机械键盘</a><a href="#gravity" data-page="03-gravity.html"><b>03</b>重力游乐盒</a><a href="#metro" data-page="04-metro.html"><b>04</b>城市脉搏</a><a href="#poster" data-page="05-poster.html"><b>05</b>现场海报</a></nav><span class="edition">COLLECTION / 2026</span></header>
+<iframe id="experiment" title="极地来信摄影展" src="01-polar.html" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<script>
+const tabs=[...document.querySelectorAll('.tabs a')];const frame=document.querySelector('iframe');function navigate(){const tab=tabs.find(t=>t.hash===location.hash)||tabs[0];for(const t of tabs)t.setAttribute('aria-current',t===tab?'page':'false');if(!frame.src.endsWith(tab.dataset.page))frame.src=tab.dataset.page;frame.title=tab.textContent.trim();document.title=frame.title+' / 视觉实验室'}addEventListener('hashchange',navigate);navigate();
+</script>
+</body>
+</html>

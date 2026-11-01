@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pelican Express // Cyberpunk SVG</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: #070817; }
+  body { display: grid; place-items: center; min-height: 100svh; overflow: auto; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+  .frame { width: min(100vw, 1600px); aspect-ratio: 14 / 9; padding: 14px; }
+  svg { width: 100%; height: 100%; display: block; border-radius: 20px; background: #0a0c24; box-shadow: 0 0 50px #00e5ff26, 0 0 110px #ff2bd633; }
+  .tiny { font: 700 17px/1.1 "Segoe UI", sans-serif; letter-spacing: 5px; }
+  .label { font: 700 24px/1 "Segoe UI", sans-serif; letter-spacing: 4px; }
+  .micro { font: 600 13px/1 "Segoe UI", sans-serif; letter-spacing: 3px; }
+  .rain { animation: rain 2.8s linear infinite; }
+  .rain.slow { animation-duration: 4.2s; }
+  .pulse { animation: pulse 2.4s ease-in-out infinite; }
+  .flicker { animation: flicker 5s steps(1, end) infinite; }
+  .float { animation: float 3.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .spin { animation: spin 2.4s linear infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes rain { from { transform: translateY(-130px); opacity: 0; } 20% { opacity: .7; } to { transform: translateY(130px); opacity: 0; } }
+  @keyframes pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+  @keyframes flicker { 0%, 17%, 20%, 66%, 69%, 100% { opacity: 1; } 18%, 67% { opacity: .35; } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .rain, .pulse, .flicker, .float, .spin { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="frame">
+<svg viewBox="0 0 1400 900" role="img" aria-labelledby="title desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="title">赛博朋克风格的鹈鹕骑自行车</title>
+  <desc id="desc">霓虹城市夜景中，一只带着发光护目镜的鹈鹕骑着未来感自行车穿过雨幕。</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090b2a"/><stop offset=".48" stop-color="#151047"/><stop offset="1" stop-color="#28102f"/>
+    </linearGradient>
+    <linearGradient id="horizon" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ff2bd6" stop-opacity=".45"/><stop offset="1" stop-color="#00e5ff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9ef8ff"/><stop offset=".3" stop-color="#42c6d9"/><stop offset=".7" stop-color="#145c85"/><stop offset="1" stop-color="#0a233f"/>
+    </linearGradient>
+    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff9e8"/><stop offset=".45" stop-color="#c5d6e6"/><stop offset="1" stop-color="#6b7ca8"/>
+    </linearGradient>
+    <linearGradient id="beak" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#ffe66d"/><stop offset=".45" stop-color="#ff8b43"/><stop offset="1" stop-color="#e7358f"/>
+    </linearGradient>
+    <linearGradient id="pouch" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffb64d"/><stop offset=".55" stop-color="#f05a74"/><stop offset="1" stop-color="#89266d"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#181a43"/><stop offset="1" stop-color="#050611"/></linearGradient>
+    <filter id="glowCyan" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowPink" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="22"/></filter>
+    <pattern id="grid" width="70" height="45" patternUnits="userSpaceOnUse"><path d="M70 0H0V45" fill="none" stroke="#00d9ff" stroke-opacity=".09" stroke-width="1"/></pattern>
+    <pattern id="miniGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#ff34d1" stroke-opacity=".1" stroke-width="1"/></pattern>
+    <g id="spoke"><path d="M0 0L0 -142" stroke="#75f4ff" stroke-opacity=".5" stroke-width="2"/></g>
+    <g id="rainLine"><path d="M0 0L-28 110" stroke="#55e9ff" stroke-opacity=".36" stroke-width="2"/></g>
+  </defs>
+
+  <rect width="1400" height="900" fill="url(#sky)"/>
+  <ellipse cx="1040" cy="225" rx="250" ry="190" fill="#ff2bd6" opacity=".13" filter="url(#soft)"/>
+  <ellipse cx="350" cy="330" rx="330" ry="190" fill="#00e5ff" opacity=".1" filter="url(#soft)"/>
+  <rect width="1400" height="620" fill="url(#grid)"/>
+  <rect y="190" width="1400" height="430" fill="url(#miniGrid)" opacity=".4"/>
+
+  <!-- neon moon and skyline -->
+  <circle cx="1135" cy="154" r="74" fill="#f4eaff" opacity=".95"/>
+  <circle cx="1135" cy="154" r="100" fill="none" stroke="#ff2bd6" stroke-width="3" opacity=".5" filter="url(#glowPink)"/>
+  <path d="M0 537L85 505 127 523 180 460 240 505 290 480 358 523 416 438 475 503 536 475 600 511 667 448 718 494 782 451 844 501 920 445 980 503 1047 458 1102 504 1160 429 1227 499 1286 455 1400 522V660H0Z" fill="#101131"/>
+  <g fill="#00e5ff" opacity=".65">
+    <rect x="132" y="475" width="6" height="25"/><rect x="353" y="456" width="7" height="38"/><rect x="662" y="466" width="6" height="29"/><rect x="915" y="468" width="8" height="31"/><rect x="1157" y="446" width="7" height="38"/>
+  </g>
+  <g fill="#111332" stroke="#333063" stroke-width="1.5">
+    <path d="M0 594V450H46V423H88V594M292 594V379H313V352H321V379H364V594M1090 594V433H1154V594M1170 594V385H1245V594M1268 594V415H1340V368H1400V594"/>
+    <path d="M168 594V397H222V370H229V397H260V594"/>
+  </g>
+  <g fill="#00e5ff" opacity=".45">
+    <path d="M306 405H318V415H306ZM330 405H343V415H330ZM306 435H318V445H306ZM330 435H343V445H330ZM306 465H318V475H306ZM330 465H343V475H330ZM181 426H192V434H181ZM207 426H218V434H207ZM232 426H244V434H232ZM181 451H192V459H181ZM232 451H244V459H232Z"/>
+    <path d="M1190 414H1203V423H1190ZM1215 414H1228V423H1215ZM1190 440H1203V449H1190ZM1215 466H1228V475H1215ZM1354 398H1365V408H1354ZM1378 424H1389V434H1378Z"/>
+  </g>
+  <g stroke="#ff2bd6" stroke-width="3" opacity=".6"><path d="M1190 390H1240M1269 458H1339M33 448V520"/></g>
+  <path d="M0 594H1400" stroke="#ff2bd6" stroke-width="5" opacity=".6" filter="url(#glowPink)"/>
+  <rect y="594" width="1400" height="306" fill="url(#road)"/>
+  <path d="M0 660H1400M0 730H1400M0 820H1400" stroke="#00d9ff" stroke-opacity=".16" stroke-width="2"/>
+  <path d="M190 900L580 594M1215 900L850 594" stroke="#ff2bd6" stroke-opacity=".2" stroke-width="3"/>
+  <path d="M430 900L687 594M985 900L770 594" stroke="#00e5ff" stroke-opacity=".22" stroke-width="3"/>
+
+  <!-- rain -->
+  <g class="rain"><use href="#rainLine" x="74" y="145"/><use href="#rainLine" x="210" y="90"/><use href="#rainLine" x="327" y="185"/><use href="#rainLine" x="492" y="72"/><use href="#rainLine" x="604" y="152"/><use href="#rainLine" x="760" y="64"/><use href="#rainLine" x="871" y="173"/><use href="#rainLine" x="1010" y="84"/><use href="#rainLine" x="1250" y="140"/><use href="#rainLine" x="1340" y="38"/></g>
+  <g class="rain slow"><use href="#rainLine" x="145" y="286"/><use href="#rainLine" x="395" y="320"/><use href="#rainLine" x="548" y="250"/><use href="#rainLine" x="699" y="350"/><use href="#rainLine" x="954" y="270"/><use href="#rainLine" x="1098" y="318"/><use href="#rainLine" x="1290" y="246"/></g>
+
+  <!-- signage -->
+  <g class="flicker">
+    <rect x="70" y="260" width="200" height="62" rx="8" fill="#120d35" stroke="#00e5ff" stroke-width="3" filter="url(#glowCyan)"/>
+    <text x="170" y="301" text-anchor="middle" fill="#9ffaff" class="tiny">NIGHT//SHIFT</text>
+  </g>
+  <g transform="translate(1105 300) rotate(-8)">
+    <rect width="190" height="72" rx="10" fill="#200b31" stroke="#ff2bd6" stroke-width="4" filter="url(#glowPink)"/>
+    <text x="95" y="31" text-anchor="middle" fill="#ff9ded" class="micro">DELIVERY</text><text x="95" y="56" text-anchor="middle" fill="#fff" class="label">2097</text>
+  </g>
+  <g transform="translate(98 650)">
+    <path d="M0 0h235v90H0z" fill="#0b1631" stroke="#ff2bd6" stroke-width="3"/>
+    <text x="118" y="37" text-anchor="middle" fill="#fff" class="micro">PELICAN</text><text x="118" y="72" text-anchor="middle" fill="#ff64dd" class="label">EXPRESS</text>
+  </g>
+
+  <!-- speed trail -->
+  <g opacity=".7" filter="url(#glowCyan)">
+    <path d="M145 545C300 521 377 540 490 570" fill="none" stroke="#00e5ff" stroke-width="5"/>
+    <path d="M108 572C300 549 370 565 475 593" fill="none" stroke="#ff2bd6" stroke-width="3"/>
+    <path d="M220 604C315 588 376 598 446 614" fill="none" stroke="#ffd451" stroke-width="4"/>
+  </g>
+
+  <!-- bike shadow -->
+  <ellipse cx="697" cy="814" rx="390" ry="31" fill="#000" opacity=".55" filter="url(#soft)"/>
+
+  <!-- bicycle -->
+  <g id="bike">
+    <g fill="none" stroke="#00e5ff" stroke-width="8" filter="url(#glowCyan)">
+      <circle cx="455" cy="700" r="145"/><circle cx="945" cy="700" r="145"/>
+    </g>
+    <g fill="none" stroke="#9ef8ff" stroke-opacity=".55" stroke-width="2">
+      <circle cx="455" cy="700" r="135"/><circle cx="945" cy="700" r="135"/>
+    </g>
+    <g fill="none" stroke="#75f4ff" stroke-width="2" opacity=".8">
+      <g transform="translate(455 700)"><g class="spin"><use href="#spoke"/><use href="#spoke" transform="rotate(45)"/><use href="#spoke" transform="rotate(90)"/><use href="#spoke" transform="rotate(135)"/><use href="#spoke" transform="rotate(180)"/><use href="#spoke" transform="rotate(225)"/><use href="#spoke" transform="rotate(270)"/><use href="#spoke" transform="rotate(315)"/></g></g>
+      <g transform="translate(945 700)"><g class="spin"><use href="#spoke"/><use href="#spoke" transform="rotate(45)"/><use href="#spoke" transform="rotate(90)"/><use href="#spoke" transform="rotate(135)"/><use href="#spoke" transform="rotate(180)"/><use href="#spoke" transform="rotate(225)"/><use href="#spoke" transform="rotate(270)"/><use href="#spoke" transform="rotate(315)"/></g></g>
+    </g>
+    <path d="M455 700L605 535 690 700H455M605 535H853L690 700M853 535L945 700" fill="none" stroke="url(#metal)" stroke-width="13" stroke-linejoin="round"/>
+    <path d="M605 535L690 700L853 535M867 560L933 681" fill="none" stroke="#ff2bd6" stroke-width="6" filter="url(#glowPink)"/>
+    <path d="M853 535L841 502H893" stroke="#9ef8ff" stroke-width="9" stroke-linecap="round"/>
+    <path d="M605 535L589 504" stroke="#9ef8ff" stroke-width="10" stroke-linecap="round"/>
+    <path d="M556 504H626" stroke="#ff2bd6" stroke-width="8" stroke-linecap="round" filter="url(#glowPink)"/>
+    <circle cx="690" cy="700" r="28" fill="#071428" stroke="#ffdb62" stroke-width="6" filter="url(#glowPink)"/>
+    <path d="M690 700L641 750M690 700L739 650" stroke="#ffe36e" stroke-width="7" stroke-linecap="round"/>
+    <path d="M619 750H661M719 650H761" stroke="#ff81e4" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="455" cy="700" r="15" fill="#ffdb62"/><circle cx="945" cy="700" r="15" fill="#ffdb62"/>
+  </g>
+
+  <!-- pelican rider -->
+  <g id="pelican" class="float">
+    <!-- body -->
+    <path d="M565 470C570 377 640 330 726 353C801 374 832 445 795 526C760 600 650 616 584 555C560 532 555 500 565 470Z" fill="url(#feather)" stroke="#d8f6ff" stroke-width="4"/>
+    <path d="M595 455C637 416 695 407 759 427" fill="none" stroke="#6d8cb2" stroke-width="10" opacity=".55"/>
+    <path d="M605 493C652 471 725 477 781 506" fill="none" stroke="#435b86" stroke-width="9" opacity=".55"/>
+    <!-- wing -->
+    <path d="M614 430C548 443 505 502 529 553C545 587 592 589 636 547L701 471Z" fill="#a9c7dc" stroke="#ecffff" stroke-width="4"/>
+    <path d="M553 520l81-57M550 543l76-47M568 565l69-39" stroke="#587795" stroke-width="7" opacity=".75"/>
+    <path d="M598 445C573 475 564 509 574 543" fill="none" stroke="#00e5ff" stroke-width="6" opacity=".7" filter="url(#glowCyan)"/>
+    <!-- neck and head -->
+    <path d="M721 407C711 364 719 305 758 271C791 242 853 248 880 282C908 317 892 371 848 399L807 432Z" fill="url(#feather)" stroke="#d8f6ff" stroke-width="4"/>
+    <path d="M748 295C775 270 819 265 851 285" fill="none" stroke="#7386a8" stroke-width="12" opacity=".6"/>
+    <!-- cyber goggles -->
+    <path d="M768 300L850 291L875 332L793 345Z" fill="#09152e" stroke="#00e5ff" stroke-width="5" filter="url(#glowCyan)"/>
+    <path d="M797 303l-2 34M823 299l2 34M849 297l5 32" stroke="#ff2bd6" stroke-width="3" opacity=".85"/>
+    <circle cx="814" cy="319" r="9" fill="#eaffff"/><circle cx="814" cy="319" r="4" fill="#ff2bd6"/>
+    <!-- pelican beak and pouch -->
+    <path d="M857 316C927 299 1029 320 1095 355C1033 379 941 382 869 358Z" fill="url(#beak)" stroke="#ffd56c" stroke-width="4"/>
+    <path d="M874 354C942 370 1018 369 1067 356C1037 427 972 481 900 455C873 445 855 409 859 369Z" fill="url(#pouch)" stroke="#ffaf5d" stroke-width="4"/>
+    <path d="M883 373C933 392 996 393 1043 374" fill="none" stroke="#ffc66f" stroke-width="5" opacity=".8"/>
+    <path d="M917 416C958 431 995 424 1019 410" fill="none" stroke="#8e2c67" stroke-width="5" opacity=".8"/>
+    <!-- crest -->
+    <path d="M763 272l-18-44 38 23 18-50 15 49 37-31-9 53" fill="#ff2bd6" stroke="#ff9ded" stroke-width="4" filter="url(#glowPink)"/>
+    <!-- harness -->
+    <path d="M738 405C773 442 820 459 867 457" fill="none" stroke="#ff2bd6" stroke-width="8" filter="url(#glowPink)"/>
+    <circle cx="800" cy="435" r="11" fill="#ffdf62" stroke="#ff6ee5" stroke-width="4"/>
+    <!-- forward wing holding the handlebar -->
+    <path d="M765 421C802 422 834 454 867 489L876 505L847 507C816 487 783 470 756 448Z" fill="url(#feather)" stroke="#d8f6ff" stroke-width="4"/>
+    <path d="M790 443L847 489" fill="none" stroke="#00e5ff" stroke-width="5" filter="url(#glowCyan)"/>
+    <path d="M852 491L865 501M861 487L877 502" stroke="#65809e" stroke-width="4" stroke-linecap="round"/>
+    <!-- legs and webbed feet -->
+    <path d="M677 555L703 644L642 741M748 550L786 603L739 641" fill="none" stroke="#e18e48" stroke-width="17" stroke-linecap="round"/>
+    <path d="M635 737L617 750L660 750L649 738Z M732 637L718 650H760L749 638Z" fill="#ffb449" stroke="#ffdb62" stroke-width="4"/>
+    <!-- tail lights -->
+    <path d="M575 497l-44 6" stroke="#ff2bd6" stroke-width="10" stroke-linecap="round" filter="url(#glowPink)"/>
+    <circle cx="533" cy="503" r="8" fill="#fff"/>
+  </g>
+
+  <!-- foreground HUD -->
+  <g transform="translate(1080 745)">
+    <path d="M0 0h252v83H0z" fill="#091326" stroke="#00e5ff" stroke-width="2" opacity=".9"/>
+    <text x="18" y="28" fill="#74f9ff" class="micro">VELOCITY</text><text x="18" y="64" fill="#fff" class="label">88.8 KM/H</text>
+    <path d="M192 18h42M192 30h31M192 42h37" stroke="#ff2bd6" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <text x="52" y="846" fill="#8ff9ff" class="micro" opacity=".75">RAIN//CITY  •  SKYWAY 07  •  SIGNAL LOCKED</text>
+  <text x="1338" y="846" text-anchor="end" fill="#ff8de8" class="micro" opacity=".75">© NEON AVIARY</text>
+</svg>
+</div>
+</body>
+</html>

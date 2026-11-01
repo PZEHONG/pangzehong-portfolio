@@ -1,0 +1,15 @@
+node_modules/
+.npm-cache/
+.browser-profile/
+.cat-piano-source/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.log
+*.zip
+.DS_Store
+Thumbs.db

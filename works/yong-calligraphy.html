@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10201e">
+  <title>永 · 一字五式</title>
+  <style>
+    :root {
+      --night: #10201e;
+      --night-deep: #0a1413;
+      --paper: #eee7d8;
+      --paper-soft: #e4dccb;
+      --ink: #1f302d;
+      --ink-soft: #53605b;
+      --moss: #81968c;
+      --cinnabar: #bd5e45;
+      --brass: #b49b63;
+      --line: rgba(31, 48, 45, .14);
+      --white-line: rgba(238, 231, 216, .14);
+      --shadow: 0 30px 80px rgba(0, 0, 0, .26);
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--night-deep);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(180, 155, 99, .12), transparent 28rem),
+        radial-gradient(circle at 92% 84%, rgba(91, 127, 111, .16), transparent 32rem),
+        var(--night-deep);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      content: "";
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .85), transparent 90%);
+    }
+
+    button,
+    svg {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .shell {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: clamp(20px, 5vw, 64px);
+    }
+
+    .study {
+      display: grid;
+      width: min(1180px, 100%);
+      overflow: hidden;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr);
+      border: 1px solid rgba(238, 231, 216, .15);
+      border-radius: 28px;
+      background: rgba(22, 37, 34, .82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .canvas-panel {
+      position: relative;
+      padding: clamp(28px, 4vw, 52px);
+      background:
+        linear-gradient(140deg, rgba(255, 255, 255, .045), transparent 40%),
+        rgba(22, 37, 34, .55);
+    }
+
+    .canvas-panel::after {
+      position: absolute;
+      right: 0;
+      top: 42px;
+      bottom: 42px;
+      width: 1px;
+      content: "";
+      background: var(--white-line);
+    }
+
+    .eyebrow,
+    .panel-kicker,
+    .canvas-topline,
+    .canvas-note,
+    .cycle-readout,
+    .step-status,
+    .legend {
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--brass);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      width: 26px;
+      height: 1px;
+      content: "";
+      background: var(--brass);
+      box-shadow: 0 0 14px rgba(180, 155, 99, .7);
+    }
+
+    h1 {
+      margin: 22px 0 12px;
+      color: var(--paper);
+      font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+      font-size: clamp(40px, 5vw, 74px);
+      font-weight: 600;
+      letter-spacing: -.06em;
+      line-height: .96;
+    }
+
+    h1 span {
+      display: inline-block;
+      margin-left: 16px;
+      color: var(--moss);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(14px, 1.6vw, 18px);
+      font-weight: 500;
+      letter-spacing: .12em;
+      vertical-align: middle;
+    }
+
+    .lede {
+      max-width: 490px;
+      margin: 0;
+      color: rgba(238, 231, 216, .68);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .canvas-frame {
+      position: relative;
+      margin-top: clamp(28px, 4vw, 48px);
+      padding: clamp(14px, 2vw, 20px);
+      border: 1px solid rgba(238, 231, 216, .14);
+      border-radius: 20px;
+      background: rgba(8, 18, 17, .36);
+    }
+
+    .canvas-frame::before {
+      position: absolute;
+      top: 0;
+      left: 22%;
+      width: 18%;
+      height: 2px;
+      content: "";
+      background: var(--cinnabar);
+      box-shadow: 0 0 22px rgba(189, 94, 69, .62);
+    }
+
+    .canvas-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px 14px;
+      color: rgba(238, 231, 216, .44);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .live-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--moss);
+    }
+
+    .live-state::before {
+      width: 6px;
+      height: 6px;
+      content: "";
+      border-radius: 50%;
+      background: var(--moss);
+      box-shadow: 0 0 0 4px rgba(129, 150, 140, .12), 0 0 15px rgba(129, 150, 140, .75);
+      animation: breathe 2.1s ease-in-out infinite;
+    }
+
+    .character-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 13px;
+      background: var(--paper);
+    }
+
+    .character-wrap::after {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      opacity: .24;
+      background:
+        linear-gradient(115deg, transparent 24%, rgba(255, 255, 255, .3) 25%, transparent 26%),
+        linear-gradient(295deg, transparent 68%, rgba(31, 48, 45, .07) 69%, transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+
+    .character {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1.08 / 1;
+      background: var(--paper);
+    }
+
+    .paper {
+      fill: url(#paperWash);
+    }
+
+    .guide-line {
+      fill: none;
+      stroke: rgba(31, 48, 45, .12);
+      stroke-dasharray: 2 10;
+      stroke-width: 1;
+    }
+
+    .guide-frame {
+      fill: none;
+      stroke: rgba(31, 48, 45, .1);
+      stroke-width: 1.3;
+    }
+
+    .guide-path {
+      fill: none;
+      stroke: rgba(31, 48, 45, .18);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 15;
+    }
+
+    .stroke {
+      fill: none;
+      stroke: #20312d;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: var(--finish);
+      stroke-dasharray: var(--length);
+      stroke-dashoffset: var(--length);
+      opacity: 0;
+      filter: url(#softInk);
+    }
+
+    .stroke.is-writing {
+      animation: writeStroke var(--stroke-time) cubic-bezier(.18, .74, .18, 1) forwards;
+    }
+
+    .stroke.is-done {
+      stroke-dashoffset: 0;
+      stroke-width: var(--finish);
+      opacity: 1;
+    }
+
+    @keyframes writeStroke {
+      0% {
+        stroke-dashoffset: var(--length);
+        stroke-width: var(--lift);
+        opacity: 0;
+      }
+
+      8% {
+        stroke-dashoffset: calc(var(--length) * .93);
+        stroke-width: var(--press);
+        opacity: .96;
+      }
+
+      28% {
+        stroke-dashoffset: calc(var(--length) * .67);
+        stroke-width: var(--press);
+        opacity: 1;
+      }
+
+      54% {
+        stroke-dashoffset: calc(var(--length) * .34);
+        stroke-width: var(--settle);
+        opacity: .98;
+      }
+
+      76% {
+        stroke-dashoffset: calc(var(--length) * .1);
+        stroke-width: var(--lift);
+        opacity: 1;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+        stroke-width: var(--finish);
+        opacity: 1;
+      }
+    }
+
+    .canvas-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 6px 2px;
+      color: rgba(238, 231, 216, .42);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .canvas-note strong {
+      color: var(--brass);
+      font-weight: 700;
+    }
+
+    .sequence-panel {
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+      padding: clamp(28px, 4vw, 48px) clamp(24px, 3.4vw, 40px);
+      background:
+        linear-gradient(160deg, rgba(238, 231, 216, .06), transparent 45%),
+        rgba(11, 24, 22, .42);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .panel-kicker {
+      color: var(--brass);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .cycle-readout {
+      color: rgba(238, 231, 216, .4);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .progress {
+      height: 3px;
+      margin: 22px 0 28px;
+      overflow: hidden;
+      border-radius: 3px;
+      background: rgba(238, 231, 216, .1);
+    }
+
+    .progress span {
+      display: block;
+      width: var(--progress, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cinnabar), var(--brass));
+      box-shadow: 0 0 16px rgba(189, 94, 69, .6);
+      transition: width .35s ease;
+    }
+
+    .stroke-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step {
+      display: grid;
+      align-items: center;
+      min-height: 70px;
+      padding: 10px 12px;
+      grid-template-columns: 34px 48px minmax(0, 1fr) auto;
+      gap: 12px;
+      border: 1px solid transparent;
+      border-radius: 13px;
+      transition: border-color .35s ease, background .35s ease, transform .35s ease;
+    }
+
+    .step[data-state="active"] {
+      border-color: rgba(189, 94, 69, .5);
+      background: rgba(189, 94, 69, .11);
+      transform: translateX(5px);
+    }
+
+    .step[data-state="done"] {
+      background: rgba(129, 150, 140, .08);
+    }
+
+    .step-no {
+      color: rgba(238, 231, 216, .35);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .step[data-state="active"] .step-no {
+      color: var(--cinnabar);
+    }
+
+    .step-glyph {
+      color: var(--paper);
+      font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+      font-size: 31px;
+      line-height: 1;
+    }
+
+    .step-copy {
+      display: grid;
+      gap: 4px;
+    }
+
+    .step-copy strong {
+      color: var(--paper);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .step-copy span {
+      color: rgba(238, 231, 216, .4);
+      font-size: 11px;
+    }
+
+    .step-status {
+      color: rgba(238, 231, 216, .3);
+      font-size: 8px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .step[data-state="active"] .step-status {
+      color: var(--cinnabar);
+    }
+
+    .step[data-state="done"] .step-status {
+      color: var(--moss);
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: auto;
+      padding: 18px 0 20px;
+      border-top: 1px solid var(--white-line);
+    }
+
+    .seal {
+      display: grid;
+      flex: 0 0 48px;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      color: var(--cinnabar);
+      border: 1px solid rgba(189, 94, 69, .62);
+      border-radius: 12px 12px 12px 3px;
+      font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+      font-size: 27px;
+      line-height: 1;
+      transform: rotate(-5deg);
+    }
+
+    .tip-card p {
+      margin: 0;
+      color: rgba(238, 231, 216, .45);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .tip-card strong {
+      color: var(--paper);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .replay {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 15px;
+      color: var(--paper);
+      border: 1px solid rgba(238, 231, 216, .17);
+      border-radius: 10px;
+      background: rgba(238, 231, 216, .06);
+      cursor: pointer;
+      font-size: 12px;
+      transition: border-color .25s ease, background .25s ease, transform .25s ease;
+    }
+
+    .replay:hover {
+      border-color: rgba(180, 155, 99, .7);
+      background: rgba(180, 155, 99, .12);
+      transform: translateY(-1px);
+    }
+
+    .replay:focus-visible {
+      outline: 2px solid var(--brass);
+      outline-offset: 4px;
+    }
+
+    .legend {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 17px;
+      color: rgba(238, 231, 216, .3);
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--moss);
+      box-shadow: 0 0 8px rgba(129, 150, 140, .8);
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(.86); opacity: .72; }
+      50% { transform: scale(1.14); opacity: 1; }
+    }
+
+    @media (max-width: 820px) {
+      .study {
+        grid-template-columns: 1fr;
+      }
+
+      .canvas-panel::after {
+        top: auto;
+        right: 28px;
+        bottom: 0;
+        left: 28px;
+        width: auto;
+        height: 1px;
+      }
+
+      .sequence-panel {
+        min-height: auto;
+      }
+
+      .tip-card {
+        margin-top: 32px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .shell {
+        padding: 12px;
+      }
+
+      .study {
+        border-radius: 20px;
+      }
+
+      .canvas-panel,
+      .sequence-panel {
+        padding: 24px 18px;
+      }
+
+      h1 span {
+        display: block;
+        margin: 14px 0 0;
+      }
+
+      .canvas-note {
+        display: block;
+        line-height: 1.8;
+      }
+
+      .canvas-note span + span {
+        display: block;
+      }
+
+      .step {
+        grid-template-columns: 28px 42px minmax(0, 1fr);
+      }
+
+      .step-status {
+        grid-column: 3;
+        margin-top: -3px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="study" aria-label="汉字永的毛笔笔顺动画">
+      <div class="canvas-panel">
+        <div class="eyebrow">BRUSH STUDY / MOTION 01</div>
+        <h1>永 <span>一字五式</span></h1>
+        <p class="lede">从一点落墨，到捺脚收锋。让每一次提按都留下呼吸，按传统笔顺完整走完一遍。</p>
+
+        <div class="canvas-frame">
+          <div class="canvas-topline">
+            <span>临帖坐标 / 01</span>
+            <span class="live-state">循环书写</span>
+          </div>
+          <div class="character-wrap">
+            <svg class="character" viewBox="0 0 600 560" role="img" aria-label="永字五笔书写动画">
+              <defs>
+                <linearGradient id="paperWash" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#f5efe3"/>
+                  <stop offset=".56" stop-color="#eee7d8"/>
+                  <stop offset="1" stop-color="#e2d8c4"/>
+                </linearGradient>
+                <filter id="softInk" x="-12%" y="-12%" width="124%" height="124%">
+                  <feGaussianBlur stdDeviation=".22"/>
+                </filter>
+              </defs>
+
+              <rect class="paper" x="0" y="0" width="600" height="560"/>
+              <g aria-hidden="true">
+                <path class="guide-frame" d="M95 56H505V514H95Z"/>
+                <path class="guide-line" d="M300 56V514M95 280H505"/>
+                <path class="guide-line" d="M145 56V514M455 56V514"/>
+              </g>
+
+              <g class="char-data" transform="translate(35 525) scale(.518 -.518)" aria-hidden="true">
+                <g class="guides">
+                  <path class="guide-path" d="M428 824 C468 803 505 781 533 756 C539 748 539 741 539 741"/>
+                  <path class="guide-path" d="M309 579 C358 580 414 595 462 613 C482 620 498 609 508 581 C507 390 505 211 500 59 C498 38 490 25 478 24 C447 28 401 55 355 78"/>
+                  <path class="guide-path" d="M110 391 C149 384 198 387 322 418 C339 422 355 414 367 402 C345 333 273 208 201 129 C170 96 145 80 125 78"/>
+                  <path class="guide-path" d="M725 621 C743 596 749 578 743 570 C712 531 680 503 656 489 C608 453 569 421 569 415"/>
+                  <path class="guide-path" d="M532 441 C543 425 551 399 568 378 C600 335 640 286 678 259 C710 230 752 192 801 163 C852 147 900 145 954 145"/>
+                </g>
+
+                <g class="strokes">
+                  <path id="stroke-1" class="stroke" style="--lift: 6; --press: 20; --settle: 15; --finish: 10; --stroke-time: 1.08s" d="M428 824 C468 803 505 781 533 756 C539 748 539 741 539 741"/>
+                  <path id="stroke-2" class="stroke" style="--lift: 8; --press: 24; --settle: 19; --finish: 13; --stroke-time: 1.24s" d="M309 579 C358 580 414 595 462 613 C482 620 498 609 508 581 C507 390 505 211 500 59 C498 38 490 25 478 24 C447 28 401 55 355 78"/>
+                  <path id="stroke-3" class="stroke" style="--lift: 7; --press: 21; --settle: 16; --finish: 11; --stroke-time: 1.13s" d="M110 391 C149 384 198 387 322 418 C339 422 355 414 367 402 C345 333 273 208 201 129 C170 96 145 80 125 78"/>
+                  <path id="stroke-4" class="stroke" style="--lift: 7; --press: 22; --settle: 17; --finish: 11; --stroke-time: 1.16s" d="M725 621 C743 596 749 578 743 570 C712 531 680 503 656 489 C608 453 569 421 569 415"/>
+                  <path id="stroke-5" class="stroke" style="--lift: 8; --press: 25; --settle: 18; --finish: 12; --stroke-time: 1.3s" d="M532 441 C543 425 551 399 568 378 C600 335 640 286 678 259 C710 230 752 192 801 163 C852 147 900 145 954 145"/>
+                </g>
+              </g>            </svg>
+          </div>
+          <div class="canvas-note">
+            <span>真实笔顺 <strong>·</strong> 每笔独立运笔</span>
+            <span id="cycleState" aria-live="polite">准备落笔</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sequence-panel">
+        <div class="panel-head">
+          <span class="panel-kicker">笔顺索引</span>
+          <span class="cycle-readout" id="cycleReadout">第 01 轮</span>
+        </div>
+
+        <div class="progress" aria-hidden="true">
+          <span id="progressBar"></span>
+        </div>
+
+        <ol class="stroke-list" aria-label="永字笔顺编号">
+          <li class="step" data-state="waiting">
+            <span class="step-no">01</span>
+            <span class="step-glyph" aria-hidden="true">丶</span>
+            <span class="step-copy"><strong>点</strong><span>落锋 · 轻按</span></span>
+            <span class="step-status">待书写</span>
+          </li>
+          <li class="step" data-state="waiting">
+            <span class="step-no">02</span>
+            <span class="step-glyph" aria-hidden="true">㇆</span>
+            <span class="step-copy"><strong>横折钩</strong><span>行锋 · 转折</span></span>
+            <span class="step-status">待书写</span>
+          </li>
+          <li class="step" data-state="waiting">
+            <span class="step-no">03</span>
+            <span class="step-glyph" aria-hidden="true">㇇</span>
+            <span class="step-copy"><strong>横撇</strong><span>提锋 · 左出</span></span>
+            <span class="step-status">待书写</span>
+          </li>
+          <li class="step" data-state="waiting">
+            <span class="step-no">04</span>
+            <span class="step-glyph" aria-hidden="true">丿</span>
+            <span class="step-copy"><strong>撇</strong><span>舒锋 · 斜掠</span></span>
+            <span class="step-status">待书写</span>
+          </li>
+          <li class="step" data-state="waiting">
+            <span class="step-no">05</span>
+            <span class="step-glyph" aria-hidden="true">㇏</span>
+            <span class="step-copy"><strong>捺</strong><span>按锋 · 收脚</span></span>
+            <span class="step-status">待书写</span>
+          </li>
+        </ol>
+
+        <div class="tip-card">
+          <span class="seal" aria-hidden="true">永</span>
+          <p>运笔提示<br><strong>提按有度，收锋有声。</strong></p>
+        </div>
+
+        <button class="replay" id="replayButton" type="button" aria-label="重新播放永字书写动画">
+          <span aria-hidden="true">↻</span> 重新书写
+        </button>
+        <div class="legend"><i aria-hidden="true"></i> 动画完成后停留两秒再起笔</div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const paths = Array.from(document.querySelectorAll(".stroke"));
+      const steps = Array.from(document.querySelectorAll(".step"));
+      const progressBar = document.getElementById("progressBar");
+      const cycleReadout = document.getElementById("cycleReadout");
+      const cycleState = document.getElementById("cycleState");
+      const replayButton = document.getElementById("replayButton");
+      const statusCopy = {
+        waiting: "待书写",
+        active: "正在书写",
+        done: "已完成"
+      };
+      let cycleToken = 0;
+      let cycleNumber = 0;
+
+      paths.forEach((path) => {
+        const length = path.getTotalLength();
+        path.dataset.length = String(length);
+        path.style.setProperty("--length", String(length));
+        path.style.strokeDasharray = String(length);
+        path.style.strokeDashoffset = String(length);
+      });
+
+      const pause = (duration) => new Promise((resolve) => window.setTimeout(resolve, duration));
+
+      function setStep(index, state) {
+        const step = steps[index];
+        if (!step) return;
+        step.dataset.state = state;
+        const status = step.querySelector(".step-status");
+        if (status) status.textContent = statusCopy[state];
+      }
+
+      function resetCycle(token) {
+        paths.forEach((path) => {
+          path.classList.remove("is-writing", "is-done");
+          path.style.animation = "none";
+          path.style.strokeDashoffset = path.dataset.length;
+        });
+
+        steps.forEach((step, index) => {
+          step.dataset.state = "waiting";
+          const status = step.querySelector(".step-status");
+          if (status) status.textContent = statusCopy.waiting;
+          if (index === 0) step.setAttribute("aria-current", "step");
+          else step.removeAttribute("aria-current");
+        });
+
+        progressBar.style.setProperty("--progress", "0%");
+        cycleState.textContent = "准备落笔";
+        cycleReadout.textContent = "第 " + String(cycleNumber).padStart(2, "0") + " 轮";
+
+        window.requestAnimationFrame(() => {
+          if (token !== cycleToken) return;
+          paths.forEach((path) => {
+            path.style.animation = "";
+          });
+        });
+      }
+
+      function drawStroke(path, index, token) {
+        return new Promise((resolve) => {
+          let settled = false;
+
+          const cleanup = () => {
+            path.removeEventListener("animationend", onEnd);
+            path.removeEventListener("animationcancel", onCancel);
+          };
+
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            resolve();
+          };
+
+          const onEnd = () => {
+            if (token === cycleToken) {
+              path.classList.remove("is-writing");
+              path.classList.add("is-done");
+              path.style.strokeDashoffset = "0";
+              setStep(index, "done");
+            }
+            finish();
+          };
+
+          const onCancel = () => finish();
+
+          path.addEventListener("animationend", onEnd);
+          path.addEventListener("animationcancel", onCancel);
+          path.classList.add("is-writing");
+        });
+      }
+
+      async function playCycle() {
+        const token = ++cycleToken;
+        cycleNumber += 1;
+        resetCycle(token);
+        await pause(280);
+        if (token !== cycleToken) return;
+
+        for (let index = 0; index < paths.length; index += 1) {
+          if (token !== cycleToken) return;
+          steps.forEach((step, stepIndex) => {
+            if (stepIndex === index) {
+              setStep(stepIndex, "active");
+              step.setAttribute("aria-current", "step");
+            } else {
+              step.removeAttribute("aria-current");
+            }
+          });
+          cycleState.textContent = "第 " + String(index + 1).padStart(2, "0") + " 笔 · 运笔中";
+          await drawStroke(paths[index], index, token);
+          if (token !== cycleToken) return;
+          progressBar.style.setProperty("--progress", ((index + 1) / paths.length * 100) + "%");
+          await pause(150);
+        }
+
+        cycleState.textContent = "收锋 · 停留两秒";
+        await pause(2000);
+        if (token === cycleToken) playCycle();
+      }
+
+      replayButton.addEventListener("click", () => {
+        cycleToken += 1;
+        playCycle();
+      });
+
+      playCycle();
+    })();
+  </script>
+</body>
+</html>

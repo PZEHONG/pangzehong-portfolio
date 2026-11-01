@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e7f1e9">
+<title>葫芦小院 · 七色同藤</title>
+<style>
+  :root { color-scheme: light; --ink: #334e45; --paper: #e7f1e9; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; height: 100%; }
+  body { background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "PingFang SC", sans-serif; overflow: hidden; letter-spacing: 0; }
+  button { font: inherit; }
+  .world { position: relative; display: grid; place-items: center; width: 100%; height: 100vh; height: 100svh; isolation: isolate; overflow: hidden; }
+  .scene { display: block; width: 100%; height: 100%; }
+  .masthead { position: absolute; top: 35px; left: 4.5%; z-index: 2; pointer-events: none; }
+  h1 { margin: 0; font-family: "STKaiti", "KaiTi", "Noto Serif SC", serif; font-size: 39px; line-height: 1.25; font-weight: 600; }
+  .edition { position: absolute; top: 41px; right: 4.5%; font-size: 11px; color: #688577; display: flex; align-items: center; gap: 10px; }
+  .edition .line { width: 28px; height: 1px; background: #8ba799; }
+  .footer { position: absolute; bottom: 31px; left: 4.5%; font-family: "STKaiti", "KaiTi", serif; font-size: 13px; color: #486756; pointer-events: none; }
+  .controls { position: absolute; bottom: 21px; right: 4.5%; display: flex; gap: 9px; z-index: 5; }
+  .control { position: relative; display: grid; place-items: center; width: 43px; height: 43px; padding: 0; border: 1px solid #59786540; border-radius: 50%; color: #3d5b49; background: #f8fcf0db; cursor: pointer; transition: background .2s, transform .2s; }
+  .control:hover { background: #fffef6; transform: translateY(-2px); }
+  .control:focus-visible { outline: 3px solid #376d58; outline-offset: 4px; }
+  .control svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .tooltip { position: absolute; bottom: 53px; left: 50%; transform: translateX(-50%); background: #334e45; color: #fffef5; border-radius: 4px; padding: 6px 9px; font-size: 11px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .15s; }
+  .control:hover .tooltip, .control:focus-visible .tooltip { opacity: 1; }
+  .play-icon, .exit-icon { display: none; }
+  .world.is-paused .play-icon { display: block; }
+  .world.is-paused .pause-icon { display: none; }
+  .world.is-fullscreen .exit-icon { display: block; }
+  .world.is-fullscreen .expand-icon { display: none; }
+  .outline { stroke: #425946; stroke-linecap: round; stroke-linejoin: round; }
+  .sway { animation: sway var(--duration, 5s) ease-in-out infinite; animation-delay: var(--delay, 0s); transform-origin: 0 0; }
+  .leaf-sway { animation: leaf-sway var(--duration, 4.8s) ease-in-out infinite; animation-delay: var(--delay, 0s); transform-box: fill-box; transform-origin: 50% 95%; }
+  .cloud { animation: cloud-drift 32s ease-in-out infinite alternate; }
+  .cloud.far { animation-duration: 46s; animation-delay: -16s; }
+  .water-stream { fill: none; stroke: #89c5c9; stroke-width: 3.6; stroke-linecap: round; stroke-dasharray: 2 14; animation: watering 1.1s linear infinite; }
+  .water-stream.thin { stroke-width: 2.4; animation-duration: 1.35s; animation-delay: -.4s; }
+  .splash { animation: splash 1.35s ease-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+  .splash.second { animation-delay: -.65s; }
+  .head-nod { animation: head-nod 5.6s ease-in-out infinite; transform-origin: 0 105px; }
+  .beard { animation: beard 5.6s ease-in-out infinite; transform-origin: 0 87px; }
+  .breathe { animation: breathe 5.6s ease-in-out infinite; transform-origin: 0 275px; }
+  .gourd-eyes { animation: blink 7.5s ease-in-out infinite; animation-delay: var(--blink, 0s); transform-box: fill-box; transform-origin: center; }
+  .grandpa-eyes { animation: blink 8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .grass-sway { animation: grass 5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+  .falling-leaf { animation: falling-leaf 15s linear infinite; }
+  .falling-leaf.two { animation-delay: -7s; animation-duration: 18s; }
+  .wind { fill: none; stroke: #fafff4; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 100 360; opacity: 0; animation: wind 13s ease-in-out infinite; }
+  .wind.second { animation-delay: -6s; }
+  .world.is-paused .scene *, .world.is-paused .scene *::before, .world.is-paused .scene *::after { animation-play-state: paused !important; }
+  @keyframes sway { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2.2deg); } }
+  @keyframes leaf-sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(4deg); } }
+  @keyframes cloud-drift { from { transform: translateX(-12px); } to { transform: translateX(28px); } }
+  @keyframes watering { to { stroke-dashoffset: -64; } }
+  @keyframes splash { 0% { opacity: 0; transform: translateY(4px) scale(.7); } 35% { opacity: .85; } 100% { opacity: 0; transform: translateY(-10px) scale(1.15); } }
+  @keyframes head-nod { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+  @keyframes beard { 0%, 100% { transform: rotate(1deg); } 50% { transform: rotate(-2deg); } }
+  @keyframes breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
+  @keyframes blink { 0%, 44%, 48%, 100% { transform: scaleY(1); } 46% { transform: scaleY(.08); } }
+  @keyframes grass { 0%, 100% { transform: skewX(-2deg); } 50% { transform: skewX(3deg); } }
+  @keyframes falling-leaf { 0% { opacity: 0; transform: translate(40px, -15px) rotate(-25deg); } 10% { opacity: .8; } 65% { opacity: .8; } 90%, 100% { opacity: 0; transform: translate(-105px, 360px) rotate(135deg); } }
+  @keyframes wind { 0%, 72%, 100% { opacity: 0; stroke-dashoffset: 280; } 80% { opacity: .7; } 93% { opacity: 0; stroke-dashoffset: -250; } }
+  @media (max-width: 680px) {
+    .masthead { top: 29px; left: 25px; }
+    h1 { font-size: 32px; }
+    .edition { top: 37px; right: 25px; font-size: 10px; writing-mode: vertical-rl; gap: 9px; }
+    .edition .line { width: 1px; height: 24px; }
+    .footer { left: 25px; bottom: 31px; font-size: 12px; }
+    .controls { right: 24px; bottom: 22px; }
+    .control { width: 40px; height: 40px; }
+  }
+  @media (max-height: 510px) and (orientation: landscape) {
+    .masthead { top: 16px; left: 25px; }
+    .edition, .footer { display: none; }
+    h1 { font-size: 27px; }
+    .controls { bottom: 15px; right: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scene *, .control, .tooltip { animation: none !important; transition: none !important; }
+    .falling-leaf, .wind { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+<main class="world" id="world">
+  <header class="masthead">
+    <h1>葫芦小院</h1>
+  </header>
+  <div class="edition" aria-hidden="true"><span>山中无事</span><span class="line"></span><span>只管生长</span></div>
+  <svg class="scene" id="garden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="scene-title scene-description">
+    <title id="scene-title">七个彩色葫芦与老爷爷的树屋</title>
+    <desc id="scene-description">一根从土里生长的葫芦藤弯成拱门，上面依次挂着红、橙、黄、绿、青、蓝、紫七个葫芦。左边的大树上有一间树屋，右边戴草帽、留白胡子的老爷爷正在给藤根浇水。葫芦和叶片轻轻摇摆，水滴不断落入泥土。</desc>
+    <defs>
+      <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#e4f1ed"/><stop offset=".7" stop-color="#f4f7e7"/><stop offset="1" stop-color="#e9f0d7"/></linearGradient>
+      <linearGradient id="meadow" x2="0" y2="1"><stop stop-color="#c0d8a4"/><stop offset="1" stop-color="#d4dfae"/></linearGradient>
+      <linearGradient id="tree-bark" x2="1" y2=".3"><stop stop-color="#8f9f70"/><stop offset=".46" stop-color="#b0b885"/><stop offset="1" stop-color="#7f9367"/></linearGradient>
+      <linearGradient id="cottage" x2=".8" y2="1"><stop stop-color="#f1dfad"/><stop offset="1" stop-color="#d3c28c"/></linearGradient>
+      <linearGradient id="leaf-fill" x2=".3" y2="1"><stop stop-color="#aac586"/><stop offset="1" stop-color="#719666"/></linearGradient>
+      <linearGradient id="roof-fill" x2=".3" y2="1"><stop stop-color="#729e85"/><stop offset="1" stop-color="#426f60"/></linearGradient>
+      <linearGradient id="can-fill" x2="1" y2=".5"><stop stop-color="#acccd0"/><stop offset="1" stop-color="#6fa4ac"/></linearGradient>
+      <pattern id="distant-grass" width="115" height="80" patternUnits="userSpaceOnUse"><path d="M15 35l-3-5m3 5 3-6m63 34-1-6m1 6 4-4" stroke="#739165" stroke-width="1.3" stroke-linecap="round" opacity=".28"/></pattern>
+      <filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+      <g id="vine-leaf" class="outline" stroke-width="1.6">
+        <path d="M0 51C-10 43-29 44-36 29L-22 27C-40 13-35-6-37-10L-15-5C-18-24-5-35 0-44 10-27 23-20 17-3L38-12C35 3 41 19 23 28L37 30C30 43 11 41 0 51Z" fill="url(#leaf-fill)"/>
+        <path d="M0 50 0-28M0 20-24 1M0 32 25 14M0 2 12-12M0 37-21 30" fill="none" stroke="#597c54" stroke-width="1.25"/>
+        <path d="M-8-15C-17 4-14 21-6 30" fill="none" stroke="#d6dfaf" opacity=".7" stroke-width="3"/>
+      </g>
+      <g id="small-leaf" stroke-linejoin="round"><path d="M0 0C-39 7-48-18-55-32-27-34-4-28 0 0Z" fill="#769e68" stroke="#547b58" stroke-width="1.5"/><path d="M0 0-42-24" stroke="#b9d49b" stroke-width="1.5"/></g>
+      <g id="shrub" class="outline" stroke-width="1.4">
+        <path d="M0 65C-28 30-32 0-18-19-2-9 4 15 0 65Z" fill="#799b6d"/>
+        <path d="M1 66C-3 25 11-4 31-5 39 16 22 48 1 66Z" fill="#91b27d"/>
+        <path d="M1 66C13 35 36 25 49 32 46 52 24 65 1 66Z" fill="#6f9569"/>
+        <path d="M0 66C-19 39-42 29-53 39-45 59-20 66 0 66Z" fill="#9ab781"/>
+        <path d="M0 67-18-4M1 64 28 8M1 65 37 40M0 64-39 46" fill="none" stroke="#c1d0a1"/>
+      </g>
+      <g id="grass" fill="none" stroke="#71975f" stroke-width="2" stroke-linecap="round"><path d="M0 0Q-1-20-11-29M1 0Q8-18 17-21M0 0Q2-34-1-37"/></g>
+      <g id="daisy" class="outline" stroke-width="1.1"><path d="M0 0Q-7 26-4 43" fill="none" stroke="#638654"/><path d="M-5 31Q-27 20-22 15-8 12-5 31" fill="#9ab77e"/><g fill="#fcfbdf" stroke="#c2caa4"><ellipse cy="-8" rx="4.5" ry="9"/><ellipse cy="-8" rx="4.5" ry="9" transform="rotate(60)"/><ellipse cy="-8" rx="4.5" ry="9" transform="rotate(120)"/><ellipse cy="-8" rx="4.5" ry="9" transform="rotate(180)"/><ellipse cy="-8" rx="4.5" ry="9" transform="rotate(240)"/><ellipse cy="-8" rx="4.5" ry="9" transform="rotate(300)"/></g><circle r="5.5" fill="#daba5e" stroke="#b3a258"/></g>
+      <g id="gourd-art" class="outline">
+        <path d="M0-3C-12 15 11 22 1 43" fill="none" stroke="#71945d" stroke-width="7"/>
+        <path d="M0 9C10-11 26-12 24-1S8 9 17 16" fill="none" stroke="#648758" stroke-width="1.7"/>
+        <path d="M-9 42C-17 33-31 38-34 54-40 72-25 84-24 92-23 103-58 107-59 142-61 180-36 203 0 202 36 204 61 182 59 144 57 110 23 104 24 92 24 83 39 70 33 53 28 37 15 33 9 42Z" fill="var(--gourd, #ef7770)" stroke="var(--edge, #aa5950)" stroke-width="2.4"/>
+        <path d="M21 48C35 68 15 77 15 93 16 116 41 119 44 145 49 175 25 193-5 200 26 207 61 186 59 144 57 110 23 104 24 92 24 83 39 69 33 53Z" fill="#35513f" opacity=".1" stroke="none"/>
+        <path d="M-17 48C-24 47-29 57-27 65M-33 121C-44 129-48 145-44 157" fill="none" stroke="#fff8df" stroke-width="7" opacity=".48"/>
+        <ellipse cx="-35" cy="170" rx="4" ry="2.5" fill="#fff8df" opacity=".4" stroke="none"/>
+        <path d="M-1 39C-27 47-34 26-38 20-17 14-3 21-1 39Z" fill="#769d60" stroke="#557b50" stroke-width="1.5"/>
+        <path d="M-1 39-28 24" fill="none" stroke="#d2de9d" stroke-width="1.3"/>
+        <g class="gourd-eyes" fill="#495545" stroke="none"><ellipse cx="-17" cy="143" rx="3.6" ry="5.6"/><ellipse cx="17" cy="143" rx="3.6" ry="5.6"/><circle cx="-18" cy="141" r="1.1" fill="#fffde8"/><circle cx="16" cy="141" r="1.1" fill="#fffde8"/></g>
+        <g fill="#f8e8cd" opacity=".31" stroke="none"><ellipse cx="-29" cy="154" rx="8" ry="4.5"/><ellipse cx="29" cy="154" rx="8" ry="4.5"/></g>
+        <path d="M-7 157Q0 165 7 157" fill="none" stroke="#586047" stroke-width="1.7"/>
+        <path d="M-11 187Q-2 191 5 189" fill="none" stroke="#fff5cf" stroke-width="1.4" opacity=".45"/>
+      </g>
+    </defs>
+
+    <!-- Distant landscape stays quiet behind the vine and characters. -->
+    <rect x="-1800" y="-1600" width="5200" height="4200" fill="url(#sky)"/>
+    <g fill="#fffff4" opacity=".8">
+      <g class="cloud"><path d="M509 174C492 166 502 145 520 147 523 124 554 118 566 139 583 127 602 138 604 152 625 147 642 161 634 174Z"/><path d="M1110 156C1093 147 1107 128 1122 133 1125 113 1151 108 1161 129 1178 121 1191 133 1186 147 1200 145 1209 156 1203 162Z"/></g>
+      <g class="cloud far" opacity=".72"><path d="M790 102C779 96 786 82 800 85 807 64 833 70 837 87 856 81 871 93 863 103Z"/><path d="M1328 258C1312 248 1324 233 1344 237 1345 213 1378 211 1388 231 1406 228 1421 241 1413 251 1435 249 1452 267 1440 272Z"/></g>
+    </g>
+    <path d="M-1800 623H0L89 575Q123 554 154 576L230 620 366 480Q390 454 417 478L510 567 582 525Q600 510 619 530L752 638 885 540Q910 520 935 541L1014 608 1156 457Q1180 432 1203 459L1320 578 1400 505Q1428 484 1451 510L1600 636H3400V842H-1800Z" fill="#cfdfcc"/>
+    <path d="M-1800 675H0Q146 545 293 653T540 642T828 660T1114 607T1372 649T1660 584H3400V854H-1800Z" fill="#bbd2b7"/>
+    <g fill="#a2c1a2" opacity=".73"><path d="M56 684Q65 562 83 524 101 570 103 684ZM89 688Q112 538 131 492 155 557 157 688ZM137 681Q148 584 167 552 186 592 188 681Z"/><path d="M1370 716Q1379 571 1408 539 1436 594 1435 716ZM1422 718Q1442 552 1468 509 1494 568 1496 718ZM1480 730Q1494 583 1520 553 1546 602 1549 730Z"/></g>
+    <path d="M-1800 759H0C173 668 340 704 537 734 738 765 879 696 1044 709 1269 729 1402 701 1600 656H3400V2600H-1800Z" fill="url(#meadow)"/>
+    <path d="M-1800 879H0C211 797 411 851 557 839 805 817 862 746 1085 804 1260 849 1412 794 1600 807H3400V2600H-1800Z" fill="#d3dfb2"/>
+    <path d="M300 704C423 741 456 771 403 807 342 849 477 884 616 926 700 952 731 978 739 1020 840 1200 701 1610 790 2600H1480C1290 1790 1260 1230 997 1020 927 938 804 914 660 884 512 853 429 826 500 791 557 763 472 721 354 700Z" fill="#e8dfb9"/>
+    <path d="M450 826C409 849 520 893 624 922M858 962C779 924 658 917 595 891" fill="none" stroke="#c7c697" stroke-width="2" opacity=".55"/>
+    <path d="M0 754C173 671 340 704 537 734 738 765 879 696 1044 709 1269 729 1402 701 1600 656V1000H0Z" fill="url(#distant-grass)"/>
+    <g fill="#a6bc89" opacity=".65"><ellipse cx="950" cy="869" rx="178" ry="27"/><ellipse cx="1183" cy="911" rx="115" ry="19"/><ellipse cx="285" cy="770" rx="215" ry="34"/></g>
+
+    <!-- An old living tree, with the cottage built around its trunk. -->
+    <g id="tree" class="outline" stroke-width="2.2">
+      <path d="M216 778C263 670 230 591 234 496 239 400 191 318 169 256L221 229C247 275 272 303 287 338 311 263 347 205 391 175L412 212C335 294 324 381 324 433 342 366 390 328 452 302L469 330C380 381 350 457 350 525 355 645 349 710 389 779L343 792 304 773 271 797Z" fill="url(#tree-bark)"/>
+      <path d="M242 770C290 651 262 559 272 464M314 762C309 670 312 608 302 536M277 398C269 350 245 312 228 285M313 394C319 309 360 232 393 206M326 497C342 393 395 347 439 325" fill="none" stroke="#738960" stroke-width="3"/>
+      <path d="M285 742C311 702 278 649 287 609M253 665C249 638 252 619 258 602M335 695C339 714 344 738 351 747" fill="none" stroke="#d0d0a2" stroke-width="4"/>
+      <path d="M282 609C251 577 277 548 291 564 313 587 289 622 279 592 276 582 285 574 289 581" fill="none" stroke="#7a8d63" stroke-width="2.2"/>
+      <path d="M216 781Q261 757 271 745M339 754Q354 780 389 779" fill="none" stroke="#617c55" stroke-width="4"/>
+    </g>
+    <g id="canopy" class="outline" stroke="#70916b" stroke-width="1.6">
+      <path d="M-80 294C-46 233 9 231 40 241-2 191 35 134 90 151 86 93 155 69 194 107 220 60 287 81 293 130 342 99 401 132 393 176 458 163 494 215 472 255 518 284 481 333 432 325 414 371 354 381 322 342 280 382 210 369 197 336 143 366 89 341 83 313 28 341-32 322-80 337Z" fill="#b3c99a"/>
+      <path d="M-45 269C-3 243 50 257 64 291 110 274 145 291 157 320 199 298 247 315 252 340 290 317 312 324 329 342 287 380 219 371 197 336 143 366 89 341 83 313 28 341-32 322-80 337Z" fill="#9ab88a" stroke="none"/>
+      <path d="M73 210Q97 190 117 213M158 147Q177 129 196 149M252 174Q278 149 302 173M346 233Q371 207 395 230M161 268Q185 245 207 268M48 266Q64 253 77 265" fill="none" stroke="#89a77b" stroke-width="2"/>
+      <g fill="#cbd9ae" stroke="none"><path d="M108 146C124 120 151 120 165 128 143 127 128 138 122 155Z"/><path d="M220 117C239 99 261 107 268 119 249 111 235 120 229 130Z"/><path d="M340 169C364 153 380 166 383 178 365 170 351 180 341 185Z"/></g>
+    </g>
+    <g id="treehouse" class="outline" stroke-width="2.3">
+      <path d="M146 400 184 374 467 379 491 408 479 551 160 551Z" fill="url(#cottage)"/>
+      <path d="M425 398 491 408 479 551 425 551Z" fill="#bdad79"/>
+      <g stroke="#b4a274" stroke-width="1.3"><path d="M156 427H425M158 449H425M159 474H425M160 499H425M160 524H425M438 420V542M459 424V544M476 427V542"/><path d="M181 437h22m141 48h21m-184 26h32m160-74h29m-37 88h25" stroke-linecap="round"/></g>
+      <path d="M111 415 289 245Q303 231 318 245L515 404Q516 414 503 415L307 294 128 426Z" fill="#426f5c"/>
+      <path d="M147 376 291 247Q302 238 318 247L479 374Z" fill="#e5d29d"/>
+      <circle cx="306" cy="321" r="25" fill="#708b74" stroke="#697d5d" stroke-width="5"/>
+      <circle cx="306" cy="321" r="17.5" fill="#efd48b" stroke="#e1bd76" stroke-width="1.5"/>
+      <path d="M289 321H323M306 304V338" stroke="#6f8468" stroke-width="3"/>
+      <path d="M106 404 160 351Q174 373 191 353L198 319Q216 342 236 320L243 281Q264 306 282 280L301 243 340 282Q352 300 370 284L381 323Q398 340 413 325L431 362Q450 375 461 359L516 403Q507 424 484 410 467 428 445 408 426 426 405 407 388 425 368 408 347 424 326 408 305 425 284 409 262 430 240 412 221 430 202 413 181 432 160 414 137 431 106 420Z" fill="url(#roof-fill)"/>
+      <path d="M146 373Q164 391 184 372M199 333Q216 355 236 335M254 293Q267 317 286 297M321 282Q339 309 354 300M369 332Q388 355 405 341M418 376Q438 394 454 377M184 386Q211 410 229 387M243 350Q270 374 287 351M299 337Q319 364 340 345M350 382Q374 406 392 388M287 389Q310 410 327 389" fill="none" stroke="#a9c2a0" stroke-width="1.4"/>
+      <path d="M113 416Q309 403 510 412" stroke="#375e4e" stroke-width="5" fill="none"/>
+      <path d="M275 548V473C275 429 348 429 348 473V549Z" fill="#687e60" stroke="#657351" stroke-width="4"/>
+      <path d="M284 545V476C284 441 339 441 339 476V545Z" fill="#819270" stroke="#a2a27a" stroke-width="2"/>
+      <path d="M303 451V542M321 451V542" stroke="#647959" stroke-width="1.4"/>
+      <circle cx="327" cy="502" r="3.5" fill="#e5cd8e" stroke="#637656" stroke-width="1.4"/>
+      <rect x="186" y="447" width="57" height="57" rx="22" fill="#778c70" stroke="#a08e63" stroke-width="4"/>
+      <rect x="191" y="452" width="47" height="47" rx="18" fill="#f4d895" stroke="#d3b578" stroke-width="1.2"/>
+      <path d="M191 476H238M214 452V499" stroke="#839070" stroke-width="4"/>
+      <path d="M189 455Q204 455 205 474L193 473M237 455Q222 455 223 473H237" fill="#fff1c8" stroke="none"/>
+      <path d="M179 507H251V515H179Z" fill="#a79164" stroke-width="1.4"/>
+      <path d="M365 479H405V511H365Z" fill="#789269" stroke-width="1.5"/>
+      <path d="M374 479C353 465 360 455 369 459L382 480M385 479C377 455 389 445 395 451L391 479M394 479Q411 452 417 463L401 479" fill="#90af73" stroke="#678c59" stroke-width="1.5"/>
+      <path d="M365 485H405" stroke="#b5c799" stroke-width="2"/>
+      <path d="M144 548 491 545 494 562 139 567Z" fill="#c0ad78"/>
+      <path d="M168 565 242 626 253 609 199 564M459 562 349 632 344 610 428 561" fill="#a4a074"/>
+      <g fill="#bfba8c"><path d="M146 501H155V550H146ZM179 503H187V550H179ZM214 505H222V550H214ZM250 504H258V549H250ZM359 504H367V548H359ZM401 503H409V547H401ZM443 501H451V547H443ZM482 499H490V547H482Z"/></g>
+      <path d="M137 499Q225 504 264 502M355 502 493 496" stroke="#657c58" stroke-width="7" fill="none"/>
+      <path d="M145 497Q224 500 262 498M357 498 490 493" stroke="#d3c797" stroke-width="3" fill="none"/>
+      <path d="M288 561 263 763M327 562 314 765" stroke="#697b53" stroke-width="5" fill="none"/>
+      <g stroke="#5d7651" stroke-width="1.6" fill="#c8b783"><path d="M282 590 329 592 329 601 280 599ZM278 622 326 624 326 633 277 631ZM273 654 324 656 324 665 272 663ZM269 687 321 689 321 698 268 696ZM264 720 319 722 319 731 263 729ZM260 750 318 752 318 761 259 759Z"/></g>
+    </g>
+    <g transform="translate(156 536) scale(.75)"><g class="leaf-sway"><use href="#small-leaf"/><use href="#small-leaf" transform="translate(6 23) rotate(90)"/><path d="M0-21Q13 42 0 96" fill="none" stroke="#608555" stroke-width="3"/><use href="#small-leaf" transform="translate(4 70) scale(.75)"/></g></g>
+
+    <!-- One continuous, rooted vine carries all seven gourds. -->
+    <g id="vine" class="outline" fill="none">
+      <path d="M916 862C960 809 1033 819 1093 739 1160 648 1315 634 1390 537 1462 443 1421 359 1285 309 1124 245 961 220 811 245 653 271 556 348 450 303 409 285 389 270 365 271" stroke="#436b46" stroke-width="20"/>
+      <path d="M916 862C960 809 1033 819 1093 739 1160 648 1315 634 1390 537 1462 443 1421 359 1285 309 1124 245 961 220 811 245 653 271 556 348 450 303 409 285 389 270 365 271" stroke="#89a765" stroke-width="12"/>
+      <path d="M922 855C966 805 1038 817 1100 737 1165 648 1322 632 1397 534 1467 446 1420 355 1285 305 1124 241 961 216 811 241 653 267 556 344 450 299" stroke="#c0cc8a" stroke-width="3.2" opacity=".8"/>
+      <path d="M1347 341C1381 311 1404 308 1410 326 1415 343 1397 350 1395 337M1179 272C1190 228 1220 219 1224 238 1225 252 1208 253 1208 244M718 267C704 228 671 224 666 243 663 258 681 262 684 250M965 231C956 196 980 174 995 188 1007 200 990 215 984 203M1251 642C1272 675 1301 677 1307 658 1311 645 1293 638 1289 650M986 817C974 792 957 782 946 794 935 809 954 821 961 809" stroke="#658c55" stroke-width="2.3"/>
+    </g>
+    <g id="vine-foliage">
+      <g transform="translate(420 283) rotate(-51) scale(.9)"><g class="leaf-sway"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(563 301) rotate(28) scale(.98)"><g class="leaf-sway" style="--delay:-1s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(635 266) rotate(-40) scale(.82)"><g class="leaf-sway" style="--delay:-2.6s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(764 234) rotate(-25) scale(.84)"><g class="leaf-sway" style="--delay:-1.7s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(849 231) rotate(20) scale(.8)"><g class="leaf-sway" style="--delay:-3s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(986 211) rotate(43) scale(.9)"><g class="leaf-sway"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1115 239) rotate(-23) scale(.85)"><g class="leaf-sway" style="--delay:-1.2s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1233 281) rotate(55) scale(.96)"><g class="leaf-sway" style="--delay:-2s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1372 347) rotate(83) scale(1.1)"><g class="leaf-sway"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1421 426) rotate(-75) scale(.9)"><g class="leaf-sway" style="--delay:-1s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1384 541) rotate(135) scale(1.04)"><g class="leaf-sway" style="--delay:-2s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1303 602) rotate(73) scale(.82)"><g class="leaf-sway"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1173 668) rotate(-57) scale(1.05)"><g class="leaf-sway" style="--delay:-1s"><use href="#vine-leaf"/></g></g>
+      <g transform="translate(1053 768) rotate(-95) scale(.85)"><g class="leaf-sway" style="--delay:-3s"><use href="#vine-leaf"/></g></g>
+    </g>
+    <g id="seven-gourds">
+      <g class="gourd" data-color="红" transform="translate(505 319) scale(.94)" style="--gourd:#ed7770;--edge:#b76855;--blink:-1s"><title>红葫芦</title><g class="sway" style="--duration:5.1s;--delay:-.6s"><use href="#gourd-art"/></g></g>
+      <g class="gourd" data-color="橙" transform="translate(635 302) scale(.97)" style="--gourd:#efa15f;--edge:#b78048;--blink:-4s"><title>橙葫芦</title><g class="sway" style="--duration:5.7s;--delay:-1.7s"><use href="#gourd-art"/></g></g>
+      <g class="gourd" data-color="黄" transform="translate(767 257) scale(.93)" style="--gourd:#e9cd66;--edge:#ac9846;--blink:-2.5s"><title>黄葫芦</title><g class="sway" style="--duration:4.9s;--delay:-3s"><use href="#gourd-art"/></g></g>
+      <g class="gourd" data-color="绿" transform="translate(900 237) scale(1.02)" style="--gourd:#91b979;--edge:#688f58;--blink:-6s"><title>绿葫芦</title><g class="sway" style="--duration:5.5s;--delay:-2.1s"><use href="#gourd-art"/></g></g>
+      <g class="gourd" data-color="青" transform="translate(1035 244) scale(.95)" style="--gourd:#78bbb8;--edge:#568e8a;--blink:-3.4s"><title>青葫芦</title><g class="sway" style="--duration:5.2s;--delay:-4s"><use href="#gourd-art"/></g></g>
+      <g class="gourd" data-color="蓝" transform="translate(1170 271) scale(.98)" style="--gourd:#85a5d0;--edge:#6586b1;--blink:-.6s"><title>蓝葫芦</title><g class="sway" style="--duration:5.9s;--delay:-2.7s"><use href="#gourd-art"/></g></g>
+      <g class="gourd" data-color="紫" transform="translate(1301 317) scale(.96)" style="--gourd:#b195c4;--edge:#8a739e;--blink:-5s"><title>紫葫芦</title><g class="sway" style="--duration:5.3s;--delay:-1.3s"><use href="#gourd-art"/></g></g>
+    </g>
+    <g fill="none" stroke="#779c62" stroke-width="1.7" stroke-linecap="round"><path d="M504 332Q489 336 489 348T479 360M900 248Q917 251 917 261T931 270M1300 329Q1316 328 1319 338T1330 344"/></g>
+
+    <!-- The gardener's hands, watering can and stream meet at the vine root. -->
+    <g id="garden-bed" class="outline" stroke-width="1.8">
+      <path d="M799 865C824 838 862 839 880 844 907 826 942 833 958 843 991 837 1024 853 1025 873 1008 895 834 902 799 881Z" fill="#b7aa7f" stroke="#8a9164"/>
+      <path d="M819 875Q871 890 1004 874M835 856 845 859M987 859 994 863M864 878 875 881M938 881 951 878" fill="none" stroke="#8e9366" stroke-width="1.8"/>
+      <g fill="#d1c69b" stroke="none"><ellipse cx="837" cy="865" rx="6" ry="3"/><ellipse cx="981" cy="873" rx="5" ry="2.5"/><ellipse cx="887" cy="885" rx="3" ry="2"/></g>
+      <path d="M916 865Q909 844 915 813" fill="none" stroke="#658b50" stroke-width="4"/>
+      <path d="M914 847C887 844 879 825 881 817 905 816 918 830 914 847Z" fill="#8fac6c" stroke="#618553"/>
+      <path d="M914 840C920 814 940 809 949 814 944 836 930 844 914 840Z" fill="#a8bf7f" stroke="#678959"/>
+      <path d="M887 823 914 845M915 840 940 819" fill="none" stroke="#d1da9b" stroke-width="1.3"/>
+    </g>
+    <g id="water">
+      <path class="water-stream" d="M982 772Q942 795 914 860"/>
+      <path class="water-stream thin" d="M978 774Q933 805 897 868"/>
+      <path class="water-stream thin" d="M985 778Q961 817 931 867"/>
+      <path class="water-stream" style="animation-delay:-.6s;stroke-width:2.5" d="M981 777Q949 824 918 871"/>
+      <g class="splash" fill="none" stroke="#8bbec0" stroke-width="2.5" stroke-linecap="round"><path d="M900 861 894 853M915 859 916 850M925 864 932 857"/></g>
+      <g class="splash second" fill="none" stroke="#8bbec0" stroke-width="2" stroke-linecap="round"><path d="M921 870 926 860M908 870 902 863M934 873 940 869"/></g>
+    </g>
+    <g id="grandfather" transform="translate(1160 605)" class="outline" stroke-width="2.2">
+      <g fill="#677c73"><path d="M-21 235-33 288-3 297 26 251Z"/><path d="M26 242 39 295 70 296 67 237Z"/></g>
+      <path d="M-34 281C-44 287-63 291-67 302-60 313-15 311-1 302L-2 287Z" fill="#53695b"/>
+      <path d="M38 284 38 302C53 312 87 311 93 302 89 291 74 288 66 284Z" fill="#53695b"/>
+      <path d="M-59 303Q-30 309-4 300M43 303Q66 309 86 302" fill="none" stroke="#9aa68a" stroke-width="2"/>
+      <g class="breathe">
+        <path d="M-21 115C-42 127-51 159-51 192L-32 205 5 169Z" fill="#739799"/>
+        <path d="M-46 185C-53 181-64 185-64 194L-63 206C-53 213-41 208-39 201Z" fill="#e6c2a0"/>
+        <path d="M-19 111C-44 134-33 177-39 220L-49 252C-12 271 51 272 82 251L65 193C69 151 55 126 26 114Z" fill="#7e9f9e"/>
+        <path d="M28 131C49 163 26 235 20 264 49 267 70 260 82 251L65 193C69 151 55 126 26 114Z" fill="#62888b" stroke="none" opacity=".65"/>
+        <path d="M-13 122 6 147 28 119" fill="#eee6cb"/>
+        <path d="M-15 142 26 151 46 257C18 265-14 258-32 251Z" fill="#a5b6a2" stroke="#5d8075" stroke-width="1.7"/>
+        <path d="M-16 208 23 211 25 237Q0 247-17 232Z" fill="#8fa69a" stroke="#618578" stroke-width="1.5"/>
+        <path d="M-19 174 28 183M-22 177 27 186" fill="none" stroke="#d0d3b6" stroke-width="1.5"/>
+        <path d="M45 135C67 147 81 174 61 191 37 210-14 200-48 198L-46 177C-13 180 13 178 28 169" fill="#7e9f9e"/>
+        <path d="M-41 177-48 199" fill="none" stroke="#cfdbc2" stroke-width="5"/>
+        <path d="M-48 178C-55 175-60 172-66 174L-74 178C-83 175-91 180-88 187L-81 197C-76 204-64 205-55 199L-47 194Z" fill="#eccaaa"/>
+        <path d="M-77 183-71 193M-70 181-64 192" fill="none" stroke="#bd9d7e" stroke-width="1.3"/>
+        <path d="M51 163 42 172M-19 230 17 235M57 232l5 12" fill="none" stroke="#527c76" stroke-width="1.3"/>
+      </g>
+      <g class="head-nod">
+        <path d="M-35 45C-56 37-60 63-47 75-61 88-50 107-36 101L32 102C53 101 53 80 45 73 62 60 48 39 34 44Z" fill="#eae9d2" stroke="#a7b29a"/>
+        <path d="M-10 104-12 124Q7 144 28 122L21 97Z" fill="#d6b18d"/>
+        <path d="M-39 53C-47 30-21 16 5 21 30 19 46 43 37 63L31 91C24 115-8 123-27 101L-38 81Z" fill="#efcdab" stroke="#937f63"/>
+        <path d="M-40 60C-56 51-61 77-44 84L-35 79M35 65C48 55 52 77 35 85" fill="#e6be99" stroke="#937f63" stroke-width="1.7"/>
+        <path d="M-44 68Q-51 61-48 73M38 69Q44 66 41 74" fill="none" stroke="#b49573" stroke-width="1.4"/>
+        <path d="M-34 55Q-24 45-13 51M8 50Q21 44 31 54" fill="none" stroke="#f3f0d9" stroke-width="7"/>
+        <g class="grandpa-eyes" fill="none" stroke="#556050" stroke-width="2.3"><path d="M-31 64Q-25 58-19 64M11 64Q17 58 23 64"/></g>
+        <path d="M-3 62C-9 71-15 79-6 82L4 81" fill="#e7b996" stroke="#b49371" stroke-width="1.5"/>
+        <g fill="#d7a286" opacity=".43" stroke="none"><ellipse cx="-28" cy="77" rx="8" ry="4"/><ellipse cx="22" cy="79" rx="8" ry="4"/></g>
+        <g class="beard">
+          <path d="M-36 84C-34 108-34 124-15 140L0 133 7 150C22 134 39 111 34 84 22 94 12 94-1 89-14 97-26 94-36 84Z" fill="#efeed7" stroke="#9eab94" stroke-width="1.7"/>
+          <path d="M-4 88C-14 80-31 81-37 96-25 101-8 100-1 93 6 102 24 103 35 95 25 82 10 81-4 88Z" fill="#faf5dc" stroke="#a7b29a" stroke-width="1.5"/>
+          <path d="M-7 100Q-1 106 5 101M-22 111-15 125M16 111 10 132" fill="none" stroke="#b5bea4" stroke-width="1.2"/>
+        </g>
+        <path d="M-53 27C-48-21 25-38 52 15L61 34Z" fill="#d8c287" stroke="#8e9167"/>
+        <path d="M-40 20C-30-12 4-20 25-1M-22 18Q-13-10 0-13M1 15Q0-5 7-12M26 19 19-5" fill="none" stroke="#b29e67" stroke-width="1.6"/>
+        <path d="M-52 20Q0 31 51 15L56 28Q2 45-53 33Z" fill="#869770" stroke="#75885f" stroke-width="1.5"/>
+        <path d="M-84 38C-73 22-28 23-6 28 23 31 59 17 78 31 87 44 49 52 19 50-19 55-69 55-84 46Z" fill="#e6d49b" stroke="#8e9167"/>
+        <path d="M-67 39Q5 55 63 35M-59 36-62 44M-43 34-46 46M-26 35-27 48M-10 38-10 49M10 39 10 49M28 37 30 48M47 32 48 44" fill="none" stroke="#b6aa76" stroke-width="1.1"/>
+      </g>
+    </g>
+    <g id="watering-can" transform="translate(1029 794) rotate(8)" class="outline" stroke-width="2.2">
+      <path d="M15-16C14-55 76-56 77-15" fill="none" stroke="#527c7d" stroke-width="10"/>
+      <path d="M15-16C14-55 76-56 77-15" fill="none" stroke="#bfd3ca" stroke-width="5"/>
+      <path d="M5 3-29-11-39-27-49-22-39 8 4 32Z" fill="#8db5b8"/>
+      <path d="M-47-29-60-18-53-8-38-20Z" fill="#bdd3cf"/>
+      <path d="M-55-20-47-14M-51-23-43-17" fill="none" stroke="#688d8b" stroke-width="1.3"/>
+      <path d="M-1-16Q42-30 87-16L82 43Q42 60 5 43Z" fill="url(#can-fill)"/>
+      <ellipse cx="43" cy="-17" rx="44" ry="9" fill="#a8c8c7"/>
+      <ellipse cx="44" cy="-18" rx="29" ry="4.8" fill="#648d8a" stroke-width="1.5"/>
+      <path d="M12-1 17 34M23 3 26 38" fill="none" stroke="#d5e1d0" stroke-width="3" opacity=".6"/>
+      <path d="M8 40Q43 52 80 41" fill="none" stroke="#618b8b" stroke-width="2"/>
+      <path d="M53 8Q66 18 56 30 43 19 53 8Z" fill="#c9d7be" stroke="#799c8b" stroke-width="1.3"/>
+    </g>
+
+    <!-- Small garden details anchor the drawing without competing with it. -->
+    <g id="garden-details" class="outline" stroke-width="1.8">
+      <g transform="translate(684 810) rotate(-13)"><path d="M0-42V53" stroke="#798468" stroke-width="7"/><path d="M0-35V45" stroke="#c4bf96" stroke-width="3"/><path d="M-5 43C-21 42-20 74 0 87 20 74 20 42 5 43Z" fill="#9aafb0"/><path d="M0 51V76" stroke="#d2d9c3" stroke-width="2"/><path d="M-11-65Q0-76 11-65L7-43H-7Z" fill="none" stroke="#667d60" stroke-width="4"/></g>
+      <g transform="translate(758 878)"><path d="M-28-24Q-32-75 14-57L31-25" fill="none" stroke="#8e8f60" stroke-width="4"/><path d="M-42-28Q1-40 40-27L29 19Q-4 32-33 16Z" fill="#cbbb83"/><path d="M-38-18Q3-11 36-18M-35-6Q4 2 33-6M-33 7Q0 15 30 8M-26-27-17 22M-11-30-6 25M6-31 6 24M23-30 19 23" stroke="#9f9b67" stroke-width="1.3" fill="none"/><path d="M-38-28Q-15-56 4-31 8-52 30-35L29-26" fill="#a7bb7c" stroke="#73915f"/></g>
+      <g transform="translate(429 730)"><path d="M-30-9 25-11 18 38Q-4 48-23 36Z" fill="#c7a185" stroke="#9a8d6a"/><path d="M-33-15Q-4-21 28-16L27-6Q-4 1-32-6Z" fill="#d4b092"/><g transform="translate(-3 -30) scale(.62)"><g class="grass-sway"><use href="#shrub"/></g></g></g>
+      <g fill="#adb795" stroke="#899b78"><path d="M497 851Q507 833 524 844L532 854Q514 864 497 851Z"/><path d="M624 908Q638 891 655 904L659 913Q639 919 624 908Z"/><path d="M1104 932Q1115 922 1132 929L1135 939Q1117 945 1104 932Z"/><path d="M901 919Q908 910 921 916L926 923Q910 928 901 919Z"/></g>
+    </g>
+    <g id="flowers">
+      <g transform="translate(175 804) scale(.7)"><g class="grass-sway"><use href="#daisy"/></g></g>
+      <g transform="translate(202 817) scale(.48)"><g class="grass-sway"><use href="#daisy"/></g></g>
+      <g transform="translate(571 778) scale(.54)"><g class="grass-sway"><use href="#daisy"/></g></g>
+      <g transform="translate(1373 837) scale(.76)"><g class="grass-sway"><use href="#daisy"/></g></g>
+      <g transform="translate(1402 853) scale(.56)"><g class="grass-sway"><use href="#daisy"/></g></g>
+      <g transform="translate(533 931) scale(.6)"><g class="grass-sway"><use href="#daisy"/></g></g>
+      <g transform="translate(490 929) scale(.42)"><g class="grass-sway"><use href="#daisy"/></g></g>
+      <g transform="translate(1300 936) scale(.52)"><g class="grass-sway"><use href="#daisy"/></g></g>
+    </g>
+    <g id="meadow-plants">
+      <g transform="translate(104 745) scale(1.1)"><g class="grass-sway"><use href="#shrub"/></g></g>
+      <g transform="translate(363 755) scale(.62)"><g class="grass-sway"><use href="#shrub"/></g></g>
+      <g transform="translate(1482 739) scale(1.15)"><g class="grass-sway"><use href="#shrub"/></g></g>
+      <g transform="translate(830 790) scale(.53)"><g class="grass-sway"><use href="#shrub"/></g></g>
+      <g transform="translate(101 888)"><g class="grass-sway"><use href="#grass"/></g></g>
+      <g transform="translate(368 862) scale(.8)"><g class="grass-sway"><use href="#grass"/></g></g>
+      <g transform="translate(596 832) scale(.7)"><g class="grass-sway"><use href="#grass"/></g></g>
+      <g transform="translate(1281 848) scale(.8)"><g class="grass-sway"><use href="#grass"/></g></g>
+      <g transform="translate(1445 914)"><g class="grass-sway"><use href="#grass"/></g></g>
+      <g transform="translate(1033 949) scale(.8)"><g class="grass-sway"><use href="#grass"/></g></g>
+    </g>
+    <path class="wind" d="M632 597C711 570 753 594 783 581S769 548 750 564C734 584 799 607 863 576"/>
+    <path class="wind second" d="M1217 587C1260 563 1304 589 1333 572S1323 547 1310 559C1298 574 1341 596 1400 572"/>
+    <g transform="translate(430 355)"><g class="falling-leaf"><use href="#small-leaf" transform="scale(.36)"/></g></g>
+    <g transform="translate(1353 553)"><g class="falling-leaf two"><use href="#small-leaf" transform="scale(.3)"/></g></g>
+    <g id="foreground" class="outline" stroke-width="1.5">
+      <path d="M-50 1008C-40 910 12 874 36 855 54 894 56 940 39 986 81 915 134 907 164 915 153 955 117 990 83 1010Z" fill="#82a078"/>
+      <path d="M-2 1007Q17 925 32 882M34 1007Q90 947 137 931" fill="none" stroke="#b2c797" stroke-width="2"/>
+      <path d="M1516 1012C1462 989 1439 959 1438 930 1479 922 1511 951 1537 993 1509 923 1532 871 1556 852 1589 897 1575 951 1554 1006 1582 972 1604 962 1636 970L1640 1021Z" fill="#83a37b"/>
+      <path d="M1549 1006Q1564 920 1556 883M1520 1006Q1488 952 1454 941" fill="none" stroke="#b8cd9d" stroke-width="2"/>
+    </g>
+    <rect x="0" y="0" width="1600" height="1000" filter="url(#paper)" opacity=".042" style="mix-blend-mode:multiply" pointer-events="none"/>
+  </svg>
+  <div class="footer" aria-hidden="true">风过小院，七个好梦。</div>
+  <nav class="controls" aria-label="动画控制">
+    <!-- Inline Lucide pause, play, maximize and minimize icons; no network dependency. -->
+    <button class="control" id="pause" type="button" aria-label="暂停动画" aria-pressed="false" title="暂停动画">
+      <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>
+      <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10 6Z"/></svg>
+      <span class="tooltip">暂停动画</span>
+    </button>
+    <button class="control" id="fullscreen" type="button" aria-label="全屏欣赏" title="全屏欣赏">
+      <svg class="expand-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3"/></svg>
+      <svg class="exit-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3m13-5v3a2 2 0 0 0 2 2h3M3 16h3a2 2 0 0 1 2 2v3m13-5h-3a2 2 0 0 0-2 2v3"/></svg>
+      <span class="tooltip">全屏欣赏</span>
+    </button>
+  </nav>
+</main>
+<script>
+(() => {
+  'use strict';
+  const world = document.getElementById('world');
+  const pauseButton = document.getElementById('pause');
+  const fullscreenButton = document.getElementById('fullscreen');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const setLabel = (button, label) => {
+    button.setAttribute('aria-label', label);
+    button.title = label;
+    button.querySelector('.tooltip').textContent = label;
+  };
+  const setPaused = (paused) => {
+    world.classList.toggle('is-paused', paused);
+    pauseButton.setAttribute('aria-pressed', String(paused));
+    setLabel(pauseButton, paused ? '播放动画' : '暂停动画');
+  };
+  const syncMotionPreference = () => {
+    setPaused(reducedMotion.matches);
+    pauseButton.disabled = reducedMotion.matches;
+    if (reducedMotion.matches) setLabel(pauseButton, '已按系统设置减少动态效果');
+  };
+  pauseButton.addEventListener('click', () => setPaused(!world.classList.contains('is-paused')));
+  reducedMotion.addEventListener('change', syncMotionPreference);
+  syncMotionPreference();
+  if (!document.fullscreenEnabled || !world.requestFullscreen) {
+    fullscreenButton.hidden = true;
+    fullscreenButton.style.display = 'none';
+  }
+  fullscreenButton.addEventListener('click', async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await world.requestFullscreen();
+    } catch {
+      setLabel(fullscreenButton, '当前浏览器无法进入全屏');
+    }
+  });
+  document.addEventListener('fullscreenchange', () => {
+    const full = Boolean(document.fullscreenElement);
+    world.classList.toggle('is-fullscreen', full);
+    setLabel(fullscreenButton, full ? '退出全屏' : '全屏欣赏');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 135" fill="none">
+  <title>PANGZEHONG</title>
+  <g stroke="#d4f77c" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(33 9) skewX(-14)">
+    <path d="M8 85 18 20C35 9 63 11 59 30 56 44 34 50 17 46M13 25 7 34"/>
+    <path d="M52 80 89 17Q92 12 93 22L98 78M64 58 105 52"/>
+    <path d="m114 78 12-61 25 60 14-65"/>
+    <path d="M216 26C211 4 180 15 173 46S176 88 195 76L210 48 189 52M210 48 205 82"/>
+    <path d="M226 23Q245 15 266 19L221 78Q244 68 263 74"/>
+    <path d="m312 16-30 6-10 56 33-6M279 49 302 44"/>
+    <path d="m329 17-12 63M365 13 352 77M321 49 362 42"/>
+    <path d="M398 17C375 14 364 73 384 78S417 22 398 17Z"/>
+    <path d="m418 78 12-61 25 60 14-65"/>
+    <path d="M520 26C515 4 484 15 477 46S480 88 499 76L514 48 493 52M514 48 509 82"/>
+  </g>
+  <path d="M23 112C152 88 332 91 560 100 430 103 314 110 242 120" stroke="#d4f77c" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

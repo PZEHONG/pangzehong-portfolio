@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>重力游乐盒 · 视觉实验室</title>
+  <style>
+    :root {
+      --paper: #f7f8f4;
+      --ink: #242621;
+      --muted: #73776e;
+      --line: #d5d9cf;
+      --red: #f14c3f;
+      --yellow: #f6d548;
+      --blue: #326cf1;
+    }
+    * { box-sizing: border-box; letter-spacing: 0; }
+    html { background: var(--paper); }
+    body { margin: 0; color: var(--ink); font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
+    button:disabled { cursor: default; }
+    .lab { max-width: 1200px; margin: auto; padding: 26px 38px 22px; }
+    .masthead { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--ink); }
+    .back { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 700; min-height: 34px; }
+    .back:hover { color: var(--blue); }
+    .back svg { width: 17px; height: 17px; }
+    .edition { font: 11px/1.3 Consolas, "Courier New", monospace; color: var(--muted); }
+    .title-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 27px 0 28px; }
+    .title-lockup { display: flex; align-items: center; gap: 15px; min-width: 0; }
+    .chapter { flex: 0 0 42px; width: 42px; height: 42px; background: var(--red); color: white; display: grid; place-items: center; font: 700 20px/1 Consolas, monospace; }
+    h1 { margin: 0; font-size: 32px; font-weight: 900; line-height: 1.25; }
+    .live { display: flex; align-items: center; gap: 8px; font-size: 11px; white-space: nowrap; }
+    .live-dot { width: 7px; height: 7px; background: var(--blue); border-radius: 50%; }
+    body[data-paused="true"] .live-dot { background: var(--muted); }
+    .workspace { display: grid; grid-template-columns: 184px minmax(0, 1fr); gap: 38px; align-items: start; }
+    .rail { padding-top: 28px; }
+    .rail-label { display: block; color: var(--muted); font-size: 11px; font-weight: 700; line-height: 1.5; }
+    .counter { display: flex; align-items: baseline; gap: 9px; margin: 9px 0 28px; font-family: Consolas, "Courier New", monospace; }
+    #count { font-size: 68px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; min-width: 2ch; }
+    .capacity { font-size: 14px; color: var(--muted); }
+    .control-group { margin-top: 25px; }
+    .segmented { display: grid; grid-template-columns: repeat(4, 44px); margin-top: 10px; border: 1px solid var(--ink); width: fit-content; }
+    .icon-button { width: 44px; height: 44px; border: 0; background: transparent; display: inline-grid; place-items: center; padding: 0; flex-shrink: 0; transition: background-color 120ms ease; }
+    .icon-button svg { width: 20px; height: 20px; stroke-width: 1.8; pointer-events: none; }
+    .segmented .icon-button { border-right: 1px solid var(--ink); }
+    .segmented .icon-button:last-child { border-right: 0; }
+    .icon-button:hover { background: #e8ebe2; }
+    .segmented .icon-button[aria-pressed="true"] { background: var(--yellow); }
+    .tools { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+    .tools .icon-button { border: 1px solid var(--ink); }
+    #pause { background: var(--ink); color: var(--paper); }
+    #pause:hover { background: #41463b; }
+    #pause[aria-pressed="true"] { background: var(--yellow); color: var(--ink); }
+    .palette { display: flex; gap: 7px; margin-top: 40px; padding-top: 17px; border-top: 1px solid var(--line); }
+    .swatch { width: 18px; height: 6px; background: var(--red); }
+    .swatch:nth-child(2) { background: var(--yellow); }
+    .swatch:nth-child(3) { background: var(--blue); }
+    .scene-column { min-width: 0; }
+    .scene { width: min(100%, calc(131.578947svh - 421px)); margin: 0 auto; }
+    .dimension { display: flex; align-items: center; gap: 12px; height: 24px; font: 10px/1 Consolas, "Courier New", monospace; color: var(--muted); }
+    .dimension::before, .dimension::after { content: ""; flex: 1; height: 5px; border-top: 1px solid var(--line); }
+    .dimension::before { border-left: 1px solid var(--line); }
+    .dimension::after { border-right: 1px solid var(--line); }
+    .arena { position: relative; width: 100%; aspect-ratio: 25 / 19; border: 2px solid var(--ink); background: #fcfdf9; }
+    #world { display: block; width: 100%; height: 100%; touch-action: manipulation; cursor: crosshair; }
+    .arena::before, .arena::after { position: absolute; content: ""; width: 7px; height: 7px; background: var(--ink); pointer-events: none; }
+    .arena::before { top: -5px; left: -5px; }
+    .arena::after { right: -5px; bottom: -5px; }
+    .scene-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 13px; font: 10px/1.4 Consolas, "Courier New", monospace; color: var(--muted); }
+    .vector { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
+    #direction-icon { display: inline-flex; }
+    #direction-icon svg { width: 14px; height: 14px; }
+    .bottom-line { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 13px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font: 10px/1.4 Consolas, "Courier New", monospace; color: var(--muted); }
+    .bottom-line strong { color: var(--ink); font-weight: 400; }
+    #notice { position: absolute; left: 15px; bottom: 15px; max-width: calc(100% - 30px); background: var(--ink); color: white; margin: 0; padding: 8px 12px; font-size: 12px; line-height: 1.5; pointer-events: none; }
+    #notice:empty { display: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    @media (max-width: 700px) {
+      .lab { padding: 17px 20px 24px; }
+      .masthead { padding-bottom: 12px; }
+      .edition { font-size: 10px; }
+      .title-row { padding: 24px 0; align-items: flex-start; }
+      .title-lockup { gap: 11px; }
+      .chapter { width: 34px; height: 34px; flex-basis: 34px; font-size: 17px; }
+      h1 { font-size: 25px; line-height: 34px; }
+      .live { margin-top: 12px; font-size: 10px; gap: 5px; }
+      .workspace { display: flex; flex-direction: column; gap: 20px; }
+      .rail { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 16px 10px; width: 100%; padding: 0; }
+      .count-group { grid-column: 2; grid-row: 1; text-align: right; }
+      .counter { margin: 5px 0 0; gap: 5px; }
+      #count { font-size: 35px; min-width: 2ch; }
+      .capacity { font-size: 11px; }
+      .control-group { grid-column: 1; grid-row: 1; margin: 0; }
+      .segmented { margin-top: 8px; }
+      .tools { grid-column: 1 / -1; grid-row: 2; margin: 0; gap: 8px; }
+      .palette { border: 0; padding: 0; margin: 0; justify-self: end; grid-column: 2; grid-row: 2; align-self: center; pointer-events: none; }
+      .scene-column, .scene { width: 100%; }
+      .scene { margin: 0; }
+      .dimension { height: 20px; }
+      .scene-footer { margin-top: 12px; font-size: 9px; }
+      .bottom-line { margin-top: 26px; }
+    }
+    @media (max-width: 359px) {
+      .lab { padding-left: 14px; padding-right: 14px; }
+      h1 { font-size: 22px; }
+      .live { font-size: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+  </style>
+</head>
+<body data-paused="false">
+  <main class="lab">
+    <header class="masthead">
+      <a class="back" id="back" href="index.html" target="_top" title="返回视觉实验室"><i data-lucide="arrow-up-left" aria-hidden="true"></i><span>视觉实验室</span></a>
+      <span class="edition">VISUAL LAB / 2026</span>
+    </header>
+    <div class="title-row">
+      <div class="title-lockup"><span class="chapter" aria-hidden="true">03</span><h1>重力游乐盒</h1></div>
+      <span class="live"><span class="live-dot" aria-hidden="true"></span><span id="status">运行中</span></span>
+    </div>
+    <section class="workspace" aria-label="重力实验">
+      <aside class="rail" aria-label="实验控制">
+        <div class="count-group">
+          <span class="rail-label">球体 / BALLS</span>
+          <div class="counter"><output id="count" aria-label="当前球数">12</output><span class="capacity">/ 40</span></div>
+        </div>
+        <div class="control-group">
+          <span class="rail-label" id="gravity-label">重力方向</span>
+          <div class="segmented" id="gravity" role="group" aria-labelledby="gravity-label">
+            <button class="icon-button" type="button" id="gravity-left" data-direction="left" aria-label="向左重力" aria-pressed="false" title="向左重力"><i data-lucide="arrow-left" aria-hidden="true"></i></button>
+            <button class="icon-button" type="button" id="gravity-up" data-direction="up" aria-label="向上重力" aria-pressed="false" title="向上重力"><i data-lucide="arrow-up" aria-hidden="true"></i></button>
+            <button class="icon-button" type="button" id="gravity-down" data-direction="down" aria-label="向下重力" aria-pressed="true" title="向下重力"><i data-lucide="arrow-down" aria-hidden="true"></i></button>
+            <button class="icon-button" type="button" id="gravity-right" data-direction="right" aria-label="向右重力" aria-pressed="false" title="向右重力"><i data-lucide="arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="tools">
+          <button class="icon-button" type="button" id="pause" aria-label="暂停" aria-pressed="false" title="暂停"><i data-lucide="pause" aria-hidden="true"></i></button>
+          <button class="icon-button" type="button" id="reset" aria-label="重置实验" title="重置实验"><i data-lucide="rotate-ccw" aria-hidden="true"></i></button>
+        </div>
+        <div class="palette" aria-hidden="true"><span class="swatch"></span><span class="swatch"></span><span class="swatch"></span></div>
+      </aside>
+      <div class="scene-column">
+        <div class="scene">
+          <div class="dimension" aria-hidden="true">1000</div>
+          <div class="arena">
+            <canvas id="world" width="1000" height="760" tabindex="0" role="application" aria-label="重力游乐盒画布，按回车或空格添加一个球"></canvas>
+            <p id="notice" role="status" aria-live="polite"></p>
+          </div>
+          <div class="scene-footer"><span>1000 × 760</span><span class="vector"><span id="direction-icon" aria-hidden="true"><i data-lucide="arrow-down"></i></span><span id="direction-text">Y + / DOWN</span></span><span id="body-total">12 BODIES</span></div>
+        </div>
+      </div>
+    </section>
+    <footer class="bottom-line"><strong>GRAVITY / PLAY BOX</strong><span>EXPERIMENT 03</span></footer>
+    <div id="announcement" class="sr-only" aria-live="polite"></div>
+  </main>
+  <script src="assets/matter.min.js"></script>
+  <script src="assets/lucide.min.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const canvas = document.getElementById('world');
+      const ctx = canvas.getContext('2d');
+      const countEl = document.getElementById('count');
+      const pauseButton = document.getElementById('pause');
+      const notice = document.getElementById('notice');
+      const announcement = document.getElementById('announcement');
+      const directionButtons = Array.from(document.querySelectorAll('[data-direction]'));
+      const refreshIcons = () => {
+        if (window.lucide) window.lucide.createIcons({ attrs: { 'aria-hidden': 'true' } });
+      };
+      refreshIcons();
+      if (!window.Matter || !ctx) {
+        document.getElementById('status').textContent = '资源未就绪';
+        notice.textContent = !window.Matter ? '缺少本地 Matter.js 资源' : '画布不可用';
+        document.querySelectorAll('button').forEach(button => { button.disabled = true; });
+        return;
+      }
+      const { Engine, Bodies, Body, Composite, Query } = Matter;
+      const WIDTH = 1000;
+      const HEIGHT = 760;
+      const MAX_BALLS = 40;
+      const STEP = 1000 / 120;
+      const MAX_SPEED = 14;
+      const COLORS = ['#f14c3f', '#f6d548', '#326cf1'];
+      const directions = {
+        down: { x: 0, y: 1, icon: 'arrow-down', text: 'Y + / DOWN' },
+        up: { x: 0, y: -1, icon: 'arrow-up', text: 'Y - / UP' },
+        left: { x: -1, y: 0, icon: 'arrow-left', text: 'X - / LEFT' },
+        right: { x: 1, y: 0, icon: 'arrow-right', text: 'X + / RIGHT' }
+      };
+      const engine = Engine.create({ enableSleeping: true, positionIterations: 8, velocityIterations: 8 });
+      engine.gravity.scale = 0.001;
+      let balls = [];
+      let bumpers = [];
+      let walls = [];
+      let paused = false;
+      let direction = 'down';
+      let frame = 0;
+      let nextId = 1;
+      let raf = 0;
+      let previousTime = null;
+      let accumulator = 0;
+      let noticeTimer = 0;
+      let pointer = null;
+      let keyboardCursor = { x: 500, y: 110 };
+
+      function updateCount() {
+        countEl.value = String(balls.length).padStart(2, '0');
+        document.getElementById('body-total').textContent = balls.length + ' BODIES';
+      }
+
+      function showNotice(message) {
+        clearTimeout(noticeTimer);
+        notice.textContent = message;
+        noticeTimer = window.setTimeout(() => { notice.textContent = ''; }, 2000);
+      }
+
+      function setDirection(value) {
+        direction = value;
+        const vector = directions[value];
+        engine.gravity.x = vector.x;
+        engine.gravity.y = vector.y;
+        balls.forEach(ball => Matter.Sleeping.set(ball, false));
+        directionButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.direction === value)));
+        document.getElementById('direction-text').textContent = vector.text;
+        document.getElementById('direction-icon').innerHTML = '<i data-lucide="' + vector.icon + '" aria-hidden="true"></i>';
+        refreshIcons();
+      }
+
+      function updatePause() {
+        pauseButton.setAttribute('aria-pressed', String(paused));
+        pauseButton.setAttribute('aria-label', paused ? '继续' : '暂停');
+        pauseButton.title = paused ? '继续' : '暂停';
+        pauseButton.innerHTML = '<i data-lucide="' + (paused ? 'play' : 'pause') + '" aria-hidden="true"></i>';
+        document.getElementById('status').textContent = paused ? '已暂停' : '运行中';
+        document.body.dataset.paused = String(paused);
+        refreshIcons();
+      }
+
+      function makeBall(x, y, radius) {
+        const id = nextId++;
+        const ball = Bodies.circle(x, y, radius, {
+          restitution: 0.66, friction: 0.075, frictionStatic: 0.16,
+          frictionAir: 0.003, density: 0.0015, slop: 0.025,
+          label: 'Ball ' + id, plugin: { labId: id, color: COLORS[(id - 1) % COLORS.length] }
+        }, 32);
+        balls.push(ball);
+        Composite.add(engine.world, ball);
+        return ball;
+      }
+
+      function buildWorld() {
+        Composite.clear(engine.world, false);
+        Engine.clear(engine);
+        engine.timing.timestamp = 0;
+        balls = [];
+        nextId = 1;
+        walls = [
+          Bodies.rectangle(-50, HEIGHT / 2, 100, HEIGHT + 200, { isStatic: true, label: 'Left wall' }),
+          Bodies.rectangle(WIDTH + 50, HEIGHT / 2, 100, HEIGHT + 200, { isStatic: true, label: 'Right wall' }),
+          Bodies.rectangle(WIDTH / 2, -50, WIDTH + 200, 100, { isStatic: true, label: 'Top wall' }),
+          Bodies.rectangle(WIDTH / 2, HEIGHT + 50, WIDTH + 200, 100, { isStatic: true, label: 'Bottom wall' })
+        ];
+        bumpers = [
+          Bodies.rectangle(290, 310, 320, 20, { isStatic: true, angle: 0.29, label: 'Bumper A' }),
+          Bodies.rectangle(720, 445, 330, 20, { isStatic: true, angle: -0.32, label: 'Bumper B' }),
+          Bodies.rectangle(320, 604, 180, 20, { isStatic: true, angle: -0.34, label: 'Bumper C' })
+        ];
+        Composite.add(engine.world, [...walls, ...bumpers]);
+        const initial = [
+          [150, 80, 30], [332, 80, 26], [548, 78, 34], [824, 88, 28],
+          [215, 166, 28], [420, 173, 34], [645, 178, 25], [885, 208, 31],
+          [93, 330, 32], [507, 335, 29], [801, 358, 34], [349, 514, 30]
+        ];
+        initial.forEach(([x, y, radius]) => makeBall(x, y, radius));
+        frame = 0;
+        paused = false;
+        pointer = null;
+        keyboardCursor = { x: 500, y: 110 };
+        clearTimeout(noticeTimer);
+        notice.textContent = '';
+        setDirection('down');
+        updatePause();
+        updateCount();
+      }
+
+      // Circle/rectangle checks include a clearance, independent of Matter's polygon approximation.
+      function hasSpace(x, y, radius) {
+        const clearance = radius + 5;
+        if (x < clearance || x > WIDTH - clearance || y < clearance || y > HEIGHT - clearance) return false;
+        if (balls.some(ball => Math.hypot(ball.position.x - x, ball.position.y - y) < ball.circleRadius + clearance)) return false;
+        return bumpers.every(bumper => {
+          const dx = x - bumper.position.x;
+          const dy = y - bumper.position.y;
+          const c = Math.cos(bumper.angle);
+          const s = Math.sin(bumper.angle);
+          const localX = dx * c + dy * s;
+          const localY = -dx * s + dy * c;
+          const halfWidth = bumper.label === 'Bumper A' ? 160 : bumper.label === 'Bumper B' ? 165 : 90;
+          const distanceX = Math.max(Math.abs(localX) - halfWidth, 0);
+          const distanceY = Math.max(Math.abs(localY) - 10, 0);
+          return Math.hypot(distanceX, distanceY) >= clearance;
+        });
+      }
+
+      function addBall(x, y, fromKeyboard = false) {
+        if (balls.length >= MAX_BALLS) { showNotice('已达 40 个球'); return false; }
+        const radius = [28, 32, 25, 30][(nextId - 1) % 4];
+        if (fromKeyboard && !hasSpace(x, y, radius)) {
+          let available = null;
+          for (let py = 60; py < HEIGHT - 40 && !available; py += 65) {
+            for (let px = 60; px < WIDTH - 40; px += 65) {
+              if (hasSpace(px, py, radius)) { available = { x: px, y: py }; break; }
+            }
+          }
+          if (available) { x = available.x; y = available.y; }
+        }
+        if (!hasSpace(x, y, radius)) { showNotice('此处空间不足'); return false; }
+        makeBall(x, y, radius);
+        keyboardCursor = { x, y };
+        updateCount();
+        announcement.textContent = '当前 ' + balls.length + ' 个球';
+        draw();
+        return true;
+      }
+
+      function draw() {
+        const scaleX = canvas.width / WIDTH;
+        const scaleY = canvas.height / HEIGHT;
+        ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        ctx.fillStyle = '#fcfdf9';
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        ctx.fillStyle = '#d8ddd1';
+        ctx.beginPath();
+        for (let x = 25; x < WIDTH; x += 25) {
+          for (let y = 25; y < HEIGHT; y += 25) {
+            ctx.moveTo(x + 1.25, y);
+            ctx.arc(x, y, 1.25, 0, Math.PI * 2);
+          }
+        }
+        ctx.fill();
+        ctx.strokeStyle = '#adb3a5';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 100; x < WIDTH; x += 100) {
+          ctx.moveTo(x, 0); ctx.lineTo(x, 8);
+          ctx.moveTo(x, HEIGHT); ctx.lineTo(x, HEIGHT - 8);
+        }
+        for (let y = 100; y < HEIGHT; y += 100) {
+          ctx.moveTo(0, y); ctx.lineTo(8, y);
+          ctx.moveTo(WIDTH, y); ctx.lineTo(WIDTH - 8, y);
+        }
+        ctx.stroke();
+        bumpers.forEach(bumper => {
+          ctx.beginPath();
+          bumper.vertices.forEach((vertex, index) => {
+            if (index === 0) ctx.moveTo(vertex.x, vertex.y);
+            else ctx.lineTo(vertex.x, vertex.y);
+          });
+          ctx.closePath();
+          ctx.fillStyle = '#242621';
+          ctx.fill();
+          ctx.save();
+          ctx.translate(bumper.position.x, bumper.position.y);
+          ctx.rotate(bumper.angle);
+          const halfWidth = bumper.label === 'Bumper A' ? 160 : bumper.label === 'Bumper B' ? 165 : 90;
+          ctx.fillStyle = '#fcfdf9';
+          [-halfWidth + 13, halfWidth - 13].forEach(x => {
+            ctx.beginPath(); ctx.arc(x, 0, 2.5, 0, Math.PI * 2); ctx.fill();
+          });
+          ctx.restore();
+        });
+        balls.forEach(ball => {
+          ctx.save();
+          ctx.translate(ball.position.x, ball.position.y);
+          ctx.rotate(ball.angle);
+          ctx.beginPath();
+          ctx.arc(0, 0, ball.circleRadius, 0, Math.PI * 2);
+          ctx.fillStyle = ball.plugin.color;
+          ctx.fill();
+          ctx.strokeStyle = '#242621';
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+          ctx.fillStyle = ball.plugin.color === COLORS[1] ? '#242621' : '#ffffff';
+          ctx.font = '700 17px Consolas, monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(ball.plugin.labId).padStart(2, '0'), 0, 1);
+          ctx.restore();
+        });
+      }
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const width = Math.max(1, Math.round(rect.width * dpr));
+        const height = Math.max(1, Math.round(rect.height * dpr));
+        if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
+        draw();
+      }
+
+      function limitMotion(ball) {
+        const velocity = Body.getVelocity(ball);
+        const speed = Math.hypot(velocity.x, velocity.y);
+        if (speed > MAX_SPEED) Body.setVelocity(ball, { x: velocity.x * MAX_SPEED / speed, y: velocity.y * MAX_SPEED / speed });
+        const angularVelocity = Body.getAngularVelocity(ball);
+        if (Math.abs(angularVelocity) > 0.18) Body.setAngularVelocity(ball, Math.sign(angularVelocity) * 0.18);
+      }
+
+      // Fixed substeps and bounded travel keep thin bumpers reliable; thick walls remain in the world.
+      function step() {
+        balls.forEach(limitMotion);
+        Engine.update(engine, STEP);
+        balls.forEach(ball => {
+          limitMotion(ball);
+          const r = ball.circleRadius + 0.5;
+          const x = Math.max(r, Math.min(WIDTH - r, ball.position.x));
+          const y = Math.max(r, Math.min(HEIGHT - r, ball.position.y));
+          if (x !== ball.position.x || y !== ball.position.y) {
+            const velocity = Body.getVelocity(ball);
+            if (x !== ball.position.x) velocity.x = (x === r ? 1 : -1) * Math.abs(velocity.x) * 0.66;
+            if (y !== ball.position.y) velocity.y = (y === r ? 1 : -1) * Math.abs(velocity.y) * 0.66;
+            Body.setPosition(ball, { x, y });
+            Body.setVelocity(ball, velocity);
+          }
+        });
+        frame++;
+      }
+
+      function tick(now) {
+        raf = 0;
+        if (paused || document.hidden) { previousTime = null; accumulator = 0; return; }
+        if (previousTime !== null) accumulator += Math.min(Math.max(now - previousTime, 0), 50);
+        previousTime = now;
+        let steps = 0;
+        while (accumulator >= STEP && steps < 6) { step(); accumulator -= STEP; steps++; }
+        draw();
+        raf = requestAnimationFrame(tick);
+      }
+
+      function syncLoop() {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+        previousTime = null;
+        accumulator = 0;
+        if (!paused && !document.hidden) raf = requestAnimationFrame(tick);
+      }
+
+      function canvasPoint(event) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: (event.clientX - rect.left) / rect.width * WIDTH, y: (event.clientY - rect.top) / rect.height * HEIGHT };
+      }
+
+      canvas.addEventListener('pointerdown', event => {
+        if (event.button !== 0 || !event.isPrimary) { pointer = null; return; }
+        const point = canvasPoint(event);
+        const occupied = Query.point([...balls, ...bumpers], point).length > 0;
+        pointer = occupied ? null : { id: event.pointerId, clientX: event.clientX, clientY: event.clientY };
+        if (pointer) canvas.setPointerCapture(event.pointerId);
+      });
+      canvas.addEventListener('pointermove', event => {
+        if (pointer && event.pointerId === pointer.id && Math.hypot(event.clientX - pointer.clientX, event.clientY - pointer.clientY) > 9) pointer = null;
+      });
+      canvas.addEventListener('pointerup', event => {
+        const candidate = pointer;
+        pointer = null;
+        if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+        if (!candidate || candidate.id !== event.pointerId || !event.isPrimary) return;
+        if (Math.hypot(event.clientX - candidate.clientX, event.clientY - candidate.clientY) > 9) return;
+        const point = canvasPoint(event);
+        if (point.x < 0 || point.x > WIDTH || point.y < 0 || point.y > HEIGHT) return;
+        addBall(point.x, point.y);
+      });
+      canvas.addEventListener('pointercancel', () => { pointer = null; });
+      canvas.addEventListener('lostpointercapture', () => { pointer = null; });
+      canvas.addEventListener('keydown', event => {
+        if ((event.key === 'Enter' || event.key === ' ') && !event.repeat) {
+          event.preventDefault();
+          addBall(keyboardCursor.x, keyboardCursor.y, true);
+        }
+      });
+      directionButtons.forEach(button => button.addEventListener('click', () => {
+        setDirection(button.dataset.direction);
+        announcement.textContent = button.getAttribute('aria-label');
+      }));
+      pauseButton.addEventListener('click', () => {
+        paused = !paused;
+        updatePause();
+        syncLoop();
+        announcement.textContent = paused ? '已暂停' : '已继续';
+      });
+      document.getElementById('reset').addEventListener('click', () => {
+        buildWorld();
+        draw();
+        syncLoop();
+        announcement.textContent = '已重置，12 个球，向下重力';
+      });
+      document.addEventListener('visibilitychange', () => { pointer = null; syncLoop(); });
+      window.addEventListener('pagehide', () => { if (raf) cancelAnimationFrame(raf); raf = 0; pointer = null; });
+      window.addEventListener('pageshow', syncLoop);
+      window.addEventListener('blur', () => { pointer = null; });
+      window.addEventListener('resize', resizeCanvas);
+      new ResizeObserver(resizeCanvas).observe(canvas);
+
+      window.labState = Object.freeze({
+        get count() { return balls.length; },
+        get paused() { return paused; },
+        get direction() { return direction; },
+        get frame() { return frame; },
+        get bodies() {
+          return balls.map(ball => ({
+            id: ball.plugin.labId, matterId: ball.id,
+            x: ball.position.x, y: ball.position.y,
+            position: { x: ball.position.x, y: ball.position.y },
+            velocity: { ...Body.getVelocity(ball) },
+            radius: ball.circleRadius, angle: ball.angle, isSleeping: ball.isSleeping
+          }));
+        },
+        get bounds() { return { width: WIDTH, height: HEIGHT }; },
+        get wallCount() { return walls.length; },
+        get bumperCount() { return bumpers.length; },
+        get maxCount() { return MAX_BALLS; }
+      });
+      buildWorld();
+      resizeCanvas();
+      syncLoop();
+    })();
+  </script>
+</body>
+</html>

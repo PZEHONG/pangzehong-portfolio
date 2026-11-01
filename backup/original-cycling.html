@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0e14">
+<title>骑行专列 · GPT-6 作品集</title>
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#12161f; --panel2:#171c28; --ink:#e8ecf4;
+    --muted:#8b94a7; --line:rgba(255,255,255,.08); --accent:#7aa2ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased}
+  body{min-height:100vh;background:
+    radial-gradient(900px 500px at 85% -10%,rgba(122,162,255,.14),transparent 60%),
+    radial-gradient(800px 500px at -10% 20%,rgba(122,162,255,.08),transparent 55%),
+    var(--bg)}
+  .wrap{max-width:1120px;margin:0 auto;padding:56px 22px 90px}
+  header{margin-bottom:44px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--accent);border:1px solid rgba(122,162,255,.3);
+    padding:5px 12px;border-radius:999px;background:rgba(122,162,255,.07)}
+  h1{margin:16px 0 10px;font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:15px;line-height:1.7;max-width:620px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+  .card{position:relative;display:flex;flex-direction:column;min-height:230px;
+    background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);
+    border-radius:18px;padding:22px;overflow:hidden;
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .card:hover{transform:translateY(-3px);border-color:rgba(122,162,255,.4);
+    box-shadow:0 16px 40px rgba(0,0,0,.45)}
+  .card::after{content:"";position:absolute;inset:auto -30% -45% auto;width:75%;height:75%;
+    background:var(--glow);filter:blur(46px);opacity:.5;pointer-events:none}
+  .card>*{position:relative;z-index:1}
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .num{font-size:12px;letter-spacing:.16em;color:var(--muted)}
+  .tag{font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);
+    background:rgba(255,255,255,.03)}
+  .ico{font-size:40px;line-height:1;margin:12px 0 12px}
+  h2{font-size:18px;font-weight:700;margin-bottom:6px}
+  .card p.desc{color:var(--muted);font-size:13.5px;line-height:1.6}
+  .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  a.open,.prompt-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:8px 14px;
+    border-radius:999px;cursor:pointer;text-decoration:none;border:1px solid var(--line);
+    background:rgba(255,255,255,.04);color:var(--ink);transition:background .2s,border-color .2s}
+  a.open{color:var(--accent);border-color:rgba(122,162,255,.35)}
+  a.open:hover{background:rgba(122,162,255,.12)}
+  .prompt-btn:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.08)}
+  .prompt-box{display:none;margin-top:14px;padding:14px;border-radius:12px;
+    background:rgba(0,0,0,.35);border:1px solid var(--line);
+    font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:12px;line-height:1.7;
+    color:#c9d2e2;white-space:pre-wrap;word-break:break-word;max-height:300px;overflow:auto}
+  .prompt-box.open{display:block}
+  .prow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .prow .phead{color:var(--muted);font-size:11px;letter-spacing:.1em}
+  .copy-btn{flex-shrink:0;font-size:12px;padding:4px 12px;border-radius:999px;cursor:pointer;
+    border:1px solid rgba(122,162,255,.4);background:rgba(122,162,255,.1);color:var(--accent);
+    font-family:inherit;transition:background .2s,border-color .2s}
+  .copy-btn:hover{background:rgba(122,162,255,.22)}
+  .copy-btn.done{border-color:rgba(93,211,190,.5);background:rgba(93,211,190,.14);color:#5dd3be}
+  footer{margin-top:44px;color:var(--muted);font-size:12.5px;opacity:.75}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">🚴 骑行专列</span>
+    <h1>骑行专列</h1>
+    <p class="sub">骑行主题合集——鹈鹕、派大星、青蛙、河马、茶壶……一辆辆蹬过去。<a href="index.html" style="color:var(--accent);text-decoration:none">← 返回全部作品</a></p>
+  </header>
+  <main class="grid" id="works"></main>
+  <footer>共 <span id="count">0</span> 件骑行作品 · <a href="index.html" style="color:inherit">返回全部作品</a></footer>
+</div>
+<script>
+function legacyCopy(text) {
+  var ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand("copy"); } catch (e) {}
+  document.body.removeChild(ta);
+}
+function copyPrompt(text, btn) {
+  var done = function () {
+    btn.textContent = "已复制 ✓";
+    btn.classList.add("done");
+    setTimeout(function () { btn.textContent = "一键复制"; btn.classList.remove("done"); }, 1600);
+  };
+  var fallbackTimer = setTimeout(function () { legacyCopy(text); done(); }, 1200);
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(function () {
+      clearTimeout(fallbackTimer);
+      done();
+    }).catch(function () {
+      clearTimeout(fallbackTimer);
+      legacyCopy(text);
+      done();
+    });
+  } else {
+    clearTimeout(fallbackTimer);
+    legacyCopy(text);
+    done();
+  }
+}
+var works = [
+  {
+    url: "../pelican-bicycle-3d.html",
+    ico: "🚲",
+    title: "鹈鹕，立体兜风",
+    desc: "一只骑 3D 自行车兜风的立体鹈鹕小动画",
+    glow: "rgba(93,211,190,.5)",
+    tag: "3D / 动画",
+    prompt: `画一个鹈鹕骑自行车。SVG动画。HTML放到桌面。做一个3D的版本。`
+  },
+  {
+    url: "../pelican-bicycle.html",
+    ico: "🎈",
+    title: "鹈鹕，去兜风",
+    desc: "一只鹈鹕骑上自行车去兜风",
+    glow: "rgba(255,150,190,.5)",
+    tag: "动画 / 插画",
+    prompt: `画一个鹈鹕骑自行车。SVG动画。HTML放到桌面。`
+  },
+  {
+    url: "../patrick-bicycle-3d.html",
+    ico: "⭐",
+    title: "派大星骑自行车",
+    desc: "低多边形 3D——派大星蹬车兜风，今天也要快乐",
+    glow: "rgba(255,150,180,.5)",
+    tag: "3D / 趣味",
+    prompt: `创建一个 HTML，内容是 SVG 绘制一个派大星骑自行车的 2D 动画。别参考本地已有文件。`
+  },
+  {
+    url: "../patrick-cycling.html",
+    ico: "🚴",
+    title: "派大星 · 骑行动画",
+    desc: "重建的 3D 骑行动画——双腿交替蹬踏、车轮持续转动，可拖动旋转、滚轮缩放",
+    glow: "rgba(120,220,190,.5)",
+    tag: "3D / 动画",
+    prompt: `帮我生成一个派大星骑自行车的图。用员工的那个生图进行生成。`
+  },
+  {
+    url: "../frog-ride.html",
+    ico: "🐸",
+    title: "呱呱骑行 · 一起去兜风",
+    desc: "青蛙蹬着黄自行车环湖兜风——调速、跳跃、抬轮，含荷叶挑战与昼夜场景",
+    glow: "rgba(140,200,110,.5)",
+    tag: "SVG / 游戏",
+    prompt: `https://codexradar.com/cup/play/95a7082e80eb4d496f53e81c600055f790d8d215f64f858b6da38f3e590ce0ac
+做一个类似的游戏。哦，他的车子可以变速，做成 HTML 文件放在桌面。`
+  },
+  {
+    url: "../cyberpunk-pelican-bike.html",
+    ico: "🌃",
+    title: "赛博鹈鹕夜骑 · Neon Migration",
+    desc: "2088 霓虹夜色——戴护目镜的鹈鹕骑着发光自行车穿过蓝紫街道",
+    glow: "rgba(120,140,255,.55)",
+    tag: "SVG / 动画",
+    prompt: `画一个鹈鹕骑自行车 SVG HTML 文件，我要那种科幻风格的，就赛博朋克。嗯，画好了放在桌面。`
+  },
+  {
+    url: "../pelican-slow-ride.html",
+    ico: "🌊",
+    title: "鹈鹕骑自行车 · 海风慢行",
+    desc: "奶白鹈鹕系珊瑚红围巾、骑薄荷绿自行车沿海边慢行——车轮转动、蹼足交替、围巾随风",
+    glow: "rgba(120,205,225,.5)",
+    tag: "SVG / 动画",
+    prompt: `画一个鹈鹕骑自行车 SVG HTML 文件，放到桌面，不要参考本地文件。一次性生成。`
+  },
+  {
+    url: "../pelican-express.html",
+    ico: "🛵",
+    title: "鹈鹕快送 · Pelican Express",
+    desc: "2097 雨夜霓虹——戴发光护目镜的鹈鹕骑着未来感自行车穿过雨幕",
+    glow: "rgba(180,120,255,.5)",
+    tag: "SVG / 动画",
+    prompt: `画一个鹈鹕骑自行车 SVG HTML 文件，我要那种科幻风格的，就赛博朋克。嗯，画好了放在桌面。`
+  },
+  {
+    url: "../pelican-neon-coast.html",
+    ico: "🌌",
+    title: "鹈鹕夜骑 · 霓虹海岸",
+    desc: "《海风慢行》的赛博朋克版——霓虹围巾、青紫色赛博自行车，穿过全息月亮与电子雨的海岸夜色",
+    glow: "rgba(150,120,255,.55)",
+    tag: "SVG / 动画",
+    prompt: `画一个鹈鹕骑自行车 SVG HTML 文件 放到桌面，不要参考本地文件。一次性生成。
+
+（注：本件是同一条会话里接着改造出的赛博朋克霓虹风格版，与白天的《海风慢行》为两件不同作品）`
+  },
+  {
+    url: "../teapot-cycling.html",
+    ico: "🫖",
+    title: "小壶的兜风日 · 茶壶骑行",
+    desc: "圆滚滚的绿茶壶戴着橘色围巾蹬车兜风——车轮转动、壶盖轻颤，茶香随田野微风飘过",
+    glow: "rgba(120,205,160,.5)",
+    tag: "SVG / 动画"
+  },
+  {
+    url: "../frog-pond-ride.html",
+    ico: "🪷",
+    title: "池塘放风日 · 青蛙骑行",
+    desc: "戴荷叶小帽的绿青蛙骑着珊瑚色自行车经过蓝色池塘——车篮装着小花，可切三档骑行速度",
+    glow: "rgba(120,190,230,.5)",
+    tag: "SVG / 动画"
+  },
+  {
+    url: "../hippo-cycling.html",
+    ico: "🦛",
+    title: "河马的单车小旅行",
+    desc: "戴珊瑚色头盔的紫灰色河马骑着黄色自行车——野花小路、花篮轻晃，白云与绿色山丘缓缓掠过",
+    glow: "rgba(170,140,220,.5)",
+    tag: "SVG / 动画",
+    prompt: `创建一个 HTML，内容是 SVG，绘制一个河马骑自行车的 2D 动画。不要参考本地文件。`
+  },
+  {
+    url: "../pelican-seaside.html",
+    ico: "⛵",
+    title: "鹈鹕骑自行车 · 海风正好",
+    desc: "奶白鹈鹕围着红围巾、骑珊瑚红自行车沿海岸兜风——链条绕牙盘与飞轮转动带动车轮，围巾迎风飘起，远处是灯塔、帆船与海鸥",
+    glow: "rgba(120,200,220,.5)",
+    tag: "SVG / 动画",
+    prompt: `画一个鹈鹕骑自行车，SVG动画生成HTML文件放到桌面`
+  },
+  {
+    url: "../pelican-countryside.html",
+    ico: "🌾",
+    title: "鹈鹕骑自行车 · 乡间小路",
+    desc: "一只鹈鹕踩着自行车穿过晴朗的乡间道路",
+    glow: "rgba(150,210,140,.5)",
+    tag: "SVG / 动画"
+  },
+  {
+    url: "../pelican-day-out.html",
+    ico: "🔔",
+    title: "鹈鹕，兜风去。",
+    desc: "白色鹈鹕沿海边骑行——双脚交替踩踏、围巾迎风，可暂停、调速、按铃",
+    glow: "rgba(255,180,150,.5)",
+    tag: "SVG / 动画"
+  },
+  {
+    url: "../pelican-sea-breeze.html",
+    ico: "🐚",
+    title: "海风漫游 · 鹈鹕骑自行车",
+    desc: "戴珊瑚红小帽的白鹈鹕踩薄荷绿自行车沿海岸漫游——车轮转动、围巾飘扬",
+    glow: "rgba(130,200,220,.5)",
+    tag: "SVG / 动画"
+  },
+  {
+    url: "../pelican-seaside-loop.html",
+    ico: "🧭",
+    title: "鹈鹕的海风小旅行",
+    desc: "戴珊瑚色头盔的白色鹈鹕骑蓝绿色自行车沿海边小旅行——蹼足踩踏、海风吹过羽毛",
+    glow: "rgba(120,190,180,.5)",
+    tag: "SVG / 动画"
+  },
+  {
+    url: "../pelican-daynight.html",
+    ico: "🌗",
+    title: "鹈鹕骑行记 · 昼夜版",
+    desc: "Canvas 绘制的海岸骑行长镜头：戴头盔系黄围巾的鹈鹕踩复古海滩车沿海岸公路前进，从黄昏经星月夜到黎明白天自动循环，含速度/时间/昼夜开关与叮铃气泡",
+    glow: "rgba(255,160,120,.5)",
+    tag: "Canvas / 动画",
+    prompt: `请制作一个可以直接在浏览器中打开运行的单文件 HTML Canvas 互动动画，主题为《鹈鹕骑行记 · 昼夜版》。
+
+画面主体是一只戴头盔、系黄色围巾的可爱鹈鹕，骑着复古海滩自行车沿海岸公路持续前进。鹈鹕需要有清晰的大嘴、翅膀、身体、尾羽、双腿、脚踏板和车轮动作，翅膀握住车把，双腿配合脚踏板运动，围巾和羽毛随骑行速度摆动，身体随着路面产生轻微上下起伏。
+
+场景采用 16:9 横向构图，包含海岸公路、海面、远处岛屿、云层、帆船、护栏、路灯和角色投影。前景、中景、背景使用不同速度形成视差，让画面有持续向前骑行的感觉。
+
+动画需要自动表现完整的昼夜变化：从黄昏开始，经过日落、星空、月夜，再进入黎明和白天，最后循环播放。太阳和月亮沿天空轨迹移动，天空、海面、云层、远处景物和角色颜色需要随时间连续渐变。黄昏使用橙红和粉紫色，夜晚使用深蓝和靛青色，白天使用明亮蓝色和暖白色。
+
+白天加入海鸥和蝴蝶，夜晚加入星星、流星、萤火虫、月光、路灯和自行车车灯。自行车车灯要在夜晚照亮前方道路，角色需要有环境光、主光、轮廓光和投影。整体画面使用柔和泛光、轻微暗角和电影感色彩。
+
+页面底部提供简洁控制栏，包括：
+
+1. 暂停 / 继续按钮；
+2. 骑行速度滑块；
+3. 时间滑块；
+4. 昼夜自动循环开关。
+
+点击画布时播放轻微铃铛音，并在鹈鹕附近显示“叮铃\~ 🔔”气泡。按空格键可以暂停或继续动画。移动端支持触摸点击和响应式布局。
+
+技术要求：
+
+- 使用原生 HTML、CSS 和 JavaScript；
+- 使用 Canvas 2D 绘制全部角色和场景；
+- 不依赖外部图片、外部脚本或后端；
+- 使用 requestAnimationFrame 驱动动画；
+- 复杂角色使用离屏 Canvas 或缓存精灵绘制；
+- 根据 devicePixelRatio 适配高清屏；
+- 在性能不足时自动降低渲染分辨率；
+- 最终交付一个可直接双击打开的完整 HTML 文件。`
+  },
+  {
+    url: "../panda-cycling.html",
+    ico: "🐼",
+    title: "熊猫兜风记",
+    desc: "山野里两只戴头盔的熊猫骑着黄色与珊瑚红自行车兜风——车轮转动、双腿踩踏、花草缓缓后退，可暂停或骑快一点",
+    glow: "rgba(140,205,150,.5)",
+    tag: "SVG / 动画",
+    prompt: `？画两个熊猫骑自行车的SVG动画，要HTML文件，不要参考本地文件`
+  }
+
+];
+var host = document.getElementById("works");
+var frag = document.createDocumentFragment();
+works.forEach(function (w, i) {
+  var d = document.createElement("div");
+  d.className = "card";
+  d.style.setProperty("--glow", w.glow);
+  var html =
+    '<div class="top"><span class="num">' + String(i + 1).padStart(2, "0") + '</span><span class="tag">' + w.tag + '</span></div>' +
+    '<div class="ico">' + w.ico + '</div>' +
+    '<div><h2>' + w.title + '</h2><p class="desc">' + w.desc + '</p></div>' +
+    '<div class="actions"><a class="open" href="' + w.url + '" target="_blank" rel="noopener">打开作品 ↗</a>' +
+    (w.prompt ? '<button class="prompt-btn" type="button">📋 复刻提示词</button>' : '') + '</div>' +
+    (w.prompt ? '<div class="prompt-box"><div class="prow"><span class="phead">生成该作品的提示词</span><button class="copy-btn" type="button">一键复制</button></div><div class="ptext">' + w.prompt + '</div></div>' : '');
+  d.innerHTML = html;
+  var btn = d.querySelector(".prompt-btn");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      var box = d.querySelector(".prompt-box");
+      box.classList.toggle("open");
+      btn.textContent = box.classList.contains("open") ? "📋 收起提示词" : "📋 复刻提示词";
+    });
+  }
+  var copyBtn = d.querySelector(".copy-btn");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", function () {
+      copyPrompt(w.prompt || "", copyBtn);
+    });
+  }
+  frag.appendChild(d);
+});
+host.appendChild(frag);
+document.getElementById("count").textContent = works.length;
+</script>
+</body>
+</html>

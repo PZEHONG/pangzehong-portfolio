@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111217" />
+  <title>汉字田里奥 · 像素场</title>
+  <style>
+    :root {
+      --night: #111217;
+      --night-2: #1a1a20;
+      --paper: #f4e3b8;
+      --paper-2: #ffeec9;
+      --ink: #1c1a1e;
+      --ink-soft: #5b4f45;
+      --verm: #d84c39;
+      --mint: #9bd4b2;
+      --sun: #f4b83f;
+      --line: #2d2423;
+      --pixel: "Arial Black", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      color: var(--paper-2);
+      background:
+        radial-gradient(circle at 14% 18%, rgba(216,76,57,.18), transparent 26rem),
+        radial-gradient(circle at 86% 78%, rgba(155,212,178,.12), transparent 24rem),
+        var(--night);
+      font-family: var(--mono);
+      display: grid;
+      place-items: center;
+      padding: clamp(12px, 3vw, 32px);
+    }
+
+    button { font: inherit; }
+    .cabinet {
+      width: min(100%, 560px);
+      position: relative;
+      isolation: isolate;
+    }
+    .cabinet::before,
+    .cabinet::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      width: 56px;
+      height: 56px;
+      border: 1px solid rgba(244,227,184,.26);
+    }
+    .cabinet::before { top: -11px; left: -11px; border-right: 0; border-bottom: 0; }
+    .cabinet::after { right: -11px; bottom: -11px; border-left: 0; border-top: 0; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 12px 10px;
+      background: var(--night-2);
+      border: 1px solid rgba(244,227,184,.33);
+      border-bottom: 0;
+      letter-spacing: .02em;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .topbar__caption { color: #d4c3a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recording { display: inline-flex; align-items: center; gap: 6px; color: #f7d7cc; flex: 0 0 auto; }
+    .recording i { width: 8px; height: 8px; border-radius: 50%; background: var(--verm); box-shadow: 0 0 0 3px rgba(216,76,57,.18); }
+
+    .title-row {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 18px 16px;
+      background: var(--paper);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-bottom: 0;
+    }
+    .eyebrow { margin: 0 0 6px; font-size: 10px; letter-spacing: .17em; color: var(--verm); font-weight: 800; }
+    h1 { margin: 0; font-family: var(--pixel); font-size: clamp(27px, 8vw, 44px); line-height: .96; letter-spacing: -.08em; }
+    .title-row__note { max-width: 145px; color: var(--ink-soft); font-size: 10px; line-height: 1.5; text-align: right; }
+    .title-row__note b { color: var(--ink); font-size: 12px; }
+
+    .game-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--ink);
+      background: var(--paper);
+      box-shadow: 9px 9px 0 rgba(0,0,0,.25);
+    }
+    .game-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .16;
+      background-image: radial-gradient(rgba(28,26,30,.32) .7px, transparent .7px);
+      background-size: 5px 5px;
+      mix-blend-mode: multiply;
+    }
+    .hud {
+      position: absolute;
+      z-index: 2;
+      top: 13px;
+      left: 15px;
+      right: 15px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: start;
+      color: var(--ink);
+      pointer-events: none;
+    }
+    .hud__item { display: grid; gap: 3px; }
+    .hud__item:nth-child(2) { justify-items: center; }
+    .hud__item:last-child { justify-items: end; }
+    .hud__label { font-size: 9px; letter-spacing: .14em; color: var(--ink-soft); font-weight: 800; }
+    .hud__value { font-size: 17px; font-weight: 900; line-height: 1; }
+    .target { display: inline-flex; align-items: center; gap: 4px; font-family: var(--pixel); font-size: 19px; }
+    .target span { font-family: var(--mono); font-size: 9px; color: var(--verm); }
+    .progress { width: 64px; height: 6px; border: 1px solid var(--ink); background: rgba(255,255,255,.24); }
+    .progress i { display: block; width: 0%; height: 100%; background: var(--verm); transition: width .18s ease; }
+
+    canvas { display: block; width: 100%; height: auto; aspect-ratio: 9 / 13; image-rendering: pixelated; touch-action: none; }
+
+    .status-strip {
+      position: absolute;
+      z-index: 3;
+      left: 14px;
+      bottom: 14px;
+      right: 14px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+    .status-strip__left { display: grid; gap: 5px; }
+    .status-strip__hint { font-size: 9px; color: var(--ink-soft); background: rgba(244,227,184,.86); padding: 3px 5px; border-left: 3px solid var(--verm); }
+    .lives { display: flex; gap: 4px; }
+    .life { width: 10px; height: 10px; background: var(--verm); box-shadow: 2px 2px 0 var(--ink); }
+    .life.is-off { background: rgba(28,26,30,.22); box-shadow: none; }
+    .shoot-tag { display: grid; justify-items: center; gap: 2px; color: var(--ink); }
+    .shoot-tag__glyph { display: grid; place-items: center; width: 38px; height: 38px; color: var(--paper-2); background: var(--ink); font-family: var(--pixel); font-size: 20px; box-shadow: 4px 4px 0 var(--verm); }
+    .shoot-tag small { font-size: 8px; font-weight: 800; color: var(--ink-soft); }
+
+    .overlay {
+      position: absolute;
+      z-index: 4;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      background: rgba(244,227,184,.9);
+      color: var(--ink);
+      text-align: center;
+    }
+    .overlay[hidden] { display: none; }
+    .overlay__box { width: min(100%, 300px); }
+    .overlay__stamp { display: inline-block; padding: 6px 8px; border: 2px solid var(--verm); color: var(--verm); font-weight: 900; font-size: 11px; transform: rotate(-3deg); }
+    .overlay h2 { margin: 14px 0 8px; font-family: var(--pixel); font-size: clamp(30px, 9vw, 48px); line-height: .95; letter-spacing: -.08em; }
+    .overlay p { margin: 0 auto 18px; max-width: 250px; color: var(--ink-soft); font-size: 11px; line-height: 1.65; }
+    .primary-btn, .pause-btn {
+      border: 2px solid var(--ink);
+      color: var(--paper-2);
+      background: var(--ink);
+      padding: 12px 18px;
+      min-height: 44px;
+      cursor: pointer;
+      font-weight: 900;
+      letter-spacing: .04em;
+      box-shadow: 4px 4px 0 var(--verm);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .primary-btn:hover, .primary-btn:focus-visible, .pause-btn:hover, .pause-btn:focus-visible { background: #342c2b; }
+    .primary-btn:active, .pause-btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--verm); }
+    .pause-btn { position: absolute; right: 12px; top: 12px; z-index: 5; padding: 6px 8px; min-height: 0; border-width: 1px; box-shadow: 2px 2px 0 var(--verm); font-size: 10px; pointer-events: auto; }
+    .pause-btn[hidden] { display: none; }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      padding: 12px 12px 10px;
+      background: var(--night-2);
+      border: 1px solid rgba(244,227,184,.33);
+      border-top: 0;
+    }
+    .control-cluster { display: flex; gap: 8px; }
+    .control-cluster:last-child { justify-content: flex-end; }
+    .control-btn {
+      min-width: 48px;
+      min-height: 44px;
+      border: 1px solid rgba(244,227,184,.45);
+      background: #222229;
+      color: var(--paper-2);
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 12px;
+      box-shadow: 3px 3px 0 rgba(216,76,57,.65);
+      touch-action: manipulation;
+      user-select: none;
+    }
+    .control-btn:hover, .control-btn:focus-visible { background: #332d2e; border-color: var(--paper-2); }
+    .control-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(216,76,57,.65); }
+    .control-btn--jump { color: var(--mint); }
+    .control-btn--fire { color: var(--sun); min-width: 66px; }
+    .controls__legend { align-self: center; color: #a89d86; font-size: 9px; text-align: center; line-height: 1.45; }
+    .controls__legend b { display: block; color: var(--paper-2); letter-spacing: .08em; }
+
+    .footer-note { display: flex; justify-content: space-between; gap: 12px; padding: 12px 2px 0; color: #847c6f; font-size: 9px; line-height: 1.5; }
+    .footer-note b { color: #c2b594; }
+
+    :focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+    @media (max-width: 430px) {
+      body { padding: 8px; }
+      .cabinet::before, .cabinet::after { display: none; }
+      .title-row { padding: 16px 13px 13px; }
+      .title-row__note { max-width: 120px; font-size: 9px; }
+      .controls { gap: 6px; padding-left: 8px; padding-right: 8px; }
+      .control-btn { min-width: 42px; }
+      .control-btn--fire { min-width: 58px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="cabinet" aria-label="汉字田里奥像素游戏">
+    <header class="topbar">
+      <div class="topbar__caption">哎？我的投币键呢？ · 你的灵感真是永不枯竭 😄👍</div>
+      <div class="recording"><i aria-hidden="true"></i><span>REC 00:03</span></div>
+    </header>
+    <section class="title-row">
+      <div>
+        <p class="eyebrow">文字游戏 / 汉字像素 / 01</p>
+        <h1>田里奥<br><span>像素场</span></h1>
+      </div>
+      <p class="title-row__note"><b>田 → 电</b><br>把掉下来的字块<br>弹成你的下一笔。</p>
+    </section>
+
+    <section class="game-card" aria-label="游戏画布">
+      <div class="hud" aria-live="polite">
+        <div class="hud__item"><span class="hud__label">分数</span><strong id="score" class="hud__value">0000</strong></div>
+        <div class="hud__item"><span class="hud__label">目标</span><strong class="target"><span>田</span>→<span>电</span></strong></div>
+        <div class="hud__item"><span class="hud__label">剩余</span><strong id="time" class="hud__value">45</strong><div class="progress"><i id="progress"></i></div></div>
+      </div>
+      <canvas id="game" width="450" height="650" aria-label="汉字像素游戏区域"></canvas>
+      <div class="status-strip" aria-hidden="true">
+        <div class="status-strip__left">
+          <div id="hint" class="status-strip__hint">方向键移动 · 空格跳跃 · Z 发射</div>
+          <div id="lives" class="lives"><i class="life"></i><i class="life"></i><i class="life"></i></div>
+        </div>
+        <div class="shoot-tag"><span class="shoot-tag__glyph">弹</span><small>INK SHOT</small></div>
+      </div>
+      <button id="pauseBtn" class="pause-btn" type="button" hidden>暂停</button>
+      <div id="startOverlay" class="overlay">
+        <div class="overlay__box">
+          <span class="overlay__stamp">INSERT HANZI</span>
+          <h2>开始<br>造字</h2>
+          <p>移动你的墨点，跳过“田”字块。按下弹，把它们击成“电”。完成 8 次就过关。</p>
+          <button id="startBtn" class="primary-btn" type="button">投币开始 ↗</button>
+        </div>
+      </div>
+      <div id="endOverlay" class="overlay" hidden>
+        <div class="overlay__box">
+          <span id="endStamp" class="overlay__stamp">ROUND COMPLETE</span>
+          <h2 id="endTitle">造字成功</h2>
+          <p id="endCopy">你的墨线很稳，下一关继续把字拆开。</p>
+          <button id="restartBtn" class="primary-btn" type="button">再来一局 ↗</button>
+        </div>
+      </div>
+    </section>
+
+    <nav class="controls" aria-label="游戏控制">
+      <div class="control-cluster">
+        <button class="control-btn" type="button" data-control="left" aria-label="向左移动">←</button>
+        <button class="control-btn" type="button" data-control="right" aria-label="向右移动">→</button>
+      </div>
+      <div class="controls__legend"><b>方向 / 动作</b>键盘或触屏均可</div>
+      <div class="control-cluster">
+        <button class="control-btn control-btn--jump" type="button" data-control="jump" aria-label="跳跃">跳</button>
+        <button class="control-btn control-btn--fire" type="button" data-control="fire" aria-label="发射墨弹">弹 · Z</button>
+      </div>
+    </nav>
+    <div class="footer-note"><span><b>提示：</b>连续击中会增加连字倍率。</span><span>键盘：← → / Space / Z</span></div>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+      const canvas = document.getElementById('game');
+      const ctx = canvas.getContext('2d');
+      const $ = (id) => document.getElementById(id);
+      const scoreEl = $('score');
+      const timeEl = $('time');
+      const progressEl = $('progress');
+      const hintEl = $('hint');
+      const livesEl = $('lives');
+      const startOverlay = $('startOverlay');
+      const endOverlay = $('endOverlay');
+      const endStamp = $('endStamp');
+      const endTitle = $('endTitle');
+      const endCopy = $('endCopy');
+      const startBtn = $('startBtn');
+      const restartBtn = $('restartBtn');
+      const pauseBtn = $('pauseBtn');
+
+      const W = canvas.width;
+      const H = canvas.height;
+      const colors = { paper: '#f4e3b8', paper2: '#ffeec9', ink: '#1c1a1e', verm: '#d84c39', mint: '#9bd4b2', sun: '#f4b83f', grey: '#85786b' };
+      const keys = { left: false, right: false };
+      const state = {
+        running: false,
+        paused: false,
+        ended: false,
+        last: 0,
+        elapsed: 0,
+        score: 0,
+        lives: 3,
+        converted: 0,
+        streak: 0,
+        spawnTimer: 0,
+        shake: 0,
+        player: null,
+        blocks: [],
+        shots: [],
+        sparks: [],
+        particles: []
+      };
+
+      function resetState() {
+        state.running = true;
+        state.paused = false;
+        state.ended = false;
+        state.last = performance.now();
+        state.elapsed = 0;
+        state.score = 0;
+        state.lives = 3;
+        state.converted = 0;
+        state.streak = 0;
+        state.spawnTimer = 0;
+        state.shake = 0;
+        state.player = { x: W / 2 - 12, y: H - 108, w: 24, h: 24, vx: 0, vy: 0, grounded: true, invuln: 0 };
+        state.blocks = [];
+        state.shots = [];
+        state.sparks = [];
+        state.particles = [];
+        for (let i = 0; i < 4; i++) spawnBlock(85 + i * 98, -70 - i * 106, i % 2 ? '申' : '田');
+        updateHud();
+      }
+
+      function spawnBlock(x = 40 + Math.random() * (W - 88), y = -58, glyph = '田') {
+        state.blocks.push({ x, y, w: 54, h: 54, vy: 36 + Math.random() * 28, rot: (Math.random() - .5) * .03, glyph, hit: false, sway: Math.random() * Math.PI * 2 });
+      }
+
+      function addSpark(x, y, count = 8, color = colors.sun) {
+        for (let i = 0; i < count; i++) {
+          const a = Math.random() * Math.PI * 2;
+          const s = 24 + Math.random() * 86;
+          state.particles.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: .4 + Math.random() * .45, max: .9, color, size: 2 + Math.random() * 3 });
+        }
+      }
+
+      function beep(kind = 'tap') {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const audio = beep.audio || (beep.audio = new AudioCtx());
+          const osc = audio.createOscillator();
+          const gain = audio.createGain();
+          const values = { tap: [250, .04], jump: [420, .08], fire: [180, .06], hit: [620, .1], hurt: [90, .16], win: [760, .18] };
+          const [freq, duration] = values[kind] || values.tap;
+          osc.type = kind === 'hit' || kind === 'win' ? 'square' : 'triangle';
+          osc.frequency.setValueAtTime(freq, audio.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(freq * .65, audio.currentTime + duration);
+          gain.gain.setValueAtTime(.0001, audio.currentTime);
+          gain.gain.exponentialRampToValueAtTime(.07, audio.currentTime + .008);
+          gain.gain.exponentialRampToValueAtTime(.0001, audio.currentTime + duration);
+          osc.connect(gain).connect(audio.destination);
+          osc.start();
+          osc.stop(audio.currentTime + duration + .02);
+        } catch (_) {}
+      }
+
+      function startGame() {
+        resetState();
+        startOverlay.hidden = true;
+        endOverlay.hidden = true;
+        pauseBtn.hidden = false;
+        pauseBtn.textContent = '暂停';
+        hintEl.textContent = '方向键移动 · 空格跳跃 · Z 发射';
+        beep('tap');
+        requestAnimationFrame(loop);
+      }
+
+      function endGame(won) {
+        state.running = false;
+        state.ended = true;
+        pauseBtn.hidden = true;
+        endOverlay.hidden = false;
+        endStamp.textContent = won ? 'ROUND COMPLETE' : 'TRY AGAIN';
+        endTitle.textContent = won ? '造字成功' : '墨点散开了';
+        endCopy.textContent = won ? `你把 ${state.converted} 个“田”击成了“电”。最终得分 ${String(state.score).padStart(4, '0')}。` : `还差一点。已完成 ${state.converted}/8 次转换，再试一次把连字倍率打起来。`;
+        hintEl.textContent = won ? '汉字已写完 · 按按钮再来一局' : '别停在原地 · 再试一次';
+        if (won) beep('win');
+      }
+
+      function togglePause() {
+        if (!state.running || state.ended) return;
+        state.paused = !state.paused;
+        pauseBtn.textContent = state.paused ? '继续' : '暂停';
+        hintEl.textContent = state.paused ? '游戏暂停 · 点击继续回到像素场' : '方向键移动 · 空格跳跃 · Z 发射';
+        if (!state.paused) { state.last = performance.now(); requestAnimationFrame(loop); }
+      }
+
+      function movePlayer(dt) {
+        const p = state.player;
+        const accel = 930;
+        if (keys.left) p.vx -= accel * dt;
+        if (keys.right) p.vx += accel * dt;
+        if (!keys.left && !keys.right) p.vx *= Math.pow(.002, dt);
+        p.vx = Math.max(-220, Math.min(220, p.vx));
+        p.x += p.vx * dt;
+        if (p.x < 18) { p.x = 18; p.vx = 0; }
+        if (p.x > W - p.w - 18) { p.x = W - p.w - 18; p.vx = 0; }
+        p.vy += 820 * dt;
+        p.y += p.vy * dt;
+        const floor = H - 76 - p.h;
+        if (p.y >= floor) { p.y = floor; p.vy = 0; p.grounded = true; }
+        else p.grounded = false;
+        if (p.invuln > 0) p.invuln -= dt;
+      }
+
+      function jump() {
+        if (!state.running || state.paused) return;
+        const p = state.player;
+        if (p.grounded) { p.vy = -360; p.grounded = false; addSpark(p.x + p.w / 2, p.y + p.h, 4, colors.mint); beep('jump'); }
+      }
+
+      function fire() {
+        if (!state.running || state.paused) return;
+        const p = state.player;
+        state.shots.push({ x: p.x + p.w / 2 - 3, y: p.y - 5, w: 6, h: 15, vy: -420, life: 1.2 });
+        addSpark(p.x + p.w / 2, p.y, 3, colors.sun);
+        beep('fire');
+      }
+
+      function hitTest(a, b) { return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+
+      function update(dt) {
+        state.elapsed += dt;
+        state.spawnTimer += dt;
+        if (state.spawnTimer > 1.15) { state.spawnTimer = 0; spawnBlock(); }
+        movePlayer(dt);
+
+        for (const block of state.blocks) {
+          block.y += block.vy * dt;
+          block.sway += dt * 1.5;
+          block.x += Math.sin(block.sway) * 9 * dt;
+          if (!block.hit && state.player.invuln <= 0 && hitTest(state.player, { x: block.x + 5, y: block.y + 5, w: block.w - 10, h: block.h - 10 })) {
+            state.lives -= 1;
+            state.streak = 0;
+            state.player.invuln = 1.25;
+            state.player.vy = -190;
+            state.shake = .2;
+            addSpark(state.player.x + state.player.w / 2, state.player.y + state.player.h / 2, 13, colors.verm);
+            beep('hurt');
+            if (state.lives <= 0) { endGame(false); return; }
+          }
+        }
+        state.blocks = state.blocks.filter((b) => b.y < H + 70 && !b.hit);
+
+        for (const shot of state.shots) {
+          shot.y += shot.vy * dt;
+          shot.life -= dt;
+          for (const block of state.blocks) {
+            if (!block.hit && hitTest(shot, block)) {
+              block.hit = true;
+              state.converted += 1;
+              state.streak += 1;
+              const multiplier = Math.min(4, 1 + Math.floor(state.streak / 3));
+              state.score += 100 * multiplier;
+              addSpark(block.x + block.w / 2, block.y + block.h / 2, 15, colors.sun);
+              state.sparks.push({ x: block.x + block.w / 2, y: block.y + block.h / 2, life: .8 });
+              beep('hit');
+              break;
+            }
+          }
+        }
+        state.shots = state.shots.filter((s) => s.y > -30 && s.life > 0);
+        for (const p of state.particles) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 90 * dt; p.life -= dt; }
+        state.particles = state.particles.filter((p) => p.life > 0);
+        for (const s of state.sparks) s.life -= dt;
+        state.sparks = state.sparks.filter((s) => s.life > 0);
+        state.shake = Math.max(0, state.shake - dt);
+        if (state.converted >= 8) { endGame(true); return; }
+        if (state.elapsed >= 45) { endGame(false); return; }
+        updateHud();
+      }
+
+      function updateHud() {
+        scoreEl.textContent = String(state.score).padStart(4, '0');
+        const left = Math.max(0, Math.ceil(45 - state.elapsed));
+        timeEl.textContent = String(left).padStart(2, '0');
+        progressEl.style.width = `${Math.min(100, state.converted / 8 * 100)}%`;
+        [...livesEl.children].forEach((life, i) => life.classList.toggle('is-off', i >= state.lives));
+      }
+
+      function drawText(text, x, y, size, fill, align = 'center') {
+        ctx.save();
+        ctx.font = `900 ${size}px Arial Black, Noto Sans SC, Microsoft YaHei, sans-serif`;
+        ctx.textAlign = align;
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = fill;
+        ctx.fillText(text, x, y);
+        ctx.restore();
+      }
+
+      function drawPixelGrid() {
+        ctx.save();
+        ctx.strokeStyle = 'rgba(28,26,30,.08)';
+        ctx.lineWidth = 1;
+        for (let x = 18; x < W; x += 24) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+        for (let y = 20; y < H; y += 24) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+        ctx.restore();
+      }
+
+      function drawBackground() {
+        ctx.fillStyle = colors.paper;
+        ctx.fillRect(0, 0, W, H);
+        drawPixelGrid();
+        ctx.fillStyle = 'rgba(216,76,57,.12)';
+        ctx.fillRect(0, H - 76, W, 76);
+        ctx.fillStyle = colors.ink;
+        ctx.fillRect(0, H - 76, W, 5);
+        for (let x = 16; x < W; x += 34) ctx.fillRect(x, H - 59, 14, 6);
+        ctx.fillStyle = 'rgba(28,26,30,.52)';
+        ctx.fillRect(22, 90, 2, 240);
+        ctx.fillRect(W - 24, 176, 2, 200);
+        drawText('电 guàn', 34, 64, 12, colors.ink, 'left');
+        drawText('汉字 · 01', W - 32, 64, 10, colors.verm, 'right');
+      }
+
+      function drawBlock(block) {
+        const x = Math.round(block.x);
+        const y = Math.round(block.y);
+        ctx.save();
+        ctx.translate(x + block.w / 2, y + block.h / 2);
+        ctx.rotate(block.rot + Math.sin(block.sway) * .025);
+        ctx.translate(-block.w / 2, -block.h / 2);
+        ctx.fillStyle = colors.ink;
+        ctx.fillRect(5, 6, block.w, block.h);
+        ctx.fillStyle = block.glyph === '申' ? colors.grey : colors.ink;
+        ctx.fillRect(0, 0, block.w, block.h);
+        ctx.fillStyle = colors.paper;
+        ctx.fillRect(10, 10, block.w - 20, 7);
+        ctx.fillRect(10, block.h - 17, block.w - 20, 7);
+        ctx.fillRect(10, 10, 7, block.h - 20);
+        ctx.fillRect(block.w - 17, 10, 7, block.h - 20);
+        drawText(block.glyph, block.w / 2, block.h / 2 + 1, 24, colors.paper2);
+        ctx.restore();
+      }
+
+      function drawPlayer() {
+        const p = state.player;
+        if (p.invuln > 0 && Math.floor(p.invuln * 16) % 2 === 0) return;
+        ctx.save();
+        ctx.translate(Math.round(p.x), Math.round(p.y));
+        ctx.fillStyle = colors.ink;
+        ctx.fillRect(4, 5, 22, 23);
+        ctx.fillStyle = colors.verm;
+        ctx.fillRect(0, 0, 21, 17);
+        ctx.fillStyle = colors.paper2;
+        ctx.fillRect(5, 6, 13, 11);
+        ctx.fillStyle = colors.ink;
+        ctx.fillRect(8, 9, 3, 3);
+        ctx.fillRect(15, 9, 3, 3);
+        ctx.fillStyle = colors.mint;
+        ctx.fillRect(4, 19, 7, 6);
+        ctx.fillRect(15, 19, 7, 6);
+        ctx.restore();
+      }
+
+      function drawShots() {
+        ctx.save();
+        for (const shot of state.shots) {
+          ctx.fillStyle = colors.verm;
+          ctx.fillRect(Math.round(shot.x), Math.round(shot.y), shot.w, shot.h);
+          ctx.fillStyle = colors.sun;
+          ctx.fillRect(Math.round(shot.x + 1), Math.round(shot.y + 3), 4, 5);
+        }
+        ctx.restore();
+      }
+
+      function drawParticles() {
+        ctx.save();
+        for (const p of state.particles) { ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.color; ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size); }
+        ctx.restore();
+      }
+
+      function draw() {
+        const offset = state.shake ? (Math.random() - .5) * 5 : 0;
+        ctx.save();
+        ctx.translate(offset, offset);
+        drawBackground();
+        for (const block of state.blocks) drawBlock(block);
+        drawShots();
+        drawPlayer();
+        drawParticles();
+        for (const s of state.sparks) { ctx.globalAlpha = s.life; drawText('电', s.x, s.y, 20 + (1 - s.life) * 12, colors.verm); }
+        ctx.restore();
+      }
+
+      function loop(now) {
+        if (!state.running || state.paused) { draw(); return; }
+        const dt = Math.min(.035, (now - state.last) / 1000 || .016);
+        state.last = now;
+        update(dt);
+        draw();
+        if (state.running && !state.paused) requestAnimationFrame(loop);
+      }
+
+      function setControl(name, value) {
+        if (name === 'left' || name === 'right') keys[name] = value;
+        if (value && name === 'jump') jump();
+        if (value && name === 'fire') fire();
+      }
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') { event.preventDefault(); setControl('left', true); }
+        if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') { event.preventDefault(); setControl('right', true); }
+        if (event.key === ' ' || event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') { event.preventDefault(); if (!event.repeat) jump(); }
+        if (event.key.toLowerCase() === 'z' || event.key === 'Enter') { event.preventDefault(); if (!event.repeat) fire(); }
+        if (event.key.toLowerCase() === 'p') { event.preventDefault(); togglePause(); }
+      });
+      window.addEventListener('keyup', (event) => {
+        if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') setControl('left', false);
+        if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') setControl('right', false);
+      });
+      document.querySelectorAll('[data-control]').forEach((button) => {
+        const name = button.dataset.control;
+        button.addEventListener('pointerdown', (event) => { event.preventDefault(); button.setPointerCapture?.(event.pointerId); setControl(name, true); });
+        button.addEventListener('pointerup', (event) => { event.preventDefault(); setControl(name, false); });
+        button.addEventListener('pointercancel', () => setControl(name, false));
+        button.addEventListener('pointerleave', () => { if (name === 'left' || name === 'right') setControl(name, false); });
+      });
+      startBtn.addEventListener('click', startGame);
+      restartBtn.addEventListener('click', startGame);
+      pauseBtn.addEventListener('click', togglePause);
+
+      drawBackground();
+      drawText('按下投币开始', W / 2, H / 2 + 60, 13, colors.ink);
+      drawText('田', W / 2, H / 2 - 20, 70, colors.ink);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>城市脉搏 / METRO 24</title>
+  <style>
+    :root { --ink:#242a2a; --muted:#727c7b; --rule:#e2e7e5; --red:#e65a50; --teal:#168b85; --yellow:#ddb330; --paper:#fff; --number:"Bahnschrift SemiCondensed","Bahnschrift","Arial Narrow",sans-serif; }
+    * { box-sizing:border-box; letter-spacing:0; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:"Segoe UI","Microsoft YaHei",sans-serif; font-size:13px; }
+    button,input,a { -webkit-tap-highlight-color:transparent; }
+    button,input { font:inherit; }
+    button { color:inherit; }
+    button,a,input { outline-offset:5px; }
+    :focus-visible { outline:2px solid var(--teal); }
+    button { cursor:pointer; }
+    .shell { max-width:1360px; margin:0 auto; padding:0 40px; }
+    .topbar { height:96px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--rule); gap:20px; }
+    .identity { display:flex; align-items:center; gap:18px; }
+    .brand-mark { width:34px; height:36px; display:grid; grid-template-columns:repeat(3,6px); align-items:end; gap:5px; transform:skewY(-24deg); }
+    .brand-mark span { height:24px; background:var(--red); }
+    .brand-mark span:nth-child(2) { height:36px; background:var(--teal); }
+    .brand-mark span:nth-child(3) { height:29px; background:var(--yellow); }
+    h1 { margin:0; font-size:25px; font-weight:650; }
+    .brand-en { display:block; margin-top:5px; color:var(--muted); font:12px var(--number); }
+    .header-right { display:flex; align-items:center; gap:23px; }
+    .sample { display:inline-flex; align-items:center; gap:7px; color:#626c6a; font-size:11px; white-space:nowrap; }
+    .sample::before { content:""; width:5px; height:5px; border:1px solid #85918e; border-radius:50%; }
+    .back { display:inline-flex; align-items:center; gap:8px; color:var(--ink); text-decoration:none; min-height:40px; }
+    .back:hover { color:var(--teal); }
+    .back svg { width:16px; height:16px; }
+    .workspace { display:grid; grid-template-columns:minmax(0,1fr) 284px; gap:32px; padding-top:27px; }
+    .network { min-width:0; }
+    .section-head { display:flex; align-items:center; justify-content:space-between; min-height:40px; gap:12px; }
+    h2 { margin:0; font-size:14px; font-weight:650; }
+    .subtle { color:var(--muted); font-size:11px; }
+    .map-frame { position:relative; width:100%; aspect-ratio:920/520; background-color:#fbfcfb; background-image:linear-gradient(#eaf0ec 1px,transparent 1px),linear-gradient(90deg,#eaf0ec 1px,transparent 1px); background-size:26px 26px; border:1px solid #edf0ed; }
+    .map { display:block; width:100%; height:100%; overflow:visible; }
+    .route { fill:none; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; }
+    .route-red { stroke:var(--red); }
+    .route-teal { stroke:var(--teal); }
+    .route-yellow { stroke:var(--yellow); }
+    .station-label { font-size:17px; font-weight:600; fill:var(--ink); paint-order:stroke; stroke:#fbfcfb; stroke-width:6px; stroke-linejoin:round; }
+    .station-sub { font:11px var(--number); fill:#697572; paint-order:stroke; stroke:#fbfcfb; stroke-width:4px; }
+    .station-value { fill:var(--teal); font:15px var(--number); paint-order:stroke; stroke:#fbfcfb; stroke-width:5px; }
+    .line-end { font:600 12px var(--number); fill:white; text-anchor:middle; dominant-baseline:central; }
+    .flow-node { opacity:.23; }
+    .station-core { fill:#fff; stroke:var(--ink); stroke-width:2.5; }
+    .selected-ring { fill:none; stroke:var(--ink); stroke-width:1.7; stroke-dasharray:3 4; }
+    .station-button { position:absolute; width:44px; height:44px; padding:0; border:0; border-radius:50%; background:transparent; transform:translate(-50%,-50%); }
+    .station-button:hover { background:#242a2a0b; }
+    .station-button:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+    .map-key { display:flex; justify-content:space-between; gap:10px; padding:17px 0; }
+    .lines { display:flex; flex-wrap:wrap; gap:19px; }
+    .line-key { display:inline-flex; align-items:center; gap:7px; white-space:nowrap; font-size:11px; }
+    .line-swatch { width:20px; height:4px; border-radius:2px; background:var(--line); }
+    .scale-key { display:flex; align-items:center; gap:6px; color:var(--muted); font-size:10px; white-space:nowrap; }
+    .scale-key svg { width:62px; height:25px; }
+    .timeline { border-top:1px solid var(--rule); padding:21px 0 17px; display:grid; grid-template-columns:140px minmax(0,1fr); align-items:center; gap:20px; }
+    .clock { display:flex; align-items:baseline; gap:2px; font-family:var(--number); }
+    #hour-display { font-size:66px; font-weight:600; line-height:1; }
+    .clock-minutes { font-size:30px; color:#9da5a1; }
+    .clock-label { color:var(--muted); margin-top:6px; font-size:10px; }
+    .timeline-top { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:9px; }
+    .timeline-top label { font-size:11px; }
+    .playback { display:flex; align-items:center; gap:4px; }
+    .icon-button { width:34px; height:34px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; padding:0; border:1px solid var(--rule); background:white; border-radius:4px; }
+    .icon-button:hover { border-color:#839b92; background:#f0f6f2; }
+    .icon-button svg { width:15px; height:15px; }
+    #play { background:var(--ink); color:white; border-color:var(--ink); }
+    #hour { width:100%; margin:0; display:block; height:26px; cursor:pointer; accent-color:var(--teal); }
+    .ticks { display:flex; justify-content:space-between; color:var(--muted); font:10px var(--number); margin-top:3px; }
+    .sidebar { border-left:1px solid var(--rule); padding-left:25px; min-width:0; }
+    .total-label { display:flex; align-items:center; justify-content:space-between; padding-top:9px; font-size:11px; }
+    .total-line { display:flex; align-items:baseline; gap:8px; padding:11px 0 17px; border-bottom:1px solid var(--rule); }
+    #total { font:500 49px/1 var(--number); font-variant-numeric:tabular-nums; }
+    .unit { font-size:10px; color:var(--muted); }
+    .rank-head { display:flex; justify-content:space-between; align-items:baseline; margin:19px 0 11px; }
+    .rank-head h2 { font-size:12px; }
+    #ranking { list-style:none; padding:0; margin:0; }
+    .rank-button { width:100%; height:34px; padding:0 5px; display:grid; grid-template-columns:17px 8px minmax(0,1fr) 57px; align-items:center; gap:7px; border:0; background:transparent; position:relative; text-align:left; border-radius:3px; }
+    .rank-button:hover { background:#f5f7f5; }
+    .rank-button[aria-pressed="true"] { background:#edf4f0; }
+    .rank-number { color:#a2aaa6; font:11px var(--number); }
+    .rank-dot { width:5px; height:5px; border-radius:50%; background:var(--line); }
+    .rank-name { font-size:11px; }
+    .rank-value { font:13px var(--number); text-align:right; }
+    .rank-bar { position:absolute; left:39px; right:5px; bottom:2px; height:1px; background:var(--rule); }
+    .rank-bar span { display:block; width:var(--width); height:100%; background:var(--line); }
+    .station-detail { border-top:1px solid var(--rule); margin-top:18px; padding-top:17px; }
+    .detail-heading { display:flex; justify-content:space-between; align-items:center; }
+    .detail-heading h2 { font-size:15px; }
+    .detail-current { display:flex; align-items:baseline; justify-content:space-between; margin:12px 0 3px; }
+    #selected-value { font:27px var(--number); }
+    #station-chart { display:block; width:100%; aspect-ratio:258/145; overflow:visible; }
+    .chart-grid { stroke:#e4e9e6; stroke-width:1; }
+    .chart-label { fill:#77827b; font:10px var(--number); }
+    #curve { fill:none; stroke:var(--teal); stroke-width:2.2; stroke-linejoin:round; stroke-linecap:round; }
+    #curve-area { fill:#168b850c; }
+    #hour-marker { stroke:#89948f; stroke-width:1; stroke-dasharray:3 3; }
+    #curve-dot { fill:var(--teal); stroke:white; stroke-width:2; }
+    footer { display:flex; justify-content:space-between; align-items:center; gap:15px; border-top:1px solid var(--rule); margin-top:8px; min-height:43px; color:#85908a; font:10px var(--number); }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    @media (min-width:701px) {
+      .topbar { height:80px; }
+      .workspace { padding-top:20px; }
+      .map-frame { width:min(100%,calc((100svh - 352px)*1.76923)); margin:0 auto; }
+      .map-key { padding:10px 0; }
+      .timeline { padding:14px 0 12px; }
+      .station-detail { margin-top:14px; padding-top:13px; }
+      #station-chart { height:125px; aspect-ratio:auto; }
+    }
+    @media (min-width:1600px) { .shell { padding-top:18px; } }
+    @media (max-width:1000px) { .shell { padding:0 25px; } .workspace { grid-template-columns:minmax(0,1fr) 245px; gap:20px; } .sidebar { padding-left:18px; } .map-key { flex-wrap:wrap; } .timeline { grid-template-columns:110px minmax(0,1fr); gap:12px; } #hour-display { font-size:56px; } .station-label { font-size:20px; } .station-sub { font-size:12px; } }
+    @media (max-width:700px) {
+      .shell { padding:0 19px; } .topbar { height:82px; gap:12px; } .identity { gap:10px; } .brand-mark { width:25px; gap:3px; grid-template-columns:repeat(3,5px); transform:scale(.85) skewY(-24deg); } h1 { font-size:21px; } .brand-en { font-size:10px; } .header-right { gap:10px; } .back { width:32px; justify-content:center; } .back span { display:none; } .sample { font-size:10px; gap:4px; }
+      .workspace { display:block; padding-top:13px; } .section-head { min-height:39px; } h2 { font-size:12px; } .subtle { font-size:10px; } .map-frame { background-size:18px 18px; } .station-label { font-size:26px; stroke-width:8px; } .station-sub { display:none; } .station-value { font-size:24px; stroke-width:7px; } .route { stroke-width:10; } .map-key { padding:11px 0; align-items:center; gap:7px; } .lines { gap:12px; } .line-key { font-size:10px; gap:5px; } .line-swatch { width:15px; } .scale-key { font-size:9px; gap:3px; } .scale-key svg { width:40px; height:20px; }
+      .timeline { grid-template-columns:93px minmax(0,1fr); padding:14px 0 19px; gap:14px; } #hour-display { font-size:54px; } .clock-minutes { font-size:24px; } .timeline-top { margin-bottom:1px; } .clock-label { font-size:9px; } .icon-button { width:32px; height:32px; } .timeline-top label { font-size:10px; } .playback { gap:3px; }
+      .sidebar { padding:0; border:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); column-gap:19px; border-top:1px solid var(--rule); }
+      .summary { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--rule); min-height:69px; gap:18px; } .total-label { flex-direction:column; align-items:start; gap:5px; padding:0; } .total-line { border:0; padding:0; } #total { font-size:38px; }
+      .rank-head { margin-top:17px; } .rank-head .subtle { font-size:9px; } .rank-button { grid-template-columns:13px 5px minmax(0,1fr) 38px; gap:4px; padding:0 2px; height:29px; } .rank-name { font-size:10px; } .rank-value { font-size:11px; } .rank-bar { left:24px; } .rank-number { font-size:10px; }
+      .station-detail { border:0; border-left:1px solid var(--rule); padding:17px 0 0 13px; margin:0; } .detail-heading { flex-wrap:wrap; gap:7px; } .detail-heading h2 { font-size:13px; } .detail-current { flex-direction:column-reverse; gap:4px; margin-top:15px; } #station-chart { margin-top:10px; } .chart-label { font-size:13px; } footer { font-size:9px; margin-top:17px; }
+    }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto !important; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="identity"><div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div><div><h1>城市脉搏</h1><span class="brand-en">METRO 24 / URBAN RHYTHM</span></div></div>
+      <div class="header-right"><span class="sample">示例数据</span><a class="back" href="index.html" target="_top" title="返回视觉实验室" aria-label="返回视觉实验室"><i data-lucide="arrow-up-left" aria-hidden="true"></i><span>实验室</span></a></div>
+    </header>
+    <main class="workspace">
+      <section class="network" aria-labelledby="network-title">
+        <div class="section-head"><h2 id="network-title">轨道交通客流</h2><span class="subtle">03 条线路 / 09 个站点</span></div>
+        <div class="map-frame" id="map-frame">
+          <svg class="map" id="metro-map" viewBox="0 0 920 520" role="img" aria-labelledby="map-title map-desc">
+            <title id="map-title">城市脉搏地铁客流线路图</title><desc id="map-desc">三条线路、九个唯一站点。圆点面积按全天统一尺度表示当前小时进站人次。</desc>
+            <path class="route route-yellow" d="M290 455 H420 L605 270 V165 L500 60"/>
+            <path class="route route-teal" d="M200 475 V400 L330 270 H605 L745 130 V55"/>
+            <path class="route route-red" d="M65 270 H160 L325 105 H440 L605 270 H850"/>
+            <g aria-hidden="true"><rect x="49" y="256" width="28" height="28" rx="4" fill="#e65a50"/><text x="63" y="270" class="line-end">01</text><rect x="731" y="32" width="28" height="28" rx="4" fill="#168b85"/><text x="745" y="46" class="line-end">02</text><rect x="479" y="32" width="28" height="28" rx="4" fill="#b89416"/><text x="493" y="46" class="line-end">03</text></g>
+            <g id="station-nodes"></g>
+          </svg>
+          <div id="station-buttons" role="group" aria-label="选择地铁站点"></div>
+        </div>
+        <div class="map-key"><div class="lines"><span class="line-key"><span class="line-swatch" style="--line:var(--red)"></span>01 东西线</span><span class="line-key"><span class="line-swatch" style="--line:var(--teal)"></span>02 江湾线</span><span class="line-key"><span class="line-swatch" style="--line:var(--yellow)"></span>03 中轴线</span></div><div class="scale-key"><svg viewBox="0 0 62 25" aria-hidden="true"><circle cx="8" cy="13" r="3" fill="#b7c8bf"/><circle cx="27" cy="13" r="6" fill="#b7c8bf"/><circle cx="51" cy="13" r="10" fill="#b7c8bf"/></svg><span>进站人次</span></div></div>
+        <section class="timeline" aria-label="时间控制">
+          <div><div class="clock"><output id="hour-display" for="hour">08</output><span class="clock-minutes">:00</span></div><div class="clock-label">24 小时 / <span id="period-label">早高峰</span></div></div>
+          <div><div class="timeline-top"><label for="hour">时刻</label><div class="playback"><button type="button" class="icon-button" id="previous" title="前一小时" aria-label="前一小时"><i data-lucide="skip-back" aria-hidden="true"></i></button><button type="button" class="icon-button" id="play" title="播放时间轴" aria-label="播放时间轴" aria-pressed="false"><i data-lucide="play" aria-hidden="true"></i></button><button type="button" class="icon-button" id="next" title="后一小时" aria-label="后一小时"><i data-lucide="skip-forward" aria-hidden="true"></i></button></div></div><input id="hour" type="range" min="0" max="23" step="1" value="8" aria-valuetext="08:00"><div class="ticks" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>23</span></div></div>
+        </section>
+      </section>
+      <aside class="sidebar" aria-label="客流统计">
+        <section class="summary"><div class="total-label"><span>全网进站量</span><span class="subtle" id="total-period">08:00—08:59</span></div><div class="total-line"><output id="total">0</output><span class="unit">人次 / 小时</span></div></section>
+        <section class="rank-section" aria-labelledby="rank-title"><div class="rank-head"><h2 id="rank-title">站点客流排行</h2><span class="subtle">人次 / 小时</span></div><ol id="ranking"></ol></section>
+        <section class="station-detail" aria-labelledby="selected-name"><div class="detail-heading"><h2 id="selected-name">中央广场</h2><span class="subtle">全天客流</span></div><div class="detail-current"><output id="selected-value">0</output><span class="unit"><span id="selected-hour">08:00</span> · 人次</span></div><svg id="station-chart" viewBox="0 0 258 145" role="img" aria-labelledby="chart-title"><title id="chart-title">中央广场全天进站客流</title><line class="chart-grid" x1="9" y1="26" x2="247" y2="26"/><line class="chart-grid" x1="9" y1="71" x2="247" y2="71"/><line class="chart-grid" x1="9" y1="116" x2="247" y2="116"/><text id="chart-max" class="chart-label" x="9" y="14"></text><text class="chart-label" x="9" y="136">00</text><text class="chart-label" x="128" y="136" text-anchor="middle">12</text><text class="chart-label" x="247" y="136" text-anchor="end">23</text><path id="curve-area"/><path id="curve"/><line id="hour-marker" y1="21" y2="118"/><circle id="curve-dot" r="4.5"/></svg></section>
+      </aside>
+    </main>
+    <footer><span>METRO 24 / 城市观察 004</span><span>固定示例日 · 本地数据</span></footer>
+    <p id="selection-status" class="sr-only" role="status" aria-live="polite"></p>
+    <noscript>此离线可视化需要启用 JavaScript。</noscript>
+  </div>
+  <script src="assets/lucide.min.js"></script>
+  <script>
+    'use strict';
+    (() => {
+      const colors = { red:'#e65a50', teal:'#168b85', yellow:'#b89416' };
+      const stations = [
+        { id:'west', name:'西街', en:'WEST STREET', x:160, y:270, lx:160, ly:323, anchor:'middle', color:'red', lines:[1] },
+        { id:'museum', name:'美术馆', en:'ART MUSEUM', x:325, y:105, lx:325, ly:63, anchor:'middle', color:'red', lines:[1] },
+        { id:'central', name:'中央广场', en:'CENTRAL SQUARE', x:605, y:270, lx:640, ly:334, anchor:'middle', color:'teal', lines:[1,2,3] },
+        { id:'east', name:'东站', en:'EAST STATION', x:810, y:270, lx:810, ly:323, anchor:'middle', color:'red', lines:[1] },
+        { id:'university', name:'大学城', en:'UNIVERSITY', x:200, y:430, lx:140, ly:430, anchor:'end', color:'teal', lines:[2] },
+        { id:'garden', name:'人民公园', en:'PEOPLE’S PARK', x:370, y:270, lx:370, ly:323, anchor:'middle', color:'teal', lines:[2] },
+        { id:'harbor', name:'江湾', en:'RIVER BAY', x:745, y:105, lx:796, ly:106, anchor:'start', color:'teal', lines:[2] },
+        { id:'south', name:'南门', en:'SOUTH GATE', x:355, y:455, lx:355, ly:415, anchor:'middle', color:'yellow', lines:[3] },
+        { id:'civic', name:'市民中心', en:'CIVIC CENTER', x:550, y:110, lx:594, ly:97, anchor:'start', color:'yellow', lines:[3] }
+      ];
+      // Each row is one unique station; columns are hours 00 through 23.
+      const data = Object.freeze({
+        west:Object.freeze([160,70,20,0,0,70,520,1460,2280,1480,850,760,920,850,730,890,1160,1870,2540,1670,1050,740,410,230]),
+        museum:Object.freeze([80,30,10,0,0,30,210,540,920,1220,1570,1830,2120,2040,1920,1850,1690,1720,1490,1120,830,520,260,140]),
+        central:Object.freeze([490,160,40,0,0,180,1250,3840,5820,3970,2610,2380,2860,2710,2490,2840,3650,5420,6140,4430,3100,2170,1240,680]),
+        east:Object.freeze([370,200,90,0,0,210,970,2730,4260,3210,2450,2310,2580,2440,2220,2590,3070,3950,4570,3410,2780,2120,1400,790]),
+        university:Object.freeze([110,45,10,0,0,90,630,1980,2910,1430,980,1110,1560,1320,1140,1380,1740,2380,2680,2090,1760,1370,670,240]),
+        garden:Object.freeze([60,20,5,0,0,40,290,570,780,920,1090,1260,1530,1680,1740,1650,1470,1590,1880,1610,1120,730,350,140]),
+        harbor:Object.freeze([130,60,20,0,0,60,360,1080,1640,1120,960,1160,1390,1480,1550,1690,1940,2380,2820,2710,2480,1870,970,420]),
+        south:Object.freeze([150,55,15,0,0,100,760,2170,3360,2040,1310,1240,1610,1480,1290,1510,2020,3120,3590,2410,1670,1180,560,270]),
+        civic:Object.freeze([65,20,5,0,0,45,490,2450,3930,2260,1120,1080,1620,1300,1040,1210,1980,3620,3870,2110,990,510,210,100])
+      });
+      const globalMax = Math.max(...Object.values(data).flat());
+      const chartMax = Math.ceil(globalMax / 1000) * 1000;
+      const format = number => number.toLocaleString('zh-CN');
+      const pad = number => String(number).padStart(2, '0');
+      const $ = id => document.getElementById(id);
+      const state = { hour:8, selected:'central' };
+      let timer = null;
+      const values = () => Object.fromEntries(stations.map(station => [station.id, data[station.id][state.hour]]));
+      const ranking = () => stations.map((station, index) => ({ id:station.id, name:station.name, value:data[station.id][state.hour], index })).sort((a,b) => b.value-a.value || a.index-b.index);
+      Object.defineProperty(window, 'labState', { value:Object.freeze({
+        get hour() { return state.hour; },
+        get total() { return Object.values(values()).reduce((sum,value) => sum+value,0); },
+        get selected() { return state.selected; },
+        get values() { return values(); },
+        get ranking() { return ranking(); },
+        get data() { return data; }
+      }) });
+      const ns = 'http://www.w3.org/2000/svg';
+      function svgElement(tag, attributes, text) {
+        const element = document.createElementNS(ns,tag);
+        for (const [key,value] of Object.entries(attributes)) element.setAttribute(key,value);
+        if (text !== undefined) element.textContent = text;
+        return element;
+      }
+      const nodes = new Map();
+      const rankNodes = new Map();
+      stations.forEach(station => {
+        const group = svgElement('g', { 'data-station-id':station.id });
+        const flow = svgElement('circle', { cx:station.x, cy:station.y, r:0, fill:colors[station.color], class:'flow-node' });
+        const ring = svgElement('circle', { cx:station.x, cy:station.y, r:35, class:'selected-ring' });
+        const core = svgElement('circle', { cx:station.x, cy:station.y, r:station.id === 'central' ? 9 : 6, class:'station-core' });
+        const label = svgElement('text', { x:station.lx, y:station.ly, 'text-anchor':station.anchor, class:'station-label' }, station.name);
+        const en = svgElement('text', { x:station.lx, y:station.ly+17, 'text-anchor':station.anchor, class:'station-sub' }, station.en);
+        group.append(flow,ring,core,label,en);
+        $('station-nodes').append(group);
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'station-button'; button.dataset.station = station.id;
+        button.style.left = `${station.x/920*100}%`; button.style.top = `${station.y/520*100}%`;
+        button.addEventListener('click', () => select(station.id));
+        $('station-buttons').append(button);
+        nodes.set(station.id, { flow,ring,core,button });
+        const li = document.createElement('li');
+        const rankButton = document.createElement('button');
+        rankButton.type='button'; rankButton.className='rank-button'; rankButton.dataset.rankStation=station.id;
+        rankButton.style.setProperty('--line',colors[station.color]);
+        rankButton.innerHTML='<span class="rank-number"></span><span class="rank-dot" aria-hidden="true"></span><span class="rank-name"></span><span class="rank-value"></span><span class="rank-bar" aria-hidden="true"><span></span></span>';
+        rankButton.querySelector('.rank-name').textContent=station.name;
+        rankButton.addEventListener('click', () => select(station.id));
+        li.append(rankButton); $('ranking').append(li);
+        rankNodes.set(station.id, { li,button:rankButton });
+      });
+      function render() {
+        const hourText = `${pad(state.hour)}:00`;
+        const current = values();
+        $('hour').value = state.hour; $('hour').setAttribute('aria-valuetext',hourText);
+        $('hour-display').textContent=pad(state.hour);
+        $('period-label').textContent=state.hour < 5 ? '夜间' : state.hour < 7 ? '清晨' : state.hour < 10 ? '早高峰' : state.hour < 17 ? '日间' : state.hour < 20 ? '晚高峰' : '夜间';
+        $('total').textContent=format(window.labState.total);
+        $('total-period').textContent=`${hourText}–${pad(state.hour)}:59`;
+        for (const station of stations) {
+          const node=nodes.get(station.id);
+          const selected=station.id===state.selected;
+          node.flow.setAttribute('r',30*Math.sqrt(current[station.id]/globalMax));
+          node.ring.style.display=selected?'':'none';
+          node.core.setAttribute('stroke',selected ? colors[station.color] : '#242a2a');
+          const label=`${station.name}，${station.lines.join('、')}号线，${hourText}进站${format(current[station.id])}人次，查看全天客流`;
+          node.button.setAttribute('aria-label',label); node.button.title=label;
+          node.button.setAttribute('aria-pressed',String(selected));
+        }
+        ranking().forEach((entry,index) => {
+          const node=rankNodes.get(entry.id);
+          node.button.querySelector('.rank-number').textContent=pad(index+1);
+          node.button.querySelector('.rank-value').textContent=format(entry.value);
+          node.button.style.setProperty('--width',`${entry.value/globalMax*100}%`);
+          node.button.setAttribute('aria-pressed',String(entry.id===state.selected));
+          node.button.setAttribute('aria-label',`${entry.name}，排名${index+1}，${format(entry.value)}人次，查看全天客流`);
+          if ($('ranking').children[index]!==node.li) $('ranking').insertBefore(node.li,$('ranking').children[index] || null);
+        });
+        const station=stations.find(item=>item.id===state.selected);
+        $('selected-name').textContent=station.name;
+        $('selected-value').textContent=format(current[station.id]);
+        $('selected-hour').textContent=hourText;
+        const points=data[station.id].map((value,hour)=>[9+hour/23*238,116-value/chartMax*90]);
+        const path=points.map(([x,y],index)=>`${index?'L':'M'}${x.toFixed(3)} ${y.toFixed(3)}`).join(' ');
+        $('curve').setAttribute('d',path);
+        $('curve').style.stroke=colors[station.color];
+        $('curve-area').setAttribute('d',`${path} L247 116 L9 116 Z`);
+        $('curve-area').style.fill=colors[station.color]+'0c';
+        $('chart-max').textContent=`${format(chartMax)} 人次`;
+        $('hour-marker').setAttribute('x1',points[state.hour][0]); $('hour-marker').setAttribute('x2',points[state.hour][0]);
+        $('curve-dot').setAttribute('cx',points[state.hour][0]); $('curve-dot').setAttribute('cy',points[state.hour][1]); $('curve-dot').style.fill=colors[station.color];
+        $('chart-title').textContent=`${station.name}全天进站客流，${data[station.id].map((value,hour)=>`${pad(hour)}时${value}人次`).join('，')}。当前${hourText}，${format(current[station.id])}人次。`;
+      }
+      function select(id) { state.selected=id; render(); $('selection-status').textContent=`已选择${stations.find(station=>station.id===id).name}，${pad(state.hour)}时${format(data[id][state.hour])}人次`; }
+      function icons() { if (window.lucide) window.lucide.createIcons(); }
+      function stop() {
+        if (timer!==null) window.clearInterval(timer);
+        timer=null; $('play').setAttribute('aria-pressed','false'); $('play').setAttribute('aria-label','播放时间轴'); $('play').title='播放时间轴';
+        $('play').innerHTML='<i data-lucide="play" aria-hidden="true"></i>'; icons();
+      }
+      function move(delta) { stop(); state.hour=(state.hour+delta+24)%24; render(); }
+      $('hour').addEventListener('input',event=>{ stop(); state.hour=Number(event.target.value); render(); });
+      $('previous').addEventListener('click',()=>move(-1));
+      $('next').addEventListener('click',()=>move(1));
+      $('play').addEventListener('click',()=>{
+        if (timer!==null) { stop(); return; }
+        $('play').setAttribute('aria-pressed','true'); $('play').setAttribute('aria-label','暂停时间轴'); $('play').title='暂停时间轴';
+        $('play').innerHTML='<i data-lucide="pause" aria-hidden="true"></i>'; icons();
+        timer=window.setInterval(()=>{ state.hour=(state.hour+1)%24; render(); },1200);
+      });
+      document.addEventListener('visibilitychange',()=>{ if (document.hidden) stop(); });
+      window.addEventListener('pagehide',stop);
+      render(); icons();
+    })();
+  </script>
+</body>
+</html>

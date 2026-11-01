@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf0df">
+  <title>河马的单车小旅行</title>
+  <style>
+    :root { color-scheme: light; background: #edf0df; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body { overflow: hidden; background: #edf0df; }
+    main { width: 100%; height: 100vh; height: 100svh; display: grid; place-items: center; }
+    svg.scene { display: block; width: 100%; height: 100%; }
+    .outline { stroke: #45434b; stroke-linecap: round; stroke-linejoin: round; }
+    .fine { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .petal { fill: #fff9e9; }
+    .cloud { fill: #fcfbef; }
+    @media (prefers-reduced-motion: reduce) { main { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+<main>
+<svg class="scene" id="scene" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 860" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="scene-title scene-description">
+  <title id="scene-title">河马的单车小旅行</title>
+  <desc id="scene-description">一只圆滚滚的紫灰色河马，戴着珊瑚色头盔和红色围巾，在开满野花的乡间小路上骑着黄色自行车。双脚交替踩动踏板，车轮旋转，花篮轻轻摇晃，白云和绿色山丘慢慢掠过。</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#e9efdf"/>
+      <stop offset="1" stop-color="#faf1da"/>
+    </linearGradient>
+    <linearGradient id="hippo-skin" x1="0" y1="0" x2=".85" y2="1">
+      <stop stop-color="#b2a6bc"/>
+      <stop offset="1" stop-color="#968ba6"/>
+    </linearGradient>
+    <linearGradient id="muzzle-skin" x2="0.3" y2="1">
+      <stop stop-color="#bfb3c5"/>
+      <stop offset="1" stop-color="#a99ab6"/>
+    </linearGradient>
+    <linearGradient id="basket-fill" x2="0" y2="1">
+      <stop stop-color="#dcad72"/>
+      <stop offset="1" stop-color="#c58d57"/>
+    </linearGradient>
+    <radialGradient id="sun-glow">
+      <stop stop-color="#f5cc87" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#f5cc87" stop-opacity="0"/>
+    </radialGradient>
+    <g id="cloud-small" class="cloud">
+      <path d="M0 32C-3 17 11 7 25 12C31-8 58-8 67 10C83 4 99 13 99 28C119 22 133 35 130 43H5Q-4 43 0 32Z"/>
+    </g>
+    <g id="hill-tile">
+      <path d="M0 487C115 426 186 474 278 438S432 385 537 428S719 477 828 432S1094 387 1280 487V650H0Z" fill="#ccdac0"/>
+      <path d="M0 520C143 465 244 487 371 512S593 460 728 470S934 553 1088 510S1220 506 1280 520V658H0Z" fill="#b4c9a9"/>
+      <path d="M0 575C167 527 320 554 460 572S723 521 877 552S1100 556 1280 575V680H0Z" fill="#9dbb99"/>
+      <g fill="none" stroke="#91ae8e" stroke-width="3" stroke-linecap="round">
+        <path d="M93 539l-5-7m5 7 5-10M1135 541l-6-9m6 9 5-11M361 540l-4-7m4 7 5-9M980 555l-4-7m4 7 5-9"/>
+      </g>
+    </g>
+    <g id="tree">
+      <path d="M0 10V96" stroke="#71856e" stroke-width="5" stroke-linecap="round"/>
+      <path d="M0 66L-26 42M0 53L26 28" stroke="#71856e" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-8-41C-46-41-53-6-38 8C-58 35-31 60-7 52C13 73 53 49 39 23C61-5 32-36 14-28C11-36 5-41-8-41Z" fill="#94b698"/>
+      <path d="M-25-19C-34-11-35 1-30 8" class="fine" stroke="#c6d5b5" stroke-width="5"/>
+    </g>
+    <g id="daisy">
+      <g class="petal">
+        <ellipse cy="-9" rx="4.3" ry="8"/>
+        <ellipse cy="-9" rx="4.3" ry="8" transform="rotate(60)"/>
+        <ellipse cy="-9" rx="4.3" ry="8" transform="rotate(120)"/>
+        <ellipse cy="-9" rx="4.3" ry="8" transform="rotate(180)"/>
+        <ellipse cy="-9" rx="4.3" ry="8" transform="rotate(240)"/>
+        <ellipse cy="-9" rx="4.3" ry="8" transform="rotate(300)"/>
+      </g>
+      <circle r="5.6" fill="#e3ad42"/>
+      <circle cx="-1.3" cy="-1.3" r="1.5" fill="#f4cf6b"/>
+    </g>
+    <g id="small-flower">
+      <path d="M0 0Q-5-18 2-36" class="fine" stroke="#718e6c" stroke-width="3"/>
+      <path d="M-2-12Q-18-24-18-13Q-13-5-2-8M-1-22Q11-36 14-27Q10-19-1-19" fill="#7f9d71"/>
+      <use href="#daisy" x="2" y="-36" transform="rotate(8 2 -36)"/>
+    </g>
+    <g id="grass">
+      <path d="M0 0Q-2-16-9-21M0 0Q0-25 7-29M0 0Q9-13 17-15" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+    </g>
+    <g id="meadow-tile">
+      <use href="#small-flower" x="122" y="648" transform="rotate(-9 122 648)"/>
+      <use href="#small-flower" x="1150" y="635" transform="rotate(13 1150 635)"/>
+      <use href="#small-flower" x="97" y="821"/>
+      <use href="#small-flower" x="1009" y="806" transform="rotate(18 1009 806)"/>
+      <g color="#75986e">
+        <use href="#grass" x="61" y="640"/>
+        <use href="#grass" x="243" y="614" transform="translate(80 185) scale(.75)"/>
+        <use href="#grass" x="965" y="625"/>
+        <use href="#grass" x="1187" y="798"/>
+        <use href="#grass" x="263" y="809"/>
+        <use href="#grass" x="649" y="821"/>
+      </g>
+      <g fill="#e8cfa2">
+        <ellipse cx="179" cy="734" rx="9" ry="2.4"/>
+        <ellipse cx="79" cy="701" rx="5" ry="2"/>
+        <ellipse cx="1127" cy="741" rx="13" ry="2.5"/>
+        <ellipse cx="728" cy="794" rx="7" ry="2"/>
+        <ellipse cx="930" cy="704" rx="5" ry="2"/>
+        <ellipse cx="371" cy="704" rx="8" ry="2"/>
+      </g>
+      <g fill="#edbca0">
+        <path d="M1104 793q-8-16 2-20q10 5-2 20"/>
+        <path d="M1111 797q3-17 13-12q2 10-13 12"/>
+      </g>
+    </g>
+    <g id="wheel-spokes" class="fine" stroke="#a3aca3" stroke-width="1.8">
+      <path d="M0-101V101M-101 0H101M-71.42-71.42L71.42 71.42M-71.42 71.42L71.42-71.42M-38.65-93.32L38.65 93.32M-93.32-38.65L93.32 38.65M-93.32 38.65L93.32-38.65M-38.65 93.32L38.65-93.32"/>
+      <path d="M33-91l8 4" stroke="#f5c86b" stroke-width="5"/>
+    </g>
+    <g id="wheel">
+      <circle r="114" fill="#edf0df" fill-opacity=".37" stroke="#42464a" stroke-width="14"/>
+      <circle r="106" fill="none" stroke="#fff6dc" stroke-width="5"/>
+      <circle r="101" fill="none" stroke="#83938c" stroke-width="2"/>
+      <path d="M-103-39A111 111 0 0 1-49-100" class="fine" stroke="#6f7372" stroke-width="3"/>
+    </g>
+    <clipPath id="basket-clip"><path d="M831 446H932L917 513Q916 519 905 519H858Q848 519 846 510Z"/></clipPath>
+  </defs>
+
+  <!-- A quiet countryside, made entirely from vector shapes. -->
+  <rect width="1280" height="860" fill="url(#sky)"/>
+  <circle cx="1000" cy="187" r="118" fill="url(#sun-glow)"/>
+  <g id="sun">
+    <g class="fine" stroke="#ecc581" stroke-width="3.5">
+      <path d="M1000 108v-12M1000 278v-12M921 187h-12M1091 187h-12M945 132l-9-9M1064 251l-9-9M945 242l-9 9M1064 123l-9 9"/>
+    </g>
+    <circle cx="1000" cy="187" r="58" fill="#efd28e"/>
+    <circle cx="985" cy="173" r="39" fill="#f3d99c" opacity=".65"/>
+  </g>
+  <g id="clouds" opacity=".92">
+    <use href="#cloud-small" x="131" y="183" transform="translate(-22 -12) scale(1.25)"/>
+    <use href="#cloud-small" x="833" y="291"/>
+    <use href="#cloud-small" x="1186" y="105"/>
+    <use href="#cloud-small" x="-94" y="318" transform="scale(.72)"/>
+    <use href="#cloud-small" x="1531" y="183" transform="translate(-372 -12) scale(1.25)"/>
+    <use href="#cloud-small" x="2233" y="291"/>
+    <use href="#cloud-small" x="2586" y="105"/>
+  </g>
+  <g class="fine" stroke="#8eaa99" stroke-width="2.7" opacity=".65">
+    <path d="M381 173q8-9 17 0q8-9 16 0"/>
+    <path d="M430 150q6-7 12 0q6-7 12 0"/>
+  </g>
+  <g id="hills"><use href="#hill-tile"/><use href="#hill-tile" x="1280"/></g>
+  <g id="trees">
+    <use href="#tree" transform="translate(204 456) scale(.94)"/>
+    <use href="#tree" transform="translate(1156 441) scale(.7)"/>
+    <use href="#tree" transform="translate(1484 456) scale(.94)"/>
+    <use href="#tree" transform="translate(2436 441) scale(.7)"/>
+  </g>
+  <path d="M0 605Q291 574 583 606T1280 601V860H0Z" fill="#b8cba0"/>
+  <path d="M0 663Q255 642 600 661T1280 650V789Q1013 814 671 795T0 799Z" fill="#f1ddb6"/>
+  <path d="M0 665Q255 644 600 663T1280 652" class="fine" stroke="#f8e8c9" stroke-width="6"/>
+  <path d="M0 801Q260 787 560 802T1280 792V860H0Z" fill="#c5d1a6"/>
+  <g id="meadow"><use href="#meadow-tile"/><use href="#meadow-tile" x="1280"/></g>
+
+  <g id="riding-scene">
+    <ellipse id="ground-shadow" cx="638" cy="762" rx="302" ry="18" fill="#797f60" opacity=".14"/>
+    <ellipse cx="453" cy="760" rx="69" ry="6" fill="#797f60" opacity=".14"/>
+    <ellipse cx="834" cy="760" rx="69" ry="6" fill="#797f60" opacity=".14"/>
+
+    <!-- Wheels and the far leg sit behind the bicycle frame. -->
+    <g transform="translate(452 640)"><use href="#wheel"/><g id="rear-spokes"><use href="#wheel-spokes"/></g><circle r="8" fill="#72837b" stroke="#45434b" stroke-width="3"/></g>
+    <g transform="translate(833 640)"><use href="#wheel"/><g id="front-spokes"><use href="#wheel-spokes"/></g><circle r="8" fill="#72837b" stroke="#45434b" stroke-width="3"/></g>
+    <g class="fine" stroke="#45434b" stroke-width="8">
+      <path d="M345 597A120 120 0 0 1 557 583"/>
+      <path d="M737 567A121 121 0 0 1 945 600"/>
+    </g>
+    <g class="fine" stroke="#e7b84f" stroke-width="5">
+      <path d="M345 597A120 120 0 0 1 557 583"/>
+      <path d="M737 567A121 121 0 0 1 945 600"/>
+    </g>
+    <path d="M451 625L620 590C663 585 674 649 631 654L452 655C431 655 430 628 451 625Z" fill="#7d8274" fill-opacity=".18" stroke="#646c60" stroke-width="3.5"/>
+    <circle cx="452" cy="640" r="17" fill="#a9ad93" stroke="#667161" stroke-width="3"/>
+    <g id="far-leg">
+      <path id="far-leg-outline" d="M581 474Q667 509 591 649" fill="none" stroke="#49454f" stroke-width="53" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="far-leg-fill" d="M581 474Q667 509 591 649" fill="none" stroke="#8c809c" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+      <g id="far-foot"><path d="M-22-15Q-30 0-19 10H27Q40 9 37-1Q35-10 13-11L8-19Z" fill="#8c809c" class="outline" stroke-width="4"/><path d="M16 1v5m9-6v6" class="fine" stroke="#675c77" stroke-width="2.2"/></g>
+      <path id="far-pedal" d="M0 0h37" class="fine" stroke="#49484a" stroke-width="8"/>
+    </g>
+
+    <!-- Warm yellow steel tubing, with a cream highlight. -->
+    <path d="M452 640L568 521L624 622H452M568 521L790 494L624 622M790 494L833 640" fill="none" class="outline" stroke-width="17"/>
+    <path d="M452 640L568 521L624 622H452M568 521L790 494L624 622M790 494L833 640" fill="none" stroke="#edbe51" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M472 622L562 531M581 522L767 499M637 612L781 505M803 530L828 617" class="fine" stroke="#ffe094" stroke-width="3"/>
+    <path d="M568 521L553 483" class="fine" stroke="#45434b" stroke-width="12"/>
+    <path d="M568 521L553 483" class="fine" stroke="#e3e4cf" stroke-width="6"/>
+    <path d="M789 493L777 444Q773 425 788 419L807 414" class="fine" stroke="#45434b" stroke-width="12"/>
+    <path d="M789 493L777 444Q773 425 788 419L807 414" class="fine" stroke="#d3dfcf" stroke-width="6"/>
+    <path d="M801 416l17-5" class="fine" stroke="#725545" stroke-width="12"/>
+    <path d="M803 413l12-3" class="fine" stroke="#b9906a" stroke-width="3"/>
+    <path d="M798 430Q836 459 806 551" class="fine" stroke="#676b60" stroke-width="2.4"/>
+    <path d="M515 480Q523 469 546 472L584 479Q595 482 589 490Q579 497 523 491Q512 490 515 480Z" fill="#825945" class="outline" stroke-width="4"/>
+    <path d="M526 479Q548 477 576 484" class="fine" stroke="#b38b65" stroke-width="3"/>
+    <path d="M810 456L851 470M815 478L849 493" class="fine" stroke="#6a7365" stroke-width="4"/>
+    <circle cx="797" cy="429" r="9" fill="#f0cf74" class="outline" stroke-width="3"/>
+    <path d="M793 424q4-3 7 1" class="fine" stroke="#fff0bf" stroke-width="2"/>
+    <circle cx="624" cy="622" r="32" fill="#e5d8ab" stroke="#5e6256" stroke-width="4"/>
+    <circle cx="624" cy="622" r="23" fill="#7e8a75"/>
+    <g id="crank-arms" transform="translate(624 622)"><path d="M-44 0H44" class="fine" stroke="#4a4e49" stroke-width="9"/><path d="M-44-1H44" class="fine" stroke="#d8dec8" stroke-width="4"/></g>
+    <circle cx="624" cy="622" r="7" fill="#e6e8d4" stroke="#545e51" stroke-width="2.5"/>
+
+    <!-- A generous, rounded silhouette makes the rider unmistakably a hippo. -->
+    <g id="hippo-body">
+      <path d="M513 427Q477 430 467 404Q465 397 471 393" fill="none" class="outline" stroke-width="12"/>
+      <path d="M510 426Q477 426 471 405" class="fine" stroke="#9c90aa" stroke-width="6"/>
+      <path d="M468 401Q453 397 462 386Q470 389 474 398" fill="#8a7e99" class="outline" stroke-width="3"/>
+      <path id="scarf-tail-back" d="M630 343Q589 326 550 337Q521 345 496 325L488 345Q516 365 550 354Q593 341 627 358Z" fill="#c76350" class="outline" stroke-width="3.5"/>
+      <path id="scarf-tail-front" d="M628 348Q588 335 557 363Q539 376 517 368L521 390Q550 392 569 376Q596 353 631 364Z" fill="#e78062" class="outline" stroke-width="3.5"/>
+      <path d="M532 343C557 326 600 326 625 341C670 343 697 394 674 445C666 477 630 491 588 494C553 496 520 482 507 457C486 421 493 369 532 343Z" fill="url(#hippo-skin)" class="outline" stroke-width="4.5"/>
+      <path d="M551 382C578 360 633 376 650 411C665 444 644 470 608 474C570 479 545 457 541 431C536 410 540 393 551 382Z" fill="#c0b4c8" opacity=".76"/>
+      <path d="M514 394Q514 369 536 356" class="fine" stroke="#cfc4d4" stroke-width="5" opacity=".65"/>
+      <path d="M614 273C610 247 631 231 660 235C698 222 732 248 734 277L736 320C743 350 717 376 679 370C652 369 629 352 621 325Z" fill="url(#hippo-skin)" class="outline" stroke-width="4.5"/>
+      <path d="M621 268C601 275 599 249 609 240C622 228 637 244 631 258Z" fill="#a89ab6" class="outline" stroke-width="4"/>
+      <path d="M617 257Q608 258 614 247Q622 243 624 252" fill="#d7a6b6"/>
+      <path d="M667 344Q683 354 705 348L711 365Q681 381 645 360L649 345Z" fill="#e58465" class="outline" stroke-width="3.5"/>
+      <path d="M651 350l-7 13M662 355l-4 12" stroke="#f9be87" stroke-width="4"/>
+      <path d="M690 301C712 294 727 304 744 302C770 295 797 305 808 325C823 350 811 371 785 378C755 387 720 377 703 363C683 348 677 318 690 301Z" fill="url(#muzzle-skin)" class="outline" stroke-width="4.5"/>
+      <path d="M752 310Q779 306 793 321" class="fine" stroke="#d5c8d7" stroke-width="5"/>
+      <ellipse cx="757" cy="327" rx="7" ry="5" fill="#766982" transform="rotate(16 757 327)"/>
+      <ellipse cx="791" cy="333" rx="6.3" ry="4.8" fill="#766982" transform="rotate(20 791 333)"/>
+      <path d="M726 358Q758 376 792 357" class="fine" stroke="#65586d" stroke-width="3"/>
+      <path d="M762 370l1 8q5 5 11 0l1-8" fill="#fff7dd" class="outline" stroke-width="2.4"/>
+      <path d="M731 362l1 6q4 5 9 1l1-5" fill="#fff7dd" class="outline" stroke-width="2.2"/>
+      <ellipse cx="702" cy="296" rx="6.8" ry="9" fill="#393740"/>
+      <circle cx="704" cy="293" r="2.2" fill="#fffdf1"/>
+      <path d="M692 278q8-5 15 1" class="fine" stroke="#655c73" stroke-width="3"/>
+      <ellipse cx="689" cy="327" rx="15" ry="9" fill="#dd9fa5" opacity=".64" transform="rotate(14 689 327)"/>
+      <g fill="#8c7c99" opacity=".65"><circle cx="714" cy="338" r="1.8"/><circle cx="721" cy="335" r="1.8"/><circle cx="722" cy="343" r="1.6"/></g>
+      <path d="M637 266Q638 313 656 334" fill="none" stroke="#765b55" stroke-width="4" stroke-linecap="round"/>
+      <rect x="651" y="323" width="10" height="10" rx="3" fill="#f0c98b" stroke="#765b55" stroke-width="2" transform="rotate(-20 656 328)"/>
+      <path d="M615 250C613 219 638 195 672 197C705 193 733 215 735 245L729 259Q673 243 622 264Z" fill="#e3866c" class="outline" stroke-width="4.5"/>
+      <path d="M650 202Q674 217 673 250L690 250Q692 217 673 198Z" fill="#f8d69b"/>
+      <path d="M630 226l-3 10M704 219l6 11" class="fine" stroke="#ac6255" stroke-width="5"/>
+      <path d="M621 256Q674 239 735 254" class="fine" stroke="#45434b" stroke-width="8"/>
+      <path d="M621 254Q674 238 735 252" class="fine" stroke="#f1b18a" stroke-width="4.5"/>
+      <path d="M639 212q-9 4-13 13" class="fine" stroke="#f6bc99" stroke-width="4"/>
+    </g>
+
+    <g id="near-leg">
+      <path id="near-leg-outline" d="M596 463Q704 495 660 594" fill="none" stroke="#49454f" stroke-width="59" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="near-leg-fill" d="M596 463Q704 495 660 594" fill="none" stroke="#a89ab6" stroke-width="50" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="near-leg-shine" d="M610 467Q671 482 671 534" class="fine" stroke="#c1b3ca" stroke-width="12" opacity=".7"/>
+      <g id="near-foot"><path d="M-22-15Q-30 0-19 10H27Q40 9 37-1Q35-10 13-11L8-19Z" fill="#afa1bd" class="outline" stroke-width="4"/><path d="M16 1v5m9-6v6" class="fine" stroke="#796a87" stroke-width="2.4"/></g>
+      <path id="near-pedal" d="M0 0h40" class="fine" stroke="#49484a" stroke-width="8"/>
+    </g>
+    <path id="arm-outline" d="M650 376Q687 431 774 423" fill="none" stroke="#49454f" stroke-width="43" stroke-linecap="round"/>
+    <path id="arm-fill" d="M650 376Q687 431 774 423" fill="none" stroke="#aa9bb8" stroke-width="35" stroke-linecap="round"/>
+    <path id="arm-shine" d="M654 370Q684 411 719 414" class="fine" stroke="#c3b4cb" stroke-width="7"/>
+    <path d="M765 411q14-4 17 6l-1 14q-2 8-10 7" fill="#aa9bb8" class="outline" stroke-width="3.3"/>
+    <path d="M769 421l10 2M767 429l10 2" class="fine" stroke="#796b87" stroke-width="2.2"/>
+
+    <!-- A wicker basket and a small bunch of daisies. -->
+    <g id="basket">
+      <g id="bouquet">
+        <g fill="none" stroke="#74896b" stroke-width="4" stroke-linecap="round">
+          <path d="M879 454Q857 414 848 382M883 455Q896 408 911 389M878 452L881 366M879 451Q860 420 829 411M884 451Q906 424 929 429"/>
+        </g>
+        <g fill="#829e71" stroke="#6e8b64" stroke-width="1.5">
+          <path d="M868 431Q840 432 844 414Q861 413 868 431Z"/>
+          <path d="M889 430Q890 410 905 411Q910 425 889 430Z"/>
+          <path d="M881 406Q861 401 865 385Q881 389 881 406Z"/>
+          <path d="M857 406Q841 400 835 406Q840 418 861 420Z"/>
+          <path d="M903 422Q918 403 925 413Q923 425 903 427Z"/>
+        </g>
+        <use href="#daisy" transform="translate(848 382) rotate(-16) scale(1.02)"/>
+        <use href="#daisy" transform="translate(881 366) rotate(9) scale(1.12)"/>
+        <use href="#daisy" transform="translate(911 389) rotate(24) scale(.93)"/>
+        <g fill="#bc8dba"><circle cx="828" cy="404" r="8"/><circle cx="820" cy="412" r="7"/><circle cx="833" cy="415" r="8"/><circle cx="927" cy="425" r="8"/><circle cx="937" cy="431" r="7"/></g>
+        <g fill="#ebc479"><circle cx="828" cy="411" r="3"/><circle cx="931" cy="430" r="3"/></g>
+      </g>
+      <path d="M831 446H932L917 513Q916 519 905 519H858Q848 519 846 510Z" fill="url(#basket-fill)" class="outline" stroke-width="4"/>
+      <g clip-path="url(#basket-clip)" fill="none" stroke="#ac774d" stroke-width="2" opacity=".8">
+        <path d="M830 461H935M830 474H935M830 487H935M830 500H935M830 512H935"/>
+        <path d="M840 446l17 75M855 446l12 75M870 446l5 75M885 446v75M900 446l-6 75M915 446l-12 75M931 446l-18 75"/>
+      </g>
+      <path d="M845 455l10 47" class="fine" stroke="#edc78d" stroke-width="4"/>
+      <path d="M832 446H932" class="fine" stroke="#45434b" stroke-width="11"/>
+      <path d="M832 445H932" class="fine" stroke="#e8bd81" stroke-width="6"/>
+      <path d="M870 482q5-9 12 0q7-9 12 0q4 9-12 18q-15-9-12-18" fill="#efc88c" stroke="#b98255" stroke-width="1.5"/>
+    </g>
+    <g id="breeze" class="fine" stroke="#fdf7e5" stroke-width="4" opacity=".9">
+      <path d="M373 362h41M388 377h18M333 433h55"/>
+    </g>
+  </g>
+
+  <g id="butterfly" transform="translate(1028 326)">
+    <g id="butterfly-wings"><path d="M0 0C-28-28-39-10-24 5C-39 18-16 29 0 4" fill="#e79a79" stroke="#aa725c" stroke-width="1.5"/><path d="M1 0C26-24 36-5 21 6C36 23 13 27 1 4" fill="#f3c078" stroke="#aa725c" stroke-width="1.5"/></g>
+    <path d="M0-3v14m0-12-4-5m4 5 4-5" class="fine" stroke="#736458" stroke-width="2"/>
+  </g>
+  <g id="front-grass" color="#78966d" opacity=".9">
+    <use href="#grass" transform="translate(168 855) scale(1.7)"/>
+    <use href="#grass" transform="translate(1110 861) scale(1.5)"/>
+  </g>
+</svg>
+</main>
+<script>
+(() => {
+  'use strict';
+  const ids = ['scene', 'rear-spokes', 'front-spokes', 'crank-arms', 'hippo-body', 'clouds', 'hills', 'trees', 'meadow', 'near-leg-outline', 'near-leg-fill', 'near-leg-shine', 'near-foot', 'near-pedal', 'far-leg-outline', 'far-leg-fill', 'far-foot', 'far-pedal', 'arm-outline', 'arm-fill', 'arm-shine', 'bouquet', 'butterfly', 'butterfly-wings', 'scarf-tail-back', 'scarf-tail-front', 'breeze', 'ground-shadow'];
+  const el = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const narrowScreen = window.matchMedia('(max-width: 640px)');
+  const TAU = Math.PI * 2;
+  const cycleSeconds = 2.1;
+  let elapsed = 0;
+  let previous = 0;
+  let frame = null;
+
+  function set(id, attribute, value) { el[id].setAttribute(attribute, value); }
+  function number(value) { return value.toFixed(2); }
+  function point(x, y) { return `${number(x)} ${number(y)}`; }
+
+  // Two equal leg segments place the knee forward of the hip and ankle.
+  // The ankle is tied to the crank, so the feet stay on their own pedals.
+  function leg(side, angle, bob) {
+    const near = side === 'near';
+    const hx = near ? 591 : 573;
+    const hy = (near ? 470 : 476) + bob;
+    const px = 624 + 44 * Math.cos(angle);
+    const py = 622 + 44 * Math.sin(angle);
+    const ax = px - 5;
+    const ay = py - 15;
+    const dx = ax - hx;
+    const dy = ay - hy;
+    const distance = Math.hypot(dx, dy);
+    const length = near ? 110 : 107;
+    const bend = Math.sqrt(Math.max(0, length * length - distance * distance / 4));
+    const kx = (hx + ax) / 2 + (dy / distance) * bend;
+    const ky = (hy + ay) / 2 - (dx / distance) * bend;
+    const beforeX = hx + (kx - hx) * .78;
+    const beforeY = hy + (ky - hy) * .78;
+    const afterX = kx + (ax - kx) * .22;
+    const afterY = ky + (ay - ky) * .22;
+    const path = `M${point(hx, hy)} L${point(beforeX, beforeY)} Q${point(kx, ky)} ${point(afterX, afterY)} L${point(ax, ay)}`;
+    set(`${side}-leg-outline`, 'd', path);
+    set(`${side}-leg-fill`, 'd', path);
+    set(`${side}-foot`, 'transform', `translate(${point(px, py - 12)})`);
+    set(`${side}-pedal`, 'd', `M${point(px - 20, py)}h40`);
+    if (near) {
+      set('near-leg-shine', 'd', `M${point(hx + 8, hy - 8)}L${point(beforeX + 3, beforeY - 8)}Q${point(kx + 2, ky - 8)} ${point(afterX + 4, afterY - 6)}`);
+    }
+  }
+
+  function draw(seconds) {
+    const a = seconds / cycleSeconds * TAU - .65;
+    const bob = Math.sin(a * 2) * 2.1;
+    const degrees = a * 180 / Math.PI;
+    // The 2.4:1 gear ratio also sets the scenery's ground speed.
+    const wheelDegrees = seconds / cycleSeconds * 360 * 2.4;
+    const groundSpeed = TAU * 114 * 2.4 / cycleSeconds;
+    set('rear-spokes', 'transform', `rotate(${number(wheelDegrees)})`);
+    set('front-spokes', 'transform', `rotate(${number(wheelDegrees)})`);
+    set('crank-arms', 'transform', `translate(624 622) rotate(${number(degrees)})`);
+    set('hippo-body', 'transform', `translate(0 ${number(bob)})`);
+    leg('far', a + Math.PI, bob);
+    leg('near', a, bob);
+    const arm = `M650 ${number(376 + bob)}Q687 ${number(431 + bob * .5)} 774 423`;
+    set('arm-outline', 'd', arm);
+    set('arm-fill', 'd', arm);
+    set('arm-shine', 'd', `M654 ${number(370 + bob)}Q684 ${number(411 + bob * .5)} 719 414`);
+    set('clouds', 'transform', `translate(${number(-(seconds * 7 % 1400))} 0)`);
+    set('hills', 'transform', `translate(${number(-(seconds * 14 % 1280))} 0)`);
+    set('trees', 'transform', `translate(${number(-(seconds * 31 % 1280))} 0)`);
+    set('meadow', 'transform', `translate(${number(-(seconds * groundSpeed % 1280))} 0)`);
+    set('bouquet', 'transform', `rotate(${number(Math.sin(a * 2 - .5) * 2.3)} 883 452)`);
+    const flutter = Math.sin(seconds * 5.6) * 5;
+    set('scarf-tail-back', 'd', `M630 343Q589 ${number(326 + flutter)} 550 ${number(337 + flutter)}Q521 ${number(345 + flutter)} 496 ${number(325 + flutter)}L488 ${number(345 + flutter)}Q516 ${number(365 + flutter)} 550 ${number(354 + flutter)}Q593 341 627 358Z`);
+    set('scarf-tail-front', 'd', `M628 348Q588 ${number(335 - flutter)} 557 ${number(363 - flutter)}Q539 ${number(376 - flutter)} 517 ${number(368 - flutter)}L521 ${number(390 - flutter)}Q550 ${number(392 - flutter)} 569 ${number(376 - flutter)}Q596 353 631 364Z`);
+    set('butterfly', 'transform', `translate(${number(1032 + Math.sin(seconds * .68) * 40)} ${number(332 + Math.sin(seconds * 1.4) * 23)}) rotate(${number(Math.sin(seconds * 1.4) * 12)})`);
+    set('butterfly-wings', 'transform', `scale(${number(.32 + .68 * Math.abs(Math.cos(seconds * 8)))} 1)`);
+    set('breeze', 'opacity', number(.55 + Math.sin(seconds * 3) * .2));
+    set('ground-shadow', 'rx', number(302 - bob * 1.2));
+  }
+
+  function tick(time) {
+    frame = null;
+    if (motionPreference.matches || document.hidden) { previous = 0; return; }
+    if (previous) elapsed += Math.min((time - previous) / 1000, .05);
+    previous = time;
+    draw(elapsed);
+    frame = requestAnimationFrame(tick);
+  }
+
+  function refreshMotion() {
+    if (frame !== null) cancelAnimationFrame(frame);
+    frame = null;
+    previous = 0;
+    if (!motionPreference.matches && !document.hidden) frame = requestAnimationFrame(tick);
+    else draw(elapsed);
+  }
+
+  function resize() {
+    set('scene', 'viewBox', narrowScreen.matches ? '245 125 790 710' : '0 0 1280 860');
+  }
+
+  motionPreference.addEventListener('change', refreshMotion);
+  narrowScreen.addEventListener('change', resize);
+  document.addEventListener('visibilitychange', refreshMotion);
+  resize();
+  draw(0);
+  refreshMotion();
+  // Read-only readiness information for browser verification.
+  Object.defineProperty(window, '__hippoAnimation', { value: Object.freeze({
+    ready: true,
+    get elapsed() { return elapsed; },
+    get reducedMotion() { return motionPreference.matches; },
+    get running() { return frame !== null; },
+    cycleSeconds
+  }), writable: false });
+})();
+</script>
+</body>
+</html>

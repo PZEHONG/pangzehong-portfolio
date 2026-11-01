@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>现场 · 海报工作室</title>
+  <style>
+    :root { --ink: #20221f; --muted: #787c77; --line: #e3e5e1; --paper: #ffffff; --workspace: #eff0ed; --accent: #d9ff43; --focus: #2466d2; }
+    * { box-sizing: border-box; letter-spacing: 0; }
+    html, body { margin: 0; min-width: 280px; min-height: 100%; }
+    body { color: var(--ink); background: var(--workspace); font: 14px/1.5 "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif; }
+    button, input { font: inherit; color: inherit; }
+    button, a, input { -webkit-tap-highlight-color: transparent; }
+    button { cursor: pointer; }
+    button:disabled { cursor: default; }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+    button, a { touch-action: manipulation; }
+    svg { width: 18px; height: 18px; flex: none; stroke-width: 1.7; }
+    .topbar { height: 72px; display: flex; align-items: center; gap: 26px; padding: 0 28px; background: var(--paper); border-bottom: 1px solid var(--line); }
+    .home { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); flex: none; }
+    .home svg { width: 19px; height: 19px; }
+    .brand { font-weight: 650; font-size: 16px; white-space: nowrap; }
+    .project { padding-left: 25px; border-left: 1px solid var(--line); display: flex; align-items: baseline; gap: 12px; flex: 1; min-width: 0; }
+    .project strong { font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .project span { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .commands { display: flex; align-items: center; gap: 7px; flex: none; }
+    .icon-button { width: 36px; height: 36px; border: 0; background: transparent; display: inline-flex; align-items: center; justify-content: center; border-radius: 5px; }
+    .icon-button:hover:not(:disabled) { background: #f0f1ee; }
+    .icon-button:disabled { color: #c6c9c2; }
+    .command-divider { width: 1px; height: 22px; background: var(--line); margin: 0 10px; }
+    .export-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 122px; height: 38px; padding: 0 15px; color: white; background: #20221f; border: 1px solid #20221f; border-radius: 5px; font-size: 13px; font-weight: 550; }
+    .export-button:hover:not(:disabled) { background: #3b4134; }
+    .export-button:disabled { color: #a5a99f; background: #e5e7e1; border-color: #e5e7e1; }
+    .editor { height: calc(100svh - 72px); min-height: 560px; display: grid; grid-template-columns: minmax(0, 1fr) 286px; }
+    .workspace { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+    .canvas-top { height: 58px; flex: none; padding: 0 29px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .canvas-top h1 { margin: 0; font-size: 13px; font-weight: 550; display: flex; align-items: center; gap: 9px; }
+    .canvas-top h1 svg { color: #888d82; width: 16px; height: 16px; }
+    .canvas-top .format { color: var(--muted); font-size: 11px; font-family: "Consolas", monospace; }
+    .canvas-space { flex: 1; min-height: 0; min-width: 0; padding: 10px 32px 20px; display: grid; place-items: center; overflow: hidden; }
+    #poster-shell { width: 480px; height: 600px; max-width: 100%; background: #252722; box-shadow: 0 8px 24px #20221f18, 0 1px 3px #20221f18; position: relative; flex: none; }
+    #poster-canvas { width: 100%; height: 100%; touch-action: none; }
+    #poster-canvas canvas { display: block; }
+    #loading { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; text-align: center; color: #cfd4c8; font-size: 13px; padding: 30px; pointer-events: none; }
+    #loading[hidden] { display: none; }
+    .workspace-footer { flex: none; height: 35px; padding: 0 29px; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 11px; color: var(--muted); }
+    .status { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
+    .status-dot { width: 5px; height: 5px; background: #9da393; border-radius: 50%; flex: none; }
+    body[data-ready="true"] .status-dot { background: #6b8c41; }
+    .zoom { font-family: "Consolas", monospace; flex: none; }
+    .inspector { background: var(--paper); border-left: 1px solid var(--line); min-width: 0; overflow-y: auto; }
+    .inspector-heading { display: flex; align-items: center; justify-content: space-between; height: 59px; padding: 0 23px; border-bottom: 1px solid var(--line); }
+    .inspector-heading h2 { font-size: 13px; font-weight: 600; margin: 0; }
+    .inspector-heading svg { color: #92968b; width: 16px; height: 16px; }
+    .text-fields { padding: 23px 23px 6px; }
+    .field { margin-bottom: 21px; min-width: 0; }
+    .field-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 9px; }
+    .field label { font-size: 12px; font-weight: 550; }
+    .counter { font-size: 10px; font-family: "Consolas", monospace; color: #8a8f82; }
+    .field input { width: 100%; min-width: 0; height: 42px; padding: 0 11px; background: #fbfcfa; border: 1px solid #dfe2d8; border-radius: 5px; font-size: 14px; }
+    .field input:hover:not(:disabled) { border-color: #aeb7a1; }
+    .field input:disabled { color: #939889; }
+    .accent-section { padding: 0 23px 25px; }
+    .section-label { display: flex; justify-content: space-between; align-items: center; margin: 0 0 12px; font-size: 12px; font-weight: 550; }
+    #accent-value { color: var(--muted); font-size: 10px; font-family: "Consolas", monospace; font-weight: 400; }
+    .swatches { display: flex; gap: 12px; }
+    .swatch { position: relative; width: 36px; height: 36px; border: 1px solid #00000012; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; }
+    .swatch[aria-pressed="true"]::after { content: ""; position: absolute; inset: -4px; border: 1px solid #4a5140; border-radius: 50%; }
+    .swatch svg { width: 16px; height: 16px; opacity: 0; }
+    .swatch[aria-pressed="true"] svg { opacity: 1; }
+    .swatch:disabled { opacity: .45; }
+    .layers-section { padding: 22px 16px; border-top: 1px solid var(--line); }
+    .layers-section .section-label { padding: 0 7px; }
+    .layer-count { font-size: 10px; color: #94998c; font-family: "Consolas", monospace; }
+    .layer-list { display: flex; flex-direction: column; gap: 5px; }
+    .layer-button { width: 100%; display: flex; align-items: center; gap: 11px; min-width: 0; height: 44px; padding: 0 11px; border: 1px solid transparent; border-radius: 4px; background: transparent; text-align: left; font-size: 12px; }
+    .layer-button svg { width: 16px; height: 16px; color: #697060; }
+    .layer-button:hover:not(:disabled) { background: #f7f8f4; }
+    .layer-button[aria-pressed="true"] { border-color: #dfe4d5; background: #f2f5ec; }
+    .layer-button:disabled { color: #94988e; }
+    .layer-button .layer-detail { margin-left: auto; color: #929888; font-size: 10px; white-space: nowrap; }
+    .layer-button .layer-detail svg { width: 12px; height: 12px; display: block; }
+    .inspector-footer { padding: 13px 23px 22px; color: #9a9e94; display: flex; justify-content: space-between; font-size: 10px; font-family: "Consolas", monospace; }
+    @media (min-width: 1700px) { .editor { grid-template-columns: minmax(0, 1fr) 310px; } }
+    @media (max-width: 700px) {
+      .topbar { height: 62px; padding: 0 14px; gap: 10px; }
+      .home { gap: 8px; }
+      .brand { font-size: 14px; }
+      .brand-prefix, .project, .export-extra { display: none; }
+      .commands { margin-left: auto; gap: 2px; }
+      .icon-button { width: 32px; height: 36px; }
+      .command-divider { margin: 0 5px; height: 18px; }
+      .export-button { min-width: 76px; height: 36px; padding: 0 10px; gap: 6px; font-size: 12px; }
+      .export-button svg { width: 16px; height: 16px; }
+      .editor { display: flex; flex-direction: column; height: auto; min-height: calc(100svh - 62px); }
+      .canvas-top { height: 40px; padding: 0 18px; }
+      .canvas-top h1 { font-size: 12px; }
+      .canvas-top .format { font-size: 10px; }
+      .canvas-space { height: min(410px, 44svh); min-height: 260px; flex: none; padding: 6px 20px 12px; }
+      .workspace-footer { height: 27px; padding: 0 18px; font-size: 10px; }
+      .inspector { border-left: 0; border-top: 1px solid var(--line); overflow: visible; }
+      .inspector-heading { height: 41px; padding: 0 18px; }
+      .inspector-heading h2 { font-size: 12px; }
+      .text-fields { padding: 12px 18px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+      .field { margin-bottom: 12px; }
+      .field-heading { margin-bottom: 5px; }
+      .field input { height: 37px; }
+      .accent-section { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 7px 19px 16px; }
+      .accent-section .section-label { margin: 0; gap: 10px; }
+      .swatches { gap: 13px; }
+      .swatch { width: 27px; height: 27px; }
+      .layers-section { padding: 11px 12px 10px; }
+      .layers-section .section-label { margin-bottom: 7px; }
+      .layer-list { flex-direction: row; gap: 6px; }
+      .layer-button { height: 34px; gap: 6px; padding: 0 7px; justify-content: center; font-size: 11px; }
+      .layer-button .layer-detail { display: none; }
+      .inspector-footer { display: none; }
+    }
+    @media (max-width: 340px) { .brand { font-size: 12px; } .home { gap: 5px; } .topbar { padding: 0 9px; } #accent-value { display: none; } }
+    @media (prefers-reduced-motion: no-preference) { button, input { transition: background-color .15s, border-color .15s; } }
+  </style>
+  <script defer src="assets/konva.min.js"></script>
+  <script defer src="assets/lucide.min.js"></script>
+  <script defer src="assets/photos.js"></script>
+</head>
+<body data-ready="false">
+  <header class="topbar">
+    <a class="home" href="index.html" target="_top" title="返回视觉实验室" aria-label="返回视觉实验室"><i data-lucide="arrow-left" aria-hidden="true"></i><span class="brand"><span class="brand-prefix">视觉</span>实验室</span></a>
+    <div class="project"><strong>现场</strong><span>/ 海报工作室</span></div>
+    <nav class="commands" aria-label="编辑命令">
+      <button class="icon-button" id="undo" type="button" disabled title="撤销" aria-label="撤销"><i data-lucide="undo-2" aria-hidden="true"></i></button>
+      <button class="icon-button" id="redo" type="button" disabled title="重做" aria-label="重做"><i data-lucide="redo-2" aria-hidden="true"></i></button>
+      <span class="command-divider" aria-hidden="true"></span>
+      <button class="export-button" id="export" type="button" disabled title="导出 PNG" aria-label="导出 PNG"><i data-lucide="download" aria-hidden="true"></i><span>导出<span class="export-extra"> PNG</span></span></button>
+    </nav>
+  </header>
+  <main class="editor">
+    <section class="workspace" aria-label="海报画布">
+      <div class="canvas-top"><h1><i data-lucide="frame" aria-hidden="true"></i>现场 · 音乐节</h1><span class="format">800 × 1000 / 4:5</span></div>
+      <div class="canvas-space" id="canvas-space">
+        <div id="poster-shell"><div id="poster-canvas" role="img" aria-label="现场音乐节海报，日期 2026.09.26"></div><div id="loading" role="status">正在载入海报</div></div>
+      </div>
+      <div class="workspace-footer"><span class="status"><span class="status-dot" aria-hidden="true"></span><span id="status" role="status" aria-live="polite">正在载入</span></span><span class="zoom" id="zoom">4:5</span></div>
+    </section>
+    <aside class="inspector" aria-label="海报设置">
+      <div class="inspector-heading"><h2>海报设置</h2><i data-lucide="sliders-horizontal" aria-hidden="true"></i></div>
+      <div class="text-fields">
+        <div class="field"><div class="field-heading"><label for="title-input">主标题</label><span id="title-count" class="counter">2 / 16</span></div><input id="title-input" type="text" value="现场" maxlength="16" autocomplete="off" spellcheck="false" disabled></div>
+        <div class="field"><div class="field-heading"><label for="date-input">日期</label><i data-lucide="calendar-days" aria-hidden="true" style="width:13px;height:13px;color:#929888"></i></div><input id="date-input" type="text" value="2026.09.26" maxlength="24" autocomplete="off" spellcheck="false" disabled></div>
+      </div>
+      <section class="accent-section" aria-label="强调色"><h3 class="section-label">强调色<span id="accent-value">#D9FF43</span></h3><div class="swatches" role="group" aria-label="强调色">
+        <button id="accent-lime" class="swatch" type="button" data-color="#d9ff43" style="background:#d9ff43" title="电光绿" aria-label="电光绿" aria-pressed="true" disabled><i data-lucide="check" aria-hidden="true"></i></button>
+        <button id="accent-coral" class="swatch" type="button" data-color="#ff856d" style="background:#ff856d" title="珊瑚橙" aria-label="珊瑚橙" aria-pressed="false" disabled><i data-lucide="check" aria-hidden="true"></i></button>
+        <button id="accent-blue" class="swatch" type="button" data-color="#9dcbff" style="background:#9dcbff" title="晴空蓝" aria-label="晴空蓝" aria-pressed="false" disabled><i data-lucide="check" aria-hidden="true"></i></button>
+      </div></section>
+      <section class="layers-section" aria-label="图层"><h3 class="section-label">图层<span class="layer-count">03</span></h3><div class="layer-list">
+        <button id="layer-title" class="layer-button" type="button" data-layer="title" aria-pressed="false" disabled><i data-lucide="type" aria-hidden="true"></i><span>标题</span><span class="layer-detail">文字</span></button>
+        <button id="layer-date" class="layer-button" type="button" data-layer="date" aria-pressed="false" disabled><i data-lucide="calendar-days" aria-hidden="true"></i><span>日期</span><span class="layer-detail">文字</span></button>
+        <button id="layer-background" class="layer-button" type="button" data-layer="background" aria-pressed="false" disabled><i data-lucide="image" aria-hidden="true"></i><span>背景</span><span class="layer-detail"><i data-lucide="lock-keyhole" aria-hidden="true"></i></span></button>
+      </div></section>
+      <div class="inspector-footer"><span>POSTER / 005</span><span>RGB · PNG</span></div>
+    </aside>
+  </main>
+  <script>
+    (() => {
+      'use strict';
+      const WIDTH = 800, HEIGHT = 1000, HISTORY_LIMIT = 100;
+      const FONT = '"Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif';
+      const LATIN = 'Arial, "Microsoft YaHei", sans-serif';
+      const $ = id => document.getElementById(id);
+      let state = { title: '现场', date: '2026.09.26', accent: '#d9ff43', titlePosition: { x: 34, y: 220 }, datePosition: { x: 44, y: 824 } };
+      const undoStack = [], redoStack = [], composing = new Set();
+      let ready = false, exporting = false, selected = null, stage, artworkLayer, selectionLayer;
+      let titleGroup, dateGroup, titleText, dateText, selectionBox, resizeObserver;
+      let activeDrag = null;
+      const accents = [];
+      const clone = value => JSON.parse(JSON.stringify(value));
+      const inputs = { title: $('title-input'), date: $('date-input') };
+      const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      Object.defineProperty(window, 'labState', { configurable: true, get: () => ({ ...clone(state), undoCount: undoStack.length, redoCount: redoStack.length, ready }) });
+
+      function setStatus(message) { $('status').textContent = message; }
+      function updateControls(syncInputs = true) {
+        if (syncInputs) { inputs.title.value = state.title; inputs.date.value = state.date; }
+        $('title-count').textContent = `${Array.from(inputs.title.value).length} / 16`;
+        $('accent-value').textContent = state.accent.toUpperCase();
+        $('undo').disabled = !ready || exporting || undoStack.length === 0;
+        $('redo').disabled = !ready || exporting || redoStack.length === 0;
+        $('export').disabled = !ready || exporting;
+        Object.values(inputs).forEach(input => { input.disabled = !ready || exporting; });
+        document.querySelectorAll('[data-color]').forEach(button => {
+          button.disabled = !ready || exporting;
+          button.setAttribute('aria-pressed', String(button.dataset.color === state.accent));
+        });
+        document.querySelectorAll('[data-layer]').forEach(button => {
+          button.disabled = !ready || exporting;
+          button.setAttribute('aria-pressed', String(button.dataset.layer === selected));
+        });
+      }
+
+      const measure = document.createElement('canvas').getContext('2d');
+      function wrapText(text, size, maxWidth) {
+        measure.font = `900 ${size}px ${FONT}`;
+        const lines = [];
+        let line = '';
+        for (const char of Array.from(text)) {
+          if (line && measure.measureText(line + char).width > maxWidth) { lines.push(line); line = char; }
+          else { line += char; }
+        }
+        lines.push(line);
+        return lines;
+      }
+      function fitTitle(text) {
+        let size = 280, lines = [''];
+        for (; size >= 28; size -= 2) {
+          lines = wrapText(text, size, 676);
+          if (lines.length * size * 1.06 <= 296 && lines.every(line => { measure.font = `900 ${size}px ${FONT}`; return measure.measureText(line).width <= 676; })) break;
+        }
+        titleText.fontSize(size);
+        titleText.text(lines.join('\n'));
+      }
+      function fitDate(text) {
+        let size = 65;
+        for (; size > 12; size--) { measure.font = `bold ${size}px ${LATIN}`; if (measure.measureText(text).width <= 460) break; }
+        dateText.fontSize(size);
+        dateText.text(text);
+      }
+      function updateSelection() {
+        if (!selectionBox) return;
+        const group = selected === 'title' ? titleGroup : selected === 'date' ? dateGroup : null;
+        selectionBox.visible(Boolean(group));
+        if (group) {
+          const size = selected === 'title' ? { width: 732, height: 352 } : { width: 500, height: 108 };
+          const scale = stage.scaleX();
+          selectionBox.setAttrs({ x: group.x(), y: group.y(), ...size, strokeWidth: 1.2 / scale, dash: [5 / scale, 4 / scale] });
+        }
+        selectionLayer.batchDraw();
+      }
+      function selectLayer(name) {
+        selected = name;
+        updateSelection();
+        updateControls(false);
+      }
+      function renderState() {
+        if (!stage) return;
+        accents.forEach(shape => shape.fill(state.accent));
+        titleGroup.position(state.titlePosition);
+        dateGroup.position(state.datePosition);
+        fitTitle(state.title);
+        fitDate(state.date);
+        $('poster-canvas').setAttribute('aria-label', `${state.title || '音乐节'}海报，日期 ${state.date}`);
+        updateControls();
+        updateSelection();
+        stage.batchDraw();
+      }
+      function commit(next) {
+        if (!ready || same(next, state)) return false;
+        undoStack.push(clone(state));
+        if (undoStack.length > HISTORY_LIMIT) undoStack.shift();
+        redoStack.length = 0;
+        state = clone(next);
+        renderState();
+        setStatus('已更新');
+        return true;
+      }
+      function commitInputs() {
+        if (!ready || composing.size) return;
+        const next = clone(state);
+        next.title = Array.from(inputs.title.value).slice(0, 16).join('');
+        next.date = Array.from(inputs.date.value).slice(0, 24).join('');
+        if (!commit(next)) updateControls(false);
+      }
+      Object.entries(inputs).forEach(([name, input]) => {
+        input.addEventListener('compositionstart', () => composing.add(name));
+        input.addEventListener('compositionend', () => { composing.delete(name); if (document.activeElement !== input) commitInputs(); });
+        input.addEventListener('input', () => { if (name === 'title') $('title-count').textContent = `${Array.from(input.value).length} / 16`; });
+        input.addEventListener('change', commitInputs);
+        input.addEventListener('blur', commitInputs);
+        input.addEventListener('keydown', event => { if (event.key === 'Enter' && !event.isComposing) { event.preventDefault(); input.blur(); } });
+      });
+      $('undo').addEventListener('click', () => {
+        if (!ready || exporting) return;
+        finishDrag();
+        commitInputs();
+        if (!undoStack.length) return;
+        redoStack.push(clone(state));
+        state = undoStack.pop();
+        renderState();
+        setStatus('已撤销');
+      });
+      $('redo').addEventListener('click', () => {
+        if (!ready || exporting) return;
+        finishDrag();
+        commitInputs();
+        if (!redoStack.length) return;
+        undoStack.push(clone(state));
+        state = redoStack.pop();
+        renderState();
+        setStatus('已重做');
+      });
+      document.querySelectorAll('[data-color]').forEach(button => button.addEventListener('click', () => {
+        if (!ready) return;
+        finishDrag();
+        commitInputs();
+        commit({ ...clone(state), accent: button.dataset.color });
+      }));
+      document.querySelectorAll('[data-layer]').forEach(button => button.addEventListener('click', () => {
+        if (!ready) return;
+        commitInputs();
+        selectLayer(button.dataset.layer);
+      }));
+
+      function fitStage() {
+        if (!stage) return;
+        const space = $('canvas-space'), css = getComputedStyle(space);
+        const availableWidth = space.clientWidth - parseFloat(css.paddingLeft) - parseFloat(css.paddingRight);
+        const availableHeight = space.clientHeight - parseFloat(css.paddingTop) - parseFloat(css.paddingBottom);
+        const scale = Math.max(.05, Math.min(availableWidth / WIDTH, availableHeight / HEIGHT, 1));
+        if (Math.abs(stage.scaleX() - scale) > .00001 || stage.width() === WIDTH) {
+          stage.size({ width: WIDTH * scale, height: HEIGHT * scale });
+          stage.scale({ x: scale, y: scale });
+          $('poster-shell').style.width = `${WIDTH * scale}px`;
+          $('poster-shell').style.height = `${HEIGHT * scale}px`;
+          updateSelection();
+          stage.draw();
+        }
+        $('zoom').textContent = `${Math.round(scale * 100)}%`;
+      }
+      function bindDrag(group, key, width, height) {
+        group.on('pointerdown', () => { commitInputs(); selectLayer(key); });
+        group.on('mouseenter', () => { stage.container().style.cursor = 'grab'; });
+        group.on('mouseleave', () => { if (!activeDrag) stage.container().style.cursor = ''; });
+        group.on('dragstart', () => { activeDrag = { group, key, width, height }; selectLayer(key); stage.container().style.cursor = 'grabbing'; });
+        group.on('dragmove', () => {
+          group.position({ x: Math.max(0, Math.min(WIDTH - width, group.x())), y: Math.max(0, Math.min(HEIGHT - height, group.y())) });
+          updateSelection();
+        });
+        group.on('dragend', () => recordDrag(group, key, width, height));
+      }
+      function recordDrag(group, key, width, height) {
+        if (!activeDrag) return;
+        activeDrag = null;
+        const next = clone(state);
+        next[`${key}Position`] = {
+          x: Math.round(Math.max(0, Math.min(WIDTH - width, group.x())) * 100) / 100,
+          y: Math.round(Math.max(0, Math.min(HEIGHT - height, group.y())) * 100) / 100
+        };
+        if (!commit(next)) renderState();
+        stage.container().style.cursor = '';
+      }
+      function finishDrag() {
+        if (!activeDrag) return;
+        const drag = activeDrag;
+        drag.group.stopDrag();
+        recordDrag(drag.group, drag.key, drag.width, drag.height);
+      }
+      window.addEventListener('blur', finishDrag);
+      document.addEventListener('visibilitychange', () => { if (document.hidden) finishDrag(); });
+
+      $('export').addEventListener('click', () => {
+        if (!ready || exporting) return;
+        finishDrag();
+        commitInputs();
+        exporting = true;
+        updateControls(false);
+        const wasVisible = selectionLayer.visible();
+        const previewSize = stage.size();
+        const previewScale = { ...stage.scale() };
+        try {
+          selectionLayer.hide();
+          // Export in logical pixels, independent of the iframe and preview scale.
+          stage.scale({ x: 1, y: 1 });
+          stage.size({ width: WIDTH, height: HEIGHT });
+          stage.draw();
+          const dataURL = stage.toDataURL({ x: 0, y: 0, width: WIDTH, height: HEIGHT, mimeType: 'image/png', pixelRatio: 1 });
+          const link = document.createElement('a');
+          link.href = dataURL;
+          link.download = 'music-poster.png';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setStatus('已导出 PNG');
+        } catch (error) {
+          setStatus('导出失败');
+          console.error('Poster export failed:', error);
+        } finally {
+          stage.size(previewSize);
+          stage.scale(previewScale);
+          selectionLayer.visible(wasVisible);
+          stage.draw();
+          exporting = false;
+          updateControls(false);
+        }
+      });
+
+      function textNode(config) { return new Konva.Text({ fontFamily: FONT, fill: '#ffffff', listening: false, ...config }); }
+      function loadPhoto(source) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = async () => {
+            try {
+              if (image.decode) await image.decode();
+              if (!image.naturalWidth || !image.naturalHeight) throw new Error('演出照片为空');
+              resolve(image);
+            } catch (error) { reject(error); }
+          };
+          image.onerror = () => reject(new Error('演出照片无法读取'));
+          image.src = source;
+        });
+      }
+      async function init() {
+        try {
+          if (!window.Konva) throw new Error('画布组件未就绪');
+          if (!window.lucide) throw new Error('图标组件未就绪');
+          window.lucide.createIcons();
+          const source = window.LAB_PHOTOS && window.LAB_PHOTOS.concert;
+          if (typeof source !== 'string' || !/^data:image\//i.test(source)) throw new Error('缺少本地演出照片');
+          const fontReady = document.fonts ? Promise.all([document.fonts.ready, document.fonts.load(`900 280px ${FONT}`, '现场'), document.fonts.load(`bold 65px ${LATIN}`, '2026.09.26')]) : Promise.resolve();
+          const [photo] = await Promise.all([loadPhoto(source), fontReady]);
+          stage = new Konva.Stage({ container: 'poster-canvas', width: WIDTH, height: HEIGHT });
+          window.posterStage = stage;
+          const backgroundLayer = new Konva.Layer({ name: 'background', listening: false });
+          artworkLayer = new Konva.Layer({ name: 'content' });
+          selectionLayer = new Konva.Layer({ name: 'selection', listening: false });
+          stage.add(backgroundLayer, artworkLayer, selectionLayer);
+          const ratio = Math.max(WIDTH / photo.naturalWidth, HEIGHT / photo.naturalHeight);
+          const cropWidth = WIDTH / ratio, cropHeight = HEIGHT / ratio;
+          const background = new Konva.Image({ image: photo, x: 0, y: 0, width: WIDTH, height: HEIGHT, crop: { x: (photo.naturalWidth - cropWidth) / 2, y: (photo.naturalHeight - cropHeight) / 2, width: cropWidth, height: cropHeight }, listening: false });
+          backgroundLayer.add(background);
+          background.cache({ pixelRatio: 1 });
+          background.filters([Konva.Filters.Grayscale, Konva.Filters.Contrast]);
+          background.contrast(13);
+          backgroundLayer.add(new Konva.Rect({ x: 0, y: 0, width: WIDTH, height: 212, fill: '#10120f', opacity: .47 }));
+          backgroundLayer.add(new Konva.Rect({ x: 0, y: 755, width: WIDTH, height: 245, fill: '#10120f', opacity: .61 }));
+          backgroundLayer.add(textNode({ x: 44, y: 38, text: '现场音乐节 / LIVE MUSIC FESTIVAL', fontSize: 18, fontStyle: 'bold', width: 600 }));
+          backgroundLayer.add(textNode({ x: 644, y: 40, text: 'VOL.026', fontFamily: LATIN, fontSize: 16, width: 112, align: 'right' }));
+          backgroundLayer.add(new Konva.Line({ points: [44, 80, 756, 80], stroke: '#ffffff', opacity: .7, strokeWidth: 1 }));
+          backgroundLayer.add(textNode({ x: 41, y: 110, text: 'LIVE / 2026', fontFamily: LATIN, fontStyle: '900', fontSize: 83, width: 720, height: 95 }));
+          for (let i = 0; i < 3; i++) {
+            const slash = new Konva.Line({ x: 578 + i * 58, y: 624, points: [38, 0, 74, 0, 34, 118, 0, 118], closed: true, fill: state.accent });
+            accents.push(slash);
+            backgroundLayer.add(slash);
+          }
+          backgroundLayer.add(textNode({ x: 44, y: 773, text: '独立 · 电子 · 摇滚', fontSize: 21, fontStyle: 'bold', width: 480 }));
+          backgroundLayer.add(textNode({ x: 587, y: 823, text: '声音\n不设限', fontSize: 43, fontStyle: 'bold', lineHeight: 1.2, width: 174 }));
+          backgroundLayer.add(textNode({ x: 44, y: 956, text: '城市公园 · 草坪舞台', fontSize: 18, width: 420 }));
+          backgroundLayer.add(textNode({ x: 570, y: 958, text: 'SEE YOU THERE.', fontFamily: LATIN, fontSize: 17, width: 185, align: 'right' }));
+
+          titleGroup = new Konva.Group({ id: 'poster-title', name: 'title', ...state.titlePosition, draggable: true });
+          const titlePlate = new Konva.Line({ points: [0, 20, 712, 0, 732, 330, 20, 352], closed: true, fill: state.accent });
+          accents.push(titlePlate);
+          titleGroup.add(titlePlate);
+          titleText = textNode({ x: 26, y: 14, width: 676, height: 296, fontStyle: '900', fontSize: 280, lineHeight: 1.06, align: 'center', verticalAlign: 'middle', wrap: 'none', fill: '#131610' });
+          titleGroup.add(titleText);
+          titleGroup.add(textNode({ x: 35, y: 319, text: 'IN THE MOMENT.', fontFamily: LATIN, fontSize: 14, fontStyle: 'bold', fill: '#131610', width: 320 }));
+          titleGroup.add(textNode({ x: 532, y: 306, text: '保持热爱 / KEEP LIVE', fontSize: 12, fontStyle: 'bold', fill: '#131610', width: 161, align: 'right' }));
+          artworkLayer.add(titleGroup);
+
+          dateGroup = new Konva.Group({ id: 'poster-date', name: 'date', ...state.datePosition, draggable: true });
+          const datePlate = new Konva.Rect({ width: 500, height: 108, fill: state.accent });
+          accents.push(datePlate);
+          dateGroup.add(datePlate);
+          dateGroup.add(textNode({ x: 20, y: 13, text: 'LIVE HOURS / 15:00 - 23:00', fontFamily: LATIN, fontStyle: 'bold', fontSize: 13, width: 460, fill: '#131610' }));
+          dateText = textNode({ x: 20, y: 30, width: 460, height: 70, fontFamily: LATIN, fontStyle: 'bold', fontSize: 65, verticalAlign: 'middle', wrap: 'none', fill: '#131610' });
+          dateGroup.add(dateText);
+          artworkLayer.add(dateGroup);
+          selectionBox = new Konva.Rect({ stroke: '#2774e7', fillEnabled: false, visible: false, listening: false });
+          selectionLayer.add(selectionBox);
+          bindDrag(titleGroup, 'title', 732, 352);
+          bindDrag(dateGroup, 'date', 500, 108);
+          stage.on('pointerdown', event => { if (event.target === stage) { commitInputs(); selectLayer(null); } });
+          ready = true;
+          document.body.dataset.ready = 'true';
+          renderState();
+          fitStage();
+          stage.draw();
+          $('loading').hidden = true;
+          setStatus('已就绪');
+          resizeObserver = new ResizeObserver(fitStage);
+          resizeObserver.observe($('canvas-space'));
+          window.addEventListener('resize', fitStage);
+        } catch (error) {
+          ready = false;
+          document.body.dataset.ready = 'false';
+          $('loading').hidden = false;
+          $('loading').textContent = error.message || '海报载入失败';
+          setStatus('素材未就绪');
+          updateControls(false);
+          console.error('Poster initialization failed:', error);
+        }
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+      else init();
+    })();
+  </script>
+</body>
+</html>

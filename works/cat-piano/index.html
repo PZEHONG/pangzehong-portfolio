@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f8f6f0"><meta name="description" content="七只猫，七个音阶。点点猫咪，用真实猫叫弹一首属于你的小快乐。支持触摸、键盘弹奏和录制回放。">
+  <title>喵喵钢琴 · 七只猫，一首小快乐</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="sample-data.js?v=2f092a8cfa61"></script><script defer src="cats.js"></script><script defer src="audio-engine.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+  <svg class="svg-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4ZM17 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-muted" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4Zm13 0 5 6m0-6-5 6"/></symbol>
+    <symbol id="i-record" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-replay" viewBox="0 0 24 24"><path d="M4 11a8 8 0 1 1 2 7M4 5v6h6"/><path d="m11 8 6 4-6 4Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-paw" viewBox="0 0 32 32"><ellipse cx="7" cy="12" rx="3.4" ry="4.4" transform="rotate(-25 7 12)"/><ellipse cx="14" cy="7" rx="3.3" ry="4.4" transform="rotate(-8 14 7)"/><ellipse cx="22" cy="8" rx="3.3" ry="4.4" transform="rotate(15 22 8)"/><ellipse cx="27" cy="15" rx="3" ry="4" transform="rotate(30 27 15)"/><path d="M6 25c0-4 5-11 10-11s10 6 10 10-4 5-7 4c-3-1-3-1-6 0s-7 1-7-3Z"/></symbol>
+  </defs></svg>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="喵喵钢琴首页"><span class="brand-mark"><svg><use href="#i-paw"/></svg></span><span>喵喵钢琴<small>MEOW PIANO</small></span></a>
+      <span class="header-note">A LITTLE JOY, ONE MEOW AT A TIME.</span>
+      <div class="header-actions"><div class="volume-control"><button id="mute-btn" class="icon-button" aria-label="静音" aria-pressed="false"><svg><use href="#i-volume"/></svg></button><input id="volume" type="range" min="0" max="100" value="70" aria-label="音量"><span id="volume-value">70</span></div><button class="help-button" id="help-btn"><span>?</span> 怎么玩</button></div>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="main-title">
+        <div class="intro">
+          <div class="eyebrow"><span class="status-dot"></span> 七只猫，一首小快乐</div>
+          <h1 id="main-title">把日常，<br>弹成<span class="title-meow">喵喵<svg viewBox="0 0 195 15" aria-hidden="true"><path d="M3 10Q92-4 191 8M32 14Q109 3 172 11"/></svg></span>。</h1>
+          <p class="intro-copy">不用懂乐理，只需要一点好奇心。<br>点点猫咪，让今天多一点可爱的声音。</p>
+          <div class="demo-controls"><button id="demo-btn" class="demo-button"><svg><use href="#i-play"/></svg><span>听一首小曲</span></button><div class="song-select"><select id="song" aria-label="选择示范曲"><option value="star">小星星</option><option value="joy">欢乐颂</option><option value="scale">七音阶散步</option><option value="lawrence">劳伦斯先生圣诞快乐</option></select><span aria-hidden="true">⌄</span></div></div>
+          <div class="demo-caption" id="demo-caption"><span class="tiny-wave"><i></i><i></i><i></i><i></i><i></i></span><span>用猫叫，重新认识熟悉的旋律</span></div>
+          <div class="handwritten">戳一只，听一声 <span>↗</span></div>
+        </div>
+        <div class="stage-wrap">
+          <div class="stage" id="stage" aria-label="七只猫咪，点击任意猫咪弹奏">
+            <div class="stage-grain"></div><div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
+            <span class="stage-spark spark-a" aria-hidden="true">✧</span><span class="stage-spark spark-b" aria-hidden="true">✦</span><span class="stage-dot" aria-hidden="true"></span>
+            <div class="stage-center" id="stage-center"><span class="center-eyebrow">THE MEOW CLUB</span><div class="center-paw"><svg><use href="#i-paw"/></svg></div><strong id="center-note">轮到你啦</strong><span id="center-hint">每一声喵，都算数</span><div class="center-waves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div>
+            <div id="cats"></div><div id="note-particles" aria-hidden="true"></div>
+          </div>
+          <div class="stage-caption"><span></span> 真实猫叫采样 · C 大调七音阶 <span></span></div>
+        </div>
+      </section>
+      <section class="instrument" aria-label="七音阶钢琴">
+        <div class="instrument-heading"><div><span class="live-dot"></span><strong>猫咪乐队，准备就绪</strong><span class="desktop-hint">试试键盘 <kbd>A</kbd> — <kbd>J</kbd></span></div><span class="keyboard-mode">点击 / 触摸 / 键盘</span></div>
+        <div class="keyboard" id="keyboard"></div>
+        <div class="recording-bar"><div class="record-actions"><button id="record-btn" class="record-button"><svg><use href="#i-record"/></svg><span>录一段</span></button><button id="replay-btn" class="replay-button" disabled><svg><use href="#i-replay"/></svg><span>回放</span></button><button id="clear-btn" class="icon-button clear-button" aria-label="清除录制" disabled><svg><use href="#i-trash"/></svg></button></div><div class="record-status" id="record-status" role="status">留住你随手弹出的小灵感 <span>最长 60 秒</span></div><span class="record-time" id="record-time">00:00</span></div>
+      </section>
+      <div class="notice" id="notice" role="alert" hidden><span id="notice-text"></span><button id="retry-btn">重新加载</button></div>
+    </main>
+    <footer><span>生活偶尔跑调，也没关系。<svg><use href="#i-paw"/></svg></span><a href="audio/meow-seven-notes.zip" download><svg><use href="#i-download"/></svg> 带走 7 个猫叫音阶</a><span class="footer-sign">MADE FOR YOUR HAPPY PAWS</span></footer>
+  </div>
+  <dialog id="help-dialog"><button id="close-help" class="dialog-close" aria-label="关闭说明">×</button><div class="dialog-paw"><svg><use href="#i-paw"/></svg></div><h2>怎么弹，都好听。</h2><p>点猫咪或下方琴键就能弹奏；手机可以多指一起按。</p><div class="help-mapping"><span>Do · Re · Mi · Fa · Sol · La · Si</span><strong>A · S · D · F · G · H · J</strong><span>也可以使用数字键 1–7</span></div><p>「录一段」会记下你弹奏的音符和节奏，最长 60 秒。结束后点「回放」就能听见自己的作品。</p><small>不会使用麦克风。录制只保留在当前页面，刷新后清空。<br>音色取自提供的参考视频，经降噪与七音阶调音。<br>独立制作的猫咪乐器体验，与车辆品牌无关联。</small><button id="help-done" class="demo-button">知道啦，开始弹</button></dialog>
+</body></html>

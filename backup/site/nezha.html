@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173d52">
+  <title>哪吒 · 踏火行</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --sky: #173d52;
+      --ink: #172c40;
+      --paper: #fff1cf;
+      --muted: #a6beb9;
+      --gold: #ffd16a;
+      --red: #ec442e;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body { background: var(--sky); color: var(--paper); font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+    button { font: inherit; }
+    [hidden] { display: none !important; }
+    .poster { position: relative; width: 100%; height: 100vh; height: 100svh; min-height: 640px; overflow: hidden; isolation: isolate; }
+    .poster::after {
+      content: ""; position: absolute; inset: 18px; border: 1px solid rgba(207, 222, 199, .14);
+      pointer-events: none; z-index: 4;
+    }
+    .scene { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+    .masthead { position: absolute; z-index: 3; top: 48px; left: 5.5%; right: 5.5%; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .collection { display: flex; align-items: center; gap: 13px; color: #d7dfc6; font-size: 12px; letter-spacing: .3em; }
+    .collection::before { content: ""; width: 26px; height: 1px; background: var(--gold); }
+    .seal { display: grid; place-items: center; width: 40px; height: 45px; border: 1px solid #ffbc83; outline: 3px solid rgba(236,68,46,.75); background: #b5362a; color: #fff0c7; font: 19px/1.1 "KaiTi", "STKaiti", serif; transform: rotate(3deg); }
+    .title { position: absolute; top: 32%; left: 8%; z-index: 2; pointer-events: none; }
+    .eyebrow { margin: 0 0 20px 5px; color: var(--gold); font-size: 11px; letter-spacing: .48em; }
+    h1 { margin: 0; font: 700 clamp(96px, 10vw, 158px)/1.1 "KaiTi", "STKaiti", "FangSong", serif; letter-spacing: .06em; text-shadow: 0 4px 30px rgba(13,42,57,.15); }
+    .subtitle { margin: 27px 0 0 11px; font: 22px/1.5 "KaiTi", "STKaiti", serif; letter-spacing: .65em; }
+    .title-line { width: 36px; height: 2px; background: var(--red); margin: 33px 0 0 12px; }
+    .verse { position: absolute; z-index: 2; right: 5.9%; top: 38%; margin: 0; writing-mode: vertical-rl; font: 16px/2.1 "KaiTi", "STKaiti", serif; letter-spacing: .4em; color: #c7d5bf; }
+    .footer { position: absolute; z-index: 5; bottom: 43px; left: 5.5%; right: 5.5%; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .caption { margin: 0; color: #b0c4bb; font-size: 11px; letter-spacing: .26em; }
+    .motion-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 112px; min-height: 44px; padding: 10px 16px; color: var(--paper); border: 1px solid rgba(215,223,198,.32); border-radius: 30px; background: rgba(22,54,71,.65); cursor: pointer; font-size: 12px; letter-spacing: .08em; transition: border-color .2s, background .2s; }
+    .motion-toggle:hover { border-color: var(--gold); background: rgba(38,72,86,.85); }
+    .motion-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 5px; }
+    .motion-toggle svg { width: 15px; height: 15px; fill: currentColor; }
+    .intro { animation: arrive 1.3s ease both; }
+    .title.intro { animation-delay: .15s; }
+    .breeze { stroke-dasharray: 100 460; animation: breeze 10s linear infinite; }
+    .breeze.slow { animation-duration: 16s; animation-delay: -7s; }
+    .ink-trace { stroke-dasharray: 1; stroke-dashoffset: 1; animation: trace 2.8s .1s ease forwards; }
+    .is-paused *, .is-paused *::before, .is-paused *::after { animation-play-state: paused !important; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(13px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes breeze { to { stroke-dashoffset: -1120; } }
+    @keyframes trace { to { stroke-dashoffset: 0; } }
+    @media (min-aspect-ratio: 18/10) { .title { left: 12%; } }
+    @media (max-width: 900px) {
+      .title { left: 6%; top: 28%; }
+      h1 { font-size: 100px; }
+      .verse { right: 5%; font-size: 14px; }
+    }
+    @media (max-width: 700px) {
+      .poster { min-height: 680px; }
+      .poster::after { inset: 12px; }
+      .masthead { top: 31px; left: 29px; right: 29px; }
+      .collection { font-size: 10px; letter-spacing: .2em; }
+      .collection::before { width: 17px; }
+      .seal { width: 31px; height: 36px; font-size: 15px; }
+      .title { top: 101px; left: 32px; }
+      h1 { font-size: 70px; }
+      .eyebrow { font-size: 9px; margin: 0 0 8px 4px; letter-spacing: .32em; }
+      .subtitle { margin: 11px 0 0 5px; font-size: 16px; letter-spacing: .45em; }
+      .title-line { display: none; }
+      .scene { top: 120px; height: calc(100% - 180px); }
+      .verse { top: 120px; right: 31px; font-size: 12px; }
+      .footer { bottom: 30px; left: 29px; right: 29px; gap: 10px; }
+      .caption { font-size: 9px; letter-spacing: .12em; }
+      .motion-toggle { min-width: 100px; font-size: 11px; padding: 9px 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .intro, .ink-trace, .breeze { animation: none; }
+      .ink-trace { stroke-dashoffset: 0; }
+      .motion-toggle { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="哪吒踏风火轮的动态画卷">
+    <header class="masthead intro">
+      <div class="collection">东方神话 · 少年哪吒</div>
+      <div class="seal" aria-label="乾坤">乾<br>坤</div>
+    </header>
+
+    <div class="title intro">
+      <p class="eyebrow">NE ZHA · THE FIRE RIDER</p>
+      <h1>哪吒</h1>
+      <p class="subtitle">踏 火 凌 霄</p>
+      <div class="title-line"></div>
+    </div>
+    <p class="verse intro">脚踏风火轮<br>心有万重天</p>
+
+    <svg id="scene" class="scene" viewBox="0 0 1440 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sceneTitle sceneDesc">
+      <title id="sceneTitle">哪吒 · 踏火行</title>
+      <desc id="sceneDesc">双髻少年哪吒身穿红衣，手持火尖枪与乾坤圈，脚踩两只旋转燃烧的风火轮。红色混天绫在青蓝色月夜中翻飞，火星沿身后散开。</desc>
+      <defs>
+        <radialGradient id="sky" gradientUnits="userSpaceOnUse" cx="895" cy="350" r="1050">
+          <stop offset="0" stop-color="#32616c"/>
+          <stop offset=".55" stop-color="#1c4559"/>
+          <stop offset="1" stop-color="#132f47"/>
+        </radialGradient>
+        <linearGradient id="moon" x1="0" y1="0" x2=".75" y2="1">
+          <stop stop-color="#b4c8ad"/>
+          <stop offset=".6" stop-color="#7aa3a0"/>
+          <stop offset="1" stop-color="#507c87"/>
+        </linearGradient>
+        <radialGradient id="moonHalo">
+          <stop offset="0" stop-color="#b7d8bd" stop-opacity=".13"/>
+          <stop offset=".65" stop-color="#b7d8bd" stop-opacity=".05"/>
+          <stop offset="1" stop-color="#b7d8bd" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="skin" x1="0" y1="0" x2=".75" y2="1">
+          <stop stop-color="#ffdfa8"/>
+          <stop offset=".55" stop-color="#ffbc87"/>
+          <stop offset="1" stop-color="#e98e62"/>
+        </linearGradient>
+        <linearGradient id="face" x1="0" y1="0" x2=".25" y2="1">
+          <stop stop-color="#ffe7b8"/>
+          <stop offset="1" stop-color="#ffc08c"/>
+        </linearGradient>
+        <linearGradient id="silk" x1="0" y1="0" x2=".6" y2="1">
+          <stop stop-color="#ff8650"/>
+          <stop offset=".3" stop-color="#f64a34"/>
+          <stop offset=".68" stop-color="#cd2d36"/>
+          <stop offset="1" stop-color="#8e2940"/>
+        </linearGradient>
+        <linearGradient id="silkFront" x1="0" y1="0" x2="1" y2=".7">
+          <stop stop-color="#9f2d3c"/>
+          <stop offset=".45" stop-color="#ff5839"/>
+          <stop offset="1" stop-color="#ff9a59"/>
+        </linearGradient>
+        <linearGradient id="gold" x1="0" y1="0" x2=".85" y2="1">
+          <stop stop-color="#fff0b2"/>
+          <stop offset=".35" stop-color="#ffcb62"/>
+          <stop offset=".7" stop-color="#df882c"/>
+          <stop offset="1" stop-color="#ffdc80"/>
+        </linearGradient>
+        <linearGradient id="fire" x1="0" y1="1" x2="1" y2="0">
+          <stop stop-color="#fff0a4"/>
+          <stop offset=".38" stop-color="#ffb634"/>
+          <stop offset=".7" stop-color="#ff642b"/>
+          <stop offset="1" stop-color="#e53431" stop-opacity=".25"/>
+        </linearGradient>
+        <radialGradient id="wheelHalo">
+          <stop offset="0" stop-color="#ffbe4f" stop-opacity=".07"/>
+          <stop offset=".42" stop-color="#ffad30" stop-opacity=".21"/>
+          <stop offset=".66" stop-color="#ff6929" stop-opacity=".13"/>
+          <stop offset="1" stop-color="#ff562d" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="trail" x1="0" y1="0" x2="1" y2="0">
+          <stop stop-color="#ff6333" stop-opacity="0"/>
+          <stop offset=".6" stop-color="#ff7e32" stop-opacity=".7"/>
+          <stop offset="1" stop-color="#ffde75"/>
+        </linearGradient>
+        <filter id="fireGlow" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="2.5"/>
+        </filter>
+        <pattern id="grain" width="37" height="41" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="7" r=".6" fill="#e0ecd2" opacity=".13"/>
+          <circle cx="23" cy="29" r=".7" fill="#e0ecd2" opacity=".1"/>
+          <path d="M32 10h1M12 34h1" stroke="#091f34" stroke-opacity=".2"/>
+        </pattern>
+        <clipPath id="moonClip"><circle cx="895" cy="386" r="248"/></clipPath>
+        <path id="flameTongue" d="M49-34C70-54 92-48 91-81C114-56 96-28 70-15C79-34 74-40 83-48C66-43 61-36 49-34Z" fill="url(#fire)"/>
+        <g id="fireCrown">
+          <use href="#flameTongue"/>
+          <use href="#flameTongue" transform="rotate(36)"/>
+          <use href="#flameTongue" transform="rotate(72)"/>
+          <use href="#flameTongue" transform="rotate(108)"/>
+          <use href="#flameTongue" transform="rotate(144)"/>
+          <use href="#flameTongue" transform="rotate(180)"/>
+          <use href="#flameTongue" transform="rotate(216)"/>
+          <use href="#flameTongue" transform="rotate(252)"/>
+          <use href="#flameTongue" transform="rotate(288)"/>
+          <use href="#flameTongue" transform="rotate(324)"/>
+        </g>
+        <path id="spoke" d="M-5-13C-21-23-12-42 0-49C-6-32 17-28 8-13Z" fill="url(#gold)"/>
+        <g id="wheel">
+          <circle r="61" fill="#713a33" stroke="#8d3d26" stroke-width="8"/>
+          <circle r="58" fill="#412e35" stroke="url(#gold)" stroke-width="7"/>
+          <circle r="48" fill="none" stroke="#ed752c" stroke-width="2"/>
+          <g>
+            <use href="#spoke"/><use href="#spoke" transform="rotate(60)"/>
+            <use href="#spoke" transform="rotate(120)"/><use href="#spoke" transform="rotate(180)"/>
+            <use href="#spoke" transform="rotate(240)"/><use href="#spoke" transform="rotate(300)"/>
+          </g>
+          <circle r="15" fill="#ec6530" stroke="#ffe7a2" stroke-width="4"/>
+          <circle r="6" fill="#fff0b2"/>
+          <g fill="#fff0b2">
+            <circle cy="-58" r="2"/><circle cy="58" r="2"/>
+            <circle cx="50.2" cy="29" r="2"/><circle cx="-50.2" cy="29" r="2"/>
+            <circle cx="50.2" cy="-29" r="2"/><circle cx="-50.2" cy="-29" r="2"/>
+          </g>
+        </g>
+        <g id="cloudCurl" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M-99 15H25C62 15 67-26 36-28C12-30 3-3 22 0C36 2 38-13 28-15M-54 0H-20C-5 0-1-14-14-17C-31-22-42-7-36 5M-114 29H-20M-1 29H64"/>
+        </g>
+      </defs>
+
+      <!-- 夜色、月轮与远山 -->
+      <rect x="-1000" y="-1000" width="4000" height="3000" fill="url(#sky)"/>
+      <ellipse cx="910" cy="399" rx="440" ry="416" fill="url(#moonHalo)"/>
+      <g id="stars" fill="#d8e4c7"/>
+      <g fill="#d8e4c7" opacity=".55"><circle cx="539" cy="171" r="1.8"/><circle cx="1177" cy="288" r="2"/><circle cx="433" cy="332" r="1.4"/><circle cx="1015" cy="98" r="1.5"/></g>
+      <circle cx="895" cy="386" r="248" fill="url(#moon)"/>
+      <circle cx="895" cy="386" r="262" fill="none" stroke="#b5cba9" stroke-opacity=".22" stroke-width="1"/>
+      <path class="ink-trace" d="M678 581A288 288 0 1 1 1162 494" pathLength="1" fill="none" stroke="#ddcc90" stroke-width="1.2" stroke-opacity=".5"/>
+      <g clip-path="url(#moonClip)" fill="none" stroke="#e1dfb9" stroke-opacity=".16" stroke-width="1.1">
+        <path d="M588 277H819C862 277 878 232 850 216C825 203 799 223 807 242C815 260 844 251 838 235M807 263H659M995 168H1144M998 184H1090"/>
+        <path d="M960 451H1209M1002 434H1110C1152 434 1157 389 1128 382C1096 375 1088 409 1110 412C1128 414 1134 397 1122 394"/>
+        <path d="M618 535C708 470 744 522 786 488S872 471 896 485M695 576C761 533 810 563 829 540"/>
+        <circle cx="895" cy="386" r="231" stroke-dasharray="2 12"/>
+      </g>
+      <g fill="none" stroke="#9cb7ad" stroke-width="1.1" opacity=".22">
+        <path class="breeze" d="M-90 379C158 198 393 444 609 313S1004 128 1456 218"/>
+        <path class="breeze slow" d="M-76 710C190 568 307 735 547 632S1033 441 1518 513"/>
+        <path class="breeze" d="M44 843C282 765 345 862 666 780S1120 665 1500 700"/>
+      </g>
+      <g opacity=".58">
+        <path d="M0 773L89 732 127 757 207 670 246 706 309 675 408 770 481 728 567 787 640 711 702 744 775 684 862 760 929 716 1013 774 1123 643 1199 691 1243 669 1341 754 1440 714V1000H0Z" fill="#254959"/>
+        <path d="M0 835L111 794 184 822 289 757 357 829 433 785 545 850 689 759 807 839 929 791 1004 856 1172 750 1291 834 1399 781 1440 796V1000H0Z" fill="#1b3d50"/>
+      </g>
+      <g stroke="#87aaa4" stroke-width="1.5" opacity=".25">
+        <use href="#cloudCurl" transform="translate(380 236) scale(.8)"/>
+        <use href="#cloudCurl" transform="translate(1170 596) scale(1.3)"/>
+        <use href="#cloudCurl" transform="translate(455 720) scale(1.1)"/>
+      </g>
+
+      <!-- 整个人物与双轮共同起伏，保持双脚与轮缘的位置关系。 -->
+      <g id="flightRig">
+        <g transform="translate(820 450) rotate(-11)" stroke-linecap="round" stroke-linejoin="round">
+          <!-- 混天绫的远端 -->
+          <path id="ribbonBack" d="M12-88C-120-144-102-264-261-252C-409-241-367-111-487-139C-411-88-352-138-333-190C-302-275-178-224-161-137C-141-42-39-26 20-59Z" fill="url(#silk)" stroke="#a4323b" stroke-width="2"/>
+          <path id="ribbonEdge" d="M8-82C-124-128-116-255-262-242C-393-231-371-107-477-135" fill="none" stroke="#ffb275" stroke-width="2" opacity=".72"/>
+          <path id="ribbonLoop" d="M40 57C145 103 243 109 256 42C274-35 160-94 201-143C239-92 324-50 301 25C274 124 129 131 28 83Z" fill="url(#silkFront)" stroke="#b5333c" stroke-width="2"/>
+
+          <!-- 火焰拖尾与火星 -->
+          <g fill="none" stroke="url(#trail)">
+            <path id="trailBack" d="M-493 347C-349 290-261 374-100 303" stroke-width="10" opacity=".57"/>
+            <path id="trailFront" d="M-279 361C-115 282 9 332 160 278" stroke-width="12" opacity=".66"/>
+            <path d="M-427 369C-292 324-211 375-119 332M-223 389C-62 317 39 363 145 307" stroke-width="2" opacity=".7"/>
+          </g>
+          <g id="embers"/>
+
+          <!-- 后风火轮 -->
+          <g transform="translate(-101 303)">
+            <circle r="145" fill="url(#wheelHalo)"/>
+            <g id="backFlames" filter="url(#fireGlow)"><use href="#fireCrown"/></g>
+            <g id="backWheel"><use href="#wheel"/></g>
+            <circle r="65" fill="none" stroke="#ffbf45" stroke-width="2" opacity=".9"/>
+            <path d="M-47-48A67 67 0 0 1 55-38" fill="none" stroke="#ffe9a0" stroke-width="3"/>
+          </g>
+          <!-- 前风火轮 -->
+          <g transform="translate(160 278)">
+            <circle r="151" fill="url(#wheelHalo)"/>
+            <g id="frontFlames" filter="url(#fireGlow)"><use href="#fireCrown"/></g>
+            <g id="frontWheel"><use href="#wheel"/></g>
+            <circle r="65" fill="none" stroke="#ffbc43" stroke-width="2"/>
+            <path d="M-47-48A67 67 0 0 1 55-38" fill="none" stroke="#fff0b2" stroke-width="3"/>
+          </g>
+
+          <!-- 火尖枪 -->
+          <path d="M-22 216L277-246" fill="none" stroke="#29313f" stroke-width="13"/>
+          <path d="M-22 216L277-246" fill="none" stroke="url(#gold)" stroke-width="8"/>
+          <path d="M-19 210L272-239" fill="none" stroke="#fff0ae" stroke-width="1.7" opacity=".7"/>
+          <g transform="translate(277 -246) rotate(33)">
+            <path id="spearTassel" d="M-8 17C-40 41-52 50-54 99C-38 73-12 75 0 38C9 74 39 64 37 84C46 50 18 35 8 17Z" fill="url(#silk)" stroke="#b33635" stroke-width="1.5"/>
+            <path d="M0-76C17-43 10-24 24-15L9 1 7 29H-7L-9 1-24-15C-7-29-9-53 0-76Z" fill="url(#gold)" stroke="#69452e" stroke-width="2.8"/>
+            <path d="M0-63L7-17 0 9-7-17Z" fill="#ffefd1"/>
+            <path d="M0-51L0 17" fill="none" stroke="#cf552e" stroke-width="2"/>
+            <path d="M-10 18H10M-9 25H9" stroke="#fff0a9" stroke-width="4"/>
+          </g>
+
+          <!-- 后腿、前腿与鞋，鞋底分别落在轮心上方 58 个单位。 -->
+          <path d="M-30 69C-48 84-79 119-83 144L-87 202-68 221-45 199-42 151-1 110Z" fill="url(#skin)" stroke="#593c3b" stroke-width="4"/>
+          <path d="M-74 140L-64 190M-75 205L-58 205" fill="none" stroke="#d78362" stroke-width="3"/>
+          <path d="M17 81C42 86 84 100 111 112C130 121 136 137 140 159L151 193 131 213 113 196 98 153 37 136 5 119Z" fill="url(#skin)" stroke="#593c3b" stroke-width="4"/>
+          <path d="M47 112L100 131Q113 133 116 150" fill="none" stroke="#ffd49a" stroke-width="5"/>
+          <path d="M-88 187L-45 193-48 211-90 207Z" fill="#f7d68d" stroke="#734134" stroke-width="3"/>
+          <path d="M-88 202L-48 209-47 232Q-47 242-65 244H-131Q-142 235-128 229L-96 221Z" fill="url(#silk)" stroke="#3c303b" stroke-width="4"/>
+          <path d="M-128 232Q-106 240-86 225L-83 209M-126 244H-65" fill="none" stroke="url(#gold)" stroke-width="5"/>
+          <path d="M120 183L148 178 156 199 128 209Z" fill="#f7d68d" stroke="#734134" stroke-width="3"/>
+          <path d="M130 202L155 192 169 208Q191 198 201 208Q205 221 187 221H135Q125 219 130 202Z" fill="url(#silk)" stroke="#3c303b" stroke-width="4"/>
+          <path d="M140 204L150 215Q176 218 196 208M136 221H187" fill="none" stroke="url(#gold)" stroke-width="4"/>
+
+          <!-- 左臂与乾坤圈 -->
+          <path d="M-38-74C-62-77-79-53-101-37L-150-69Q-165-83-180-73Q-191-62-176-50L-118-8Q-101 4-83-7L-35-37Z" fill="url(#skin)" stroke="#593c3b" stroke-width="4"/>
+          <path d="M-61-53L-99-24-144-53" fill="none" stroke="#ffe0a2" stroke-width="4"/>
+          <g transform="translate(-184 -124) rotate(-18)">
+            <circle r="48" fill="none" stroke="#714531" stroke-width="11"/>
+            <circle r="48" fill="none" stroke="url(#gold)" stroke-width="8"/>
+            <path d="M-42-21A47 47 0 0 1 18-44M32 34A47 47 0 0 1-29 36" fill="none" stroke="#fff1bb" stroke-width="2"/>
+            <g id="ringGlint" fill="#fff4c6">
+              <path d="M0-57L2-50 9-48 2-46 0-39-2-46-9-48-2-50Z"/>
+            </g>
+          </g>
+          <path d="M-156-70Q-162-88-173-85Q-183-82-176-71L-168-61Q-163-55-157-61" fill="url(#skin)" stroke="#593c3b" stroke-width="3.5"/>
+          <path d="M-177-75L-170-69M-171-81L-165-73" fill="none" stroke="#d5825d" stroke-width="2"/>
+          <path d="M-151-68L-137-58-147-43-160-52Z" fill="url(#gold)" stroke="#7e4934" stroke-width="2.5"/>
+
+          <!-- 右臂握枪 -->
+          <path d="M34-74C63-81 82-62 100-42L152-82Q164-95 177-85L181-69Q176-60 168-59L110-4Q93 11 75-6L39-38Z" fill="url(#skin)" stroke="#593c3b" stroke-width="4"/>
+          <path d="M60-58L95-25Q100-21 106-26L145-64" fill="none" stroke="#ffe1a5" stroke-width="4"/>
+          <path d="M143-74L154-83 169-62 157-51Z" fill="url(#gold)" stroke="#7e4934" stroke-width="2.5"/>
+          <path d="M159-84Q162-94 169-90L182-81Q189-73 183-67L177-65 166-73" fill="url(#skin)" stroke="#593c3b" stroke-width="3"/>
+          <path d="M171-84L181-76M166-79L177-71" fill="none" stroke="#bf745a" stroke-width="2"/>
+
+          <!-- 肚兜、腰封、莲瓣战裙 -->
+          <path d="M-20-111L-19-79Q-40-82-49-65L-43 12-29 58 26 64 48 9 45-63Q36-81 18-82L18-111Z" fill="url(#skin)" stroke="#593c3b" stroke-width="4"/>
+          <path d="M-32-78Q-7-57 30-80L44-18Q43 29 5 62Q-29 47-38 7Z" fill="url(#silk)" stroke="#a23a36" stroke-width="3"/>
+          <path d="M-30-78Q-8-60 29-80" fill="none" stroke="url(#gold)" stroke-width="5"/>
+          <path d="M-23-63Q-35-37-26-9" fill="none" stroke="#ffb278" stroke-width="2.5" opacity=".8"/>
+          <g transform="translate(2 -13)" stroke="#ffdd89" stroke-width="2" fill="#f9b54e">
+            <path d="M0-26C-15-10-10 5 0 12C10 4 15-10 0-26Z"/>
+            <path d="M-23-13C-24 7-10 14 0 12C-4 1-11-9-23-13ZM23-13C24 7 10 14 0 12C4 1 11-9 23-13Z" fill="#f18b3b"/>
+            <path d="M-29 4Q-16 27 0 15Q16 27 29 4Q11 3 0 15Q-11 3-29 4Z" fill="#ffcc65"/>
+            <path d="M0 15V26" fill="none"/>
+          </g>
+          <path d="M-33 45L-57 93-31 113-5 94 20 121 54 101 40 57Z" fill="#df3d35" stroke="#54333e" stroke-width="4"/>
+          <path d="M-24 59L-30 103-6 86 20 111 20 65M-4 84L1 58M34 64L45 98" fill="none" stroke="url(#gold)" stroke-width="3"/>
+          <path d="M-34 44Q1 58 34 47L40 68Q2 78-38 64Z" fill="#182e43" stroke="#593a38" stroke-width="3"/>
+          <path d="M-33 49Q2 62 33 52M-33 62Q0 74 37 63" fill="none" stroke="url(#gold)" stroke-width="3"/>
+          <g transform="translate(6 63)">
+            <circle r="14" fill="url(#gold)" stroke="#793d30" stroke-width="2"/>
+            <path d="M0-8L8 0 0 8-8 0Z" fill="#da4633"/>
+          </g>
+          <path id="beltRibbon" d="M-23 59C-81 49-120 53-150 84C-119 80-112 105-88 95C-109 123-95 147-122 170C-56 151-78 88-17 73Z" fill="url(#silkFront)" stroke="#a42f3a" stroke-width="2"/>
+          <path d="M-25 62Q-65 69-90 89" fill="none" stroke="#ffb573" stroke-width="2"/>
+
+          <!-- 双髻与红色发带 -->
+          <g stroke="#182b3d" stroke-width="4">
+            <path d="M-47-216C-48-249-68-268-89-246C-111-226-88-198-66-199Z" fill="#202d40"/>
+            <path d="M44-216C43-247 68-267 88-246C108-224 86-199 63-198Z" fill="#202d40"/>
+          </g>
+          <g fill="none" stroke="#4b5262" stroke-width="2.5" opacity=".8">
+            <path d="M-83-244Q-99-227-76-214M-67-250Q-49-233-63-213M72-250Q51-234 65-215M88-239Q96-221 80-216"/>
+          </g>
+          <path d="M-78-210L-48-218M46-218L77-210" stroke="#e74639" stroke-width="10"/>
+          <path d="M-77-213L-52-220M50-220L75-214" stroke="#ffb273" stroke-width="2.5"/>
+          <path id="hairRibbonLeft" d="M-63-215Q-109-229-118-199L-87-205Q-106-181-92-165Q-84-189-61-207Z" fill="url(#silk)"/>
+          <path id="hairRibbonRight" d="M64-215Q102-239 120-222L92-208Q116-194 111-174Q90-195 62-207Z" fill="url(#silk)"/>
+
+          <!-- 脸部 -->
+          <path d="M-57-159Q-76-167-74-146Q-72-129-56-133M58-160Q77-168 76-148Q75-132 59-132" fill="url(#skin)" stroke="#593c3b" stroke-width="3.5"/>
+          <path d="M-63-151Q-69-155-65-142M65-151Q71-155 68-142" fill="none" stroke="#d78862" stroke-width="2.5"/>
+          <path d="M-55-177C-68-146-52-108-14-98C24-87 57-110 62-145C68-187 35-215 0-215C-28-217-47-199-55-177Z" fill="url(#face)" stroke="#513b3b" stroke-width="3.8"/>
+          <path d="M-62-150C-83-199-57-242-6-240C45-250 84-210 66-150L55-160C52-184 31-176 19-205C12-179-6-180-18-199C-25-171-40-186-49-160L-53-140Z" fill="#1f2c3f" stroke="#172a3e" stroke-width="3"/>
+          <path d="M-57-187Q-50-218-23-220M-41-219Q-15-240 17-229M24-223Q52-214 60-187" fill="none" stroke="#495263" stroke-width="2.5"/>
+          <path d="M-6-187C-8-178-17-177-10-166C-9-173-4-169 0-165C11-174 1-177 3-190C-3-186-3-181-6-177Z" fill="#df3d32"/>
+          <ellipse cx="-38" cy="-131" rx="13" ry="6" fill="#ee856f" opacity=".42"/>
+          <ellipse cx="39" cy="-132" rx="12" ry="6" fill="#ee856f" opacity=".4"/>
+          <path d="M-39-166Q-24-172-9-161M16-162Q31-174 47-173" fill="none" stroke="#283041" stroke-width="5"/>
+          <g id="eyes">
+            <path d="M-40-151Q-26-163-10-150Q-23-139-37-145Z" fill="#fff8df" stroke="#4b3640" stroke-width="2.5"/>
+            <path d="M13-150Q27-164 44-154Q33-139 17-142Z" fill="#fff8df" stroke="#4b3640" stroke-width="2.5"/>
+            <ellipse cx="-22" cy="-150" rx="6.3" ry="8" fill="#592f33"/>
+            <ellipse cx="29" cy="-151" rx="6.3" ry="8" fill="#592f33"/>
+            <ellipse cx="-20" cy="-151" rx="3.5" ry="5.6" fill="#172637"/>
+            <ellipse cx="31" cy="-152" rx="3.5" ry="5.6" fill="#172637"/>
+            <circle cx="-19" cy="-154" r="2" fill="#fff"/>
+            <circle cx="32" cy="-155" r="2" fill="#fff"/>
+          </g>
+          <path d="M3-144L-2-134Q2-131 7-135" fill="none" stroke="#ce8862" stroke-width="2.2"/>
+          <path d="M-13-119Q4-110 25-123Q13-104-2-109Z" fill="#8e393c" stroke="#793c3b" stroke-width="1.7"/>
+          <path d="M-10-118Q6-112 21-121L16-114Q3-110-7-114Z" fill="#fff6d9"/>
+          <path d="M2-107Q10-105 16-110" fill="none" stroke="#e69b71" stroke-width="2"/>
+          <circle cx="-62" cy="-133" r="4.5" fill="url(#gold)" stroke="#976134" stroke-width="1.5"/>
+          <circle cx="67" cy="-134" r="4.5" fill="url(#gold)" stroke="#976134" stroke-width="1.5"/>
+        </g>
+      </g>
+
+      <!-- 近景祥云 -->
+      <path d="M-70 940C-11 881 77 902 110 923C114 875 186 851 228 890C267 823 351 849 368 898C423 877 479 907 486 941C569 911 612 947 676 943C775 903 855 923 872 955C953 911 1031 933 1055 950C1068 890 1144 871 1182 910C1230 862 1297 874 1326 926C1387 885 1440 919 1509 890V1090H-70Z" fill="#23495a"/>
+      <path d="M-60 978C26 926 86 970 132 956C204 914 248 953 280 973C352 920 421 954 466 980C531 951 590 978 633 986M993 989C1034 949 1104 975 1135 965C1193 913 1266 949 1277 978C1360 944 1405 977 1481 961" fill="none" stroke="#729b99" stroke-opacity=".28" stroke-width="1.5"/>
+      <g stroke="#7da7a0" stroke-width="1.5" opacity=".35">
+        <use href="#cloudCurl" transform="translate(273 925) scale(1.1)"/>
+        <use href="#cloudCurl" transform="translate(1189 946) scale(.9)"/>
+      </g>
+      <rect x="-1000" y="-1000" width="4000" height="3000" fill="url(#grain)" pointer-events="none"/>
+    </svg>
+
+    <footer class="footer intro">
+      <p class="caption">风起 · 火生 · 少年行</p>
+      <button id="motionToggle" class="motion-toggle" type="button" aria-label="暂停动画" aria-pressed="false" hidden>
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <g id="pauseIcon"><rect x="5" y="4" width="3" height="12" rx=".7"/><rect x="12" y="4" width="3" height="12" rx=".7"/></g>
+          <path id="playIcon" d="M6 3L17 10 6 17Z" hidden/>
+        </svg>
+        <span id="motionLabel">暂停动画</span>
+      </button>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const byId = id => document.getElementById(id);
+      const scene = byId('scene');
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const narrowScreen = matchMedia('(max-width: 700px)');
+      const toggle = byId('motionToggle');
+      const parts = Object.fromEntries([
+        'flightRig', 'backWheel', 'frontWheel', 'backFlames', 'frontFlames',
+        'ribbonBack', 'ribbonEdge', 'ribbonLoop', 'beltRibbon', 'spearTassel',
+        'hairRibbonLeft', 'hairRibbonRight', 'trailBack', 'trailFront', 'eyes', 'ringGlint'
+      ].map(id => [id, byId(id)]));
+
+      const setView = () => scene.setAttribute('viewBox', narrowScreen.matches ? '380 40 890 940' : '0 0 1440 1000');
+      setView();
+      narrowScreen.addEventListener('change', setView);
+
+      // 固定种子的星空：每次打开保持同一张画卷。
+      let seed = 9047;
+      function random() {
+        seed = (seed * 16807) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+      const stars = [];
+      for (let i = 0; i < 55; i++) {
+        const dot = document.createElementNS(svgNS, 'circle');
+        dot.setAttribute('cx', (80 + random() * 1280).toFixed(2));
+        dot.setAttribute('cy', (60 + random() * 700).toFixed(2));
+        dot.setAttribute('r', (.55 + random() * 1.1).toFixed(2));
+        byId('stars').appendChild(dot);
+        stars.push({ node: dot, phase: random() * Math.PI * 2 });
+      }
+      const embers = [];
+      for (let i = 0; i < 46; i++) {
+        const dot = document.createElementNS(svgNS, 'ellipse');
+        dot.setAttribute('fill', ['#ffe29a', '#ffb744', '#ff7133'][i % 3]);
+        const size = 1.1 + random() * 2.6;
+        dot.setAttribute('rx', (size * 1.8).toFixed(2));
+        dot.setAttribute('ry', size.toFixed(2));
+        byId('embers').appendChild(dot);
+        embers.push({ node: dot, front: i % 2 === 0, phase: random(), speed: .28 + random() * .3, reach: 180 + random() * 300, drift: (random() - .5) * 130 });
+      }
+
+      let paused = reducedMotion.matches;
+      let time = 0;
+      let previous = null;
+      let frame = null;
+      const f = value => value.toFixed(2);
+
+      function draw(t) {
+        const a = Math.sin(t * 1.8);
+        const b = Math.sin(t * 1.8 - .9);
+        const c = Math.sin(t * 2.5 + .6);
+        parts.flightRig.setAttribute('transform', `translate(0 ${f(a * 9)}) rotate(${f(b * .85)} 820 490)`);
+        parts.backWheel.setAttribute('transform', `rotate(${f((t * 235) % 360)})`);
+        parts.frontWheel.setAttribute('transform', `rotate(${f((t * 255 + 24) % 360)})`);
+        parts.backFlames.setAttribute('transform', `rotate(${f((-t * 120) % 360)}) scale(${f(1 + .045 * c)})`);
+        parts.frontFlames.setAttribute('transform', `rotate(${f((-t * 145 + 17) % 360)}) scale(${f(1 + .045 * Math.sin(t * 6))})`);
+        parts.ringGlint.setAttribute('transform', `rotate(${f((t * 36) % 360)})`);
+
+        parts.ribbonBack.setAttribute('d', `M12-88C-120 ${f(-144 + a * 12)} -102 ${f(-264 + b * 24)} -261 ${f(-252 + a * 19)}C-409 ${f(-241 + b * 29)} -367 ${f(-111 + c * 25)} -487 ${f(-139 + b * 36)}C-411 ${f(-88 + b * 36)} -352 ${f(-138 + c * 23)} -333 ${f(-190 + a * 20)}C-302 ${f(-275 + a * 19)} -178 ${f(-224 + b * 24)} -161 ${f(-137 + a * 12)}C-141-42-39-26 20-59Z`);
+        parts.ribbonEdge.setAttribute('d', `M8-82C-124 ${f(-128 + a * 12)} -116 ${f(-255 + b * 24)} -262 ${f(-242 + a * 19)}C-393 ${f(-231 + b * 29)} -371 ${f(-107 + c * 25)} -477 ${f(-135 + b * 36)}`);
+        parts.ribbonLoop.setAttribute('d', `M40 57C145 ${f(103 + a * 10)} 243 ${f(109 + b * 12)} 256 ${f(42 + a * 11)}C274 ${f(-35 + c * 13)} 160 ${f(-94 + b * 17)} 201 ${f(-143 + c * 14)}C239 ${f(-92 + b * 17)} 324 ${f(-50 + c * 13)} 301 ${f(25 + a * 11)}C274 ${f(124 + b * 12)} 129 ${f(131 + a * 10)} 28 83Z`);
+        parts.beltRibbon.setAttribute('d', `M-23 59C-81 ${f(49 + a * 10)} -120 ${f(53 + b * 15)} -150 ${f(84 + c * 17)}C-119 ${f(80 + b * 17)} -112 ${f(105 + a * 9)} -88 95C-109 123 -95 ${f(147 + b * 10)} -122 ${f(170 + c * 17)}C-56 ${f(151 + b * 10)} -78 88-17 73Z`);
+        parts.spearTassel.setAttribute('d', `M-8 17C-40 41 ${f(-52 + a * 9)} 50 ${f(-54 + b * 17)} 99C${f(-38 + a * 10)} 73-12 75 0 38C9 74 ${f(39 + b * 8)} 64 ${f(37 + c * 13)} 84C46 50 18 35 8 17Z`);
+        parts.hairRibbonLeft.setAttribute('transform', `rotate(${f(a * 6)} -63 -215)`);
+        parts.hairRibbonRight.setAttribute('transform', `rotate(${f(b * 8)} 64 -215)`);
+        parts.trailBack.setAttribute('d', `M-493 ${f(347 + b * 15)}C-349 ${f(290 + c * 18)} -261 ${f(374 + a * 13)} -100 303`);
+        parts.trailFront.setAttribute('d', `M-279 ${f(361 + c * 13)}C-115 ${f(282 + a * 18)} 9 ${f(332 + b * 13)} 160 278`);
+
+        const blinkCycle = t % 5.7;
+        const blink = blinkCycle > 5.43 ? Math.max(.06, Math.abs(blinkCycle - 5.565) / .135) : 1;
+        parts.eyes.setAttribute('transform', `translate(0 -150) scale(1 ${f(blink)}) translate(0 150)`);
+
+        for (const ember of embers) {
+          const life = (t * ember.speed + ember.phase) % 1;
+          const x = (ember.front ? 160 : -101) - life * ember.reach;
+          const y = (ember.front ? 287 : 312) + life * ember.drift + Math.sin(life * 7 + ember.phase * 10) * 12;
+          ember.node.setAttribute('cx', f(x));
+          ember.node.setAttribute('cy', f(y));
+          ember.node.setAttribute('opacity', f(Math.sin(life * Math.PI) * .85));
+        }
+        for (const star of stars) {
+          star.node.setAttribute('opacity', f(.16 + (Math.sin(t * .7 + star.phase) + 1) * .19));
+        }
+      }
+
+      function tick(now) {
+        frame = null;
+        if (paused || document.hidden) { previous = null; return; }
+        if (previous !== null) time += Math.min((now - previous) / 1000, .05);
+        previous = now;
+        draw(time);
+        frame = requestAnimationFrame(tick);
+      }
+
+      function syncPlayback() {
+        document.body.classList.toggle('is-paused', paused);
+        const label = paused ? '播放动画' : '暂停动画';
+        byId('motionLabel').textContent = label;
+        byId('pauseIcon').toggleAttribute('hidden', paused);
+        byId('playIcon').toggleAttribute('hidden', !paused);
+        toggle.setAttribute('aria-label', label);
+        toggle.setAttribute('aria-pressed', String(paused));
+        if (frame !== null) cancelAnimationFrame(frame);
+        frame = null;
+        previous = null;
+        if (!paused && !document.hidden) frame = requestAnimationFrame(tick);
+      }
+
+      toggle.hidden = false;
+      toggle.addEventListener('click', () => { paused = !paused; syncPlayback(); });
+      reducedMotion.addEventListener('change', event => { paused = event.matches; syncPlayback(); });
+      document.addEventListener('visibilitychange', syncPlayback);
+      draw(0);
+      syncPlayback();
+    })();
+  </script>
+</body>
+</html>

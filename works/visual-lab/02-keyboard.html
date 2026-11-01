@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#edf0ee">
+  <title>FORM / 68 · 机械键盘</title>
+  <style>
+    :root{color-scheme:light;--paper:#edf0ee;--ink:#242b29;--muted:#717b76;--rule:#cdd3cf;--accent:#e96150;--green:#34735d}
+    *{box-sizing:border-box;letter-spacing:0}
+    html,body{margin:0;width:100%;min-height:100%;background:var(--paper);color:var(--ink);font-family:"Segoe UI","Microsoft YaHei",sans-serif}
+    body{height:100vh;height:100svh;min-height:650px;overflow:hidden}
+    button,a,input{-webkit-tap-highlight-color:transparent}
+    button,a{touch-action:manipulation}
+    button{font:inherit;color:inherit}
+    button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
+    .mono{font-family:Consolas,"Courier New",monospace;font-size:11px;font-weight:400}
+    .topbar{position:absolute;z-index:4;inset:0 40px auto;height:77px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between}
+    .back{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--ink);text-decoration:none;height:44px}
+    .back:hover{color:var(--accent)}
+    svg{display:block;width:18px;height:18px;stroke-width:1.6}
+    .folio{display:flex;align-items:center;gap:17px;color:var(--muted)}
+    .folio strong{color:var(--ink);font-size:13px;font-weight:500}
+    .identity{position:absolute;top:108px;left:42px;z-index:3;pointer-events:none}
+    .identity h1{font-family:"Arial",sans-serif;font-size:48px;line-height:1.03;font-weight:500;margin:0}
+    .identity h1 span{color:var(--accent)}
+    .identity p{margin:13px 0 0;font-size:13px;color:var(--muted)}
+    .spec{position:absolute;right:42px;top:112px;z-index:3;text-align:right;pointer-events:none}
+    .spec b{display:block;font-size:24px;line-height:1.15;font-weight:400}
+    .spec span{display:block;color:var(--muted);margin-top:9px;font-size:11px}
+    #stage{position:absolute;inset:180px 0 154px;isolation:isolate;touch-action:none}
+    #stage canvas{display:block;width:100%;height:100%;outline:none;cursor:grab;touch-action:none}
+    #stage canvas:active{cursor:grabbing}
+    .view-tools{position:absolute;right:41px;bottom:168px;z-index:4;display:flex;align-items:center;gap:14px}
+    .view-tools span{font-size:10px;color:var(--muted)}
+    .icon-button{width:42px;height:42px;display:grid;place-items:center;border:1px solid #c8cfca;background:#edf0eed9;border-radius:50%;cursor:pointer;transition:background .2s,border-color .2s}
+    .icon-button:hover{background:#fff;border-color:var(--ink)}
+    .parts{position:absolute;left:42px;bottom:178px;z-index:3;display:flex;flex-direction:column;gap:12px;pointer-events:none}
+    .part{display:grid;grid-template-columns:20px 90px 20px;align-items:center;gap:9px;font-size:11px;color:#59635e}
+    .part em{width:7px;height:7px;border-radius:1px;background:var(--part-color);display:block}
+    .part .mono{font-size:10px;color:#87908a}
+    .part-name{display:flex;gap:7px;align-items:center}
+    .part-name em{display:none}
+    .pin{position:absolute;pointer-events:none;z-index:2;width:20px;height:20px;border:1px solid #626c6377;border-radius:50%;display:grid;place-items:center;background:#f5f7f0e0;color:#485249;font:9px Consolas,monospace;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s}
+    .console{position:absolute;bottom:0;left:40px;right:40px;height:150px;border-top:1px solid var(--rule);display:grid;grid-template-columns:220px minmax(260px,1fr) 220px;column-gap:50px;align-items:center;padding-bottom:14px;z-index:4}
+    .control-title{display:flex;align-items:center;gap:8px;color:#59635e;font-size:11px;margin:0 0 15px}
+    .control-title svg{width:14px;height:14px}
+    .palette-options{display:flex;gap:10px;align-items:center}
+    .swatch{position:relative;width:34px;height:34px;border:0;border-radius:50%;background:var(--swatch);box-shadow:inset 0 0 0 1px #00000010;cursor:pointer;padding:0}
+    .swatch::after{content:"";position:absolute;inset:-4px;border:1px solid transparent;border-radius:50%;transition:border-color .2s}
+    .swatch[aria-pressed="true"]::after{border-color:var(--ink)}
+    .swatch span{display:none}
+    #palette-name{margin-left:9px;font-size:12px;white-space:nowrap}
+    .slider-heading{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+    .slider-heading label{font-size:12px}
+    .slider-heading output{color:var(--accent);font:20px Consolas,monospace;font-variant-numeric:tabular-nums;width:59px;text-align:right}
+    .slider-heading output small{font-size:11px;margin-left:3px}
+    #explode{--fill:35%;display:block;-webkit-appearance:none;appearance:none;width:100%;height:24px;margin:0;background:transparent;cursor:ew-resize;touch-action:pan-y}
+    #explode::-webkit-slider-runnable-track{height:3px;background:linear-gradient(to right,var(--accent) var(--fill),#c5ccc7 var(--fill));border-radius:0}
+    #explode::-moz-range-track{height:3px;background:#c5ccc7}
+    #explode::-moz-range-progress{height:3px;background:var(--accent)}
+    #explode::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:17px;height:17px;background:var(--paper);border:4px solid var(--accent);border-radius:50%;margin-top:-7px;box-shadow:0 0 0 5px #edf0ee;transition:box-shadow .2s}
+    #explode::-moz-range-thumb{width:10px;height:10px;background:var(--paper);border:4px solid var(--accent);border-radius:50%}
+    #explode:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px #e3e7e3}
+    .range-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-top:7px}
+    .status{text-align:right;border-left:1px solid var(--rule);padding-left:25px}
+    .status b{display:block;font-size:25px;font-weight:400;line-height:1.2}
+    .status span{display:block;font-size:10px;color:var(--muted);margin-top:10px}
+    .status i{display:inline-block;width:5px;height:5px;background:var(--green);border-radius:50%;margin:0 6px 1px 0}
+    #error{position:absolute;inset:20% 10%;z-index:5;max-width:520px;margin:auto;background:#f5f6f2;border:1px solid #dba197;border-radius:4px;padding:24px;align-self:center;color:#862f27;font-size:14px;line-height:1.7;height:fit-content;overflow-wrap:anywhere}
+    #error[hidden]{display:none}
+    #error strong{display:block;font-size:17px;margin-bottom:8px}
+    @media(min-width:1700px){#stage{inset:185px 70px 154px}}
+    @media(max-width:900px){.console{grid-template-columns:180px minmax(230px,1fr);gap:32px}.status{display:none}.parts{left:30px}.identity{left:30px}.topbar{left:28px;right:28px}.console{left:28px;right:28px}.spec{right:30px}}
+    @media(max-width:600px){
+      body{min-height:610px}.topbar{height:65px;left:22px;right:22px}.back{font-size:12px;gap:8px}.folio{gap:11px}.folio .mono{font-size:9px}.folio strong{font-size:12px}
+      .identity{left:23px;top:95px}.identity h1{font-size:37px}.identity p{font-size:11px;margin-top:10px}.spec{right:23px;top:97px}.spec b{font-size:20px}.spec span{font-size:9px}
+      #stage{inset:174px 0 246px}.pin{width:17px;height:17px;font-size:8px}
+      .parts{left:24px;right:24px;bottom:228px;flex-direction:row;justify-content:space-between;gap:10px}.part{grid-template-columns:14px auto;gap:4px;font-size:10px}.part>.mono{font-size:9px}.part>em{display:none}.part-name{gap:5px}.part-name em{display:block;width:5px;height:5px}
+      .view-tools{right:22px;top:146px;bottom:auto}.view-tools>span{display:none}.icon-button{width:36px;height:36px;background:#edf0eeeb}.icon-button svg{width:16px;height:16px}
+      .console{height:206px;left:23px;right:23px;display:flex;flex-wrap:wrap;column-gap:0;row-gap:0;align-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+      .explosion-control{order:0;width:100%;padding-top:13px}.slider-heading{margin-bottom:7px}.slider-heading label{font-size:12px}.slider-heading output{font-size:18px}.range-ends{margin-top:4px}
+      .palette-control{order:1;display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:23px}.control-title{margin:0;font-size:11px}.palette-options{gap:10px}.swatch{width:27px;height:27px}#palette-name{font-size:11px;margin-left:4px;min-width:40px}
+    }
+    @media(max-height:720px) and (min-width:601px){.identity{top:94px}.identity h1{font-size:36px}.identity p{margin-top:9px}.spec{top:96px}#stage{top:151px}.console{height:128px}.parts{bottom:156px}.view-tools{bottom:147px}}
+    @media(prefers-reduced-motion:reduce){*,*::after{transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="back" href="index.html" target="_top" aria-label="返回实验室"><i data-lucide="arrow-up-left" aria-hidden="true"></i><span>实验室</span></a>
+    <div class="folio"><span class="mono">OBJECT / 02</span><strong>结构研究</strong></div>
+  </header>
+  <div class="identity"><h1>FORM <span>/</span> 68</h1><p>机械键盘 · 分层结构</p></div>
+  <div class="spec"><b>65%</b><span class="mono">COMPACT / 68 KEYS</span></div>
+  <main id="stage" aria-label="FORM 68 机械键盘三维结构">
+    <div class="pin" id="pin-caps" aria-hidden="true">01</div>
+    <div class="pin" id="pin-pcb" aria-hidden="true">02</div>
+    <div class="pin" id="pin-base" aria-hidden="true">03</div>
+    <div id="error" role="alert" hidden><strong>三维场景未能加载</strong><span id="error-detail"></span></div>
+  </main>
+  <div class="parts" aria-label="模型部件">
+    <div class="part"><span class="mono">01</span><span class="part-name"><em style="--part-color:#e96150"></em>双色键帽</span><em style="--part-color:#e96150"></em></div>
+    <div class="part"><span class="mono">02</span><span class="part-name"><em style="--part-color:#34735d"></em>电路板</span><em style="--part-color:#34735d"></em></div>
+    <div class="part"><span class="mono">03</span><span class="part-name"><em style="--part-color:#8a9599"></em>铝合金底壳</span><em style="--part-color:#8a9599"></em></div>
+  </div>
+  <div class="view-tools"><span class="mono">ISOMETRIC VIEW</span><button id="reset" class="icon-button" type="button" title="重置视角" aria-label="重置视角"><i data-lucide="rotate-ccw" aria-hidden="true"></i></button></div>
+  <footer class="console">
+    <div class="palette-control"><div class="control-title"><i data-lucide="palette" aria-hidden="true"></i>键帽配色</div><div class="palette-options" role="group" aria-label="键帽配色"><button id="palette-coral" class="swatch" style="--swatch:#e96150" type="button" aria-label="珊瑚红配色" aria-pressed="true" title="珊瑚红" data-palette="coral"></button><button id="palette-graphite" class="swatch" style="--swatch:#354b46" type="button" aria-label="松石绿配色" aria-pressed="false" title="松石绿" data-palette="graphite"></button><span id="palette-name">珊瑚红</span></div></div>
+    <div class="explosion-control"><div class="slider-heading"><label for="explode">拆解程度</label><output id="explode-value" for="explode">35<small>%</small></output></div><input type="range" id="explode" min="0" max="100" step="1" value="35" aria-valuetext="拆解 35%"><div class="range-ends"><span>完整组装</span><span>完全展开</span></div></div>
+    <div class="status"><b class="mono">03 <span style="display:inline;font-size:13px;color:var(--ink)">/ LAYERS</span></b><span><i></i>FORM / 68 · MECHANICAL</span></div>
+  </footer>
+  <script src="assets/three.min.js"></script>
+  <script src="assets/OrbitControls.js"></script>
+  <script src="assets/lucide.min.js"></script>
+  <script>
+  (() => {
+    'use strict';
+    const stage = document.getElementById('stage');
+    const slider = document.getElementById('explode');
+    const output = document.getElementById('explode-value');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let renderer, scene, camera, controls, model, capLayer, pcbLayer, baseLayer;
+    let frameCount = 0, animationId = 0, previousTime = 0, target = 0.35, current = 0.35;
+    let palette = 'coral', lastError = null, running = false, lostContext = false;
+    let stageWidth = 1, stageHeight = 1, lastTargetY = 1.2;
+    const materials = {}, keyMeshes = [], legendMeshes = [], layerPins = [];
+    const basePositions = { keycaps: 0.81, pcb: 0.34, base: 0 };
+    const paletteColors = { coral: { accent: '#e96150', key: '#f5f5ed', label: '珊瑚红' }, graphite: { accent: '#354f47', key: '#e0e5df', label: '松石绿' } };
+    Object.defineProperty(window, 'labState', { configurable: false, get() {
+      return Object.freeze({ ready: Boolean(renderer && frameCount && !lastError), explosion: Number((target * 100).toFixed(2)), renderedExplosion: Number((current * 100).toFixed(2)), palette, renderedFrames: frameCount, frameCount, keyCount: keyMeshes.length, paused: document.hidden || !running, error: lastError, layerCount: model ? model.children.length : 0, layers: Object.freeze([capLayer, pcbLayer, baseLayer].filter(Boolean).map(group => Object.freeze({ name: group.name, y: Number(group.position.y.toFixed(4)), children: group.children.length }))), viewport: Object.freeze({ width: stageWidth, height: stageHeight }), cameraZoom: camera ? camera.zoom : null, cameraPosition: camera ? Object.freeze(camera.position.toArray()) : null, cameraTarget: controls ? Object.freeze(controls.target.toArray()) : null });
+    } });
+    function fail(error) {
+      lastError = error instanceof Error ? error.message : String(error);
+      running = false;
+      cancelAnimationFrame(animationId);
+      document.getElementById('error-detail').textContent = lastError;
+      document.getElementById('error').hidden = false;
+      console.error('[FORM / 68]', error);
+    }
+    function roundedShape(w, d, r) {
+      const s = new THREE.Shape(), x = -w / 2, y = -d / 2;
+      s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+      s.lineTo(x + w, y + d - r); s.quadraticCurveTo(x + w, y + d, x + w - r, y + d);
+      s.lineTo(x + r, y + d); s.quadraticCurveTo(x, y + d, x, y + d - r);
+      s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y);
+      return s;
+    }
+    const geometryCache = new Map();
+    function roundedGeometry(w, d, h, r, bevel = 0.025, taper = 0) {
+      r = Math.min(r, (w - bevel * 2) * 0.45, (d - bevel * 2) * 0.45);
+      const id = [w, d, h, r, bevel, taper].join(':');
+      if (geometryCache.has(id)) return geometryCache.get(id);
+      const g = new THREE.ExtrudeGeometry(roundedShape(w - bevel * 2, d - bevel * 2, r), { depth: h - 2 * bevel, steps: 1, bevelEnabled: bevel > 0, bevelSegments: 3, bevelSize: bevel, bevelThickness: bevel, curveSegments: 5 });
+      g.rotateX(-Math.PI / 2); g.translate(0, -h / 2 + bevel, 0);
+      if (taper) {
+        const pos = g.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const factor = 1 - taper * (pos.getY(i) / h + 0.5);
+          pos.setX(i, pos.getX(i) * factor); pos.setZ(i, pos.getZ(i) * factor);
+        }
+        pos.needsUpdate = true; g.computeVertexNormals();
+      }
+      geometryCache.set(id, g); return g;
+    }
+    function piece(parent, geometry, material, x, y, z, shadow = true) {
+      const mesh = new THREE.Mesh(geometry, material); mesh.position.set(x, y, z);
+      mesh.castShadow = shadow; mesh.receiveShadow = true; parent.add(mesh); return mesh;
+    }
+    function box(parent, w, h, d, material, x, y, z, radius = 0.035) {
+      return piece(parent, roundedGeometry(w, d, h, radius, Math.min(0.018, h / 5, w / 8, d / 8)), material, x, y, z);
+    }
+    function cylinder(parent, radius, height, material, x, y, z, segments = 16) {
+      return piece(parent, new THREE.CylinderGeometry(radius, radius, height, segments), material, x, y, z);
+    }
+    function addScrew(parent, x, y, z) {
+      cylinder(parent, 0.074, 0.036, materials.steel, x, y, z);
+      const slot = piece(parent, new THREE.BoxGeometry(0.079, 0.003, 0.014), materials.darkMetal, x, y + 0.02, z, false);
+      slot.rotation.y = Math.PI / 4;
+      const slot2 = slot.clone(); slot2.rotation.y += Math.PI / 2; parent.add(slot2);
+    }
+    const legends = new Map();
+    function legendTexture(text, light) {
+      const cacheKey = text + ':' + light;
+      if (legends.has(cacheKey)) return legends.get(cacheKey);
+      const canvas = document.createElement('canvas'); canvas.width = 256; canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('无法创建键帽字符纹理：Canvas 2D 不可用。');
+      ctx.clearRect(0, 0, 256, 128); ctx.fillStyle = light ? '#fff8ed' : '#43504a';
+      ctx.font = '600 ' + (text.length > 3 ? '29' : text.length > 1 ? '35' : '43') + 'px Arial';
+      ctx.textBaseline = 'top'; ctx.textAlign = 'left';
+      if (text === 'FORM') { ctx.font = '500 17px Arial'; ctx.textAlign = 'center'; ctx.fillText(text, 128, 57); }
+      else ctx.fillText(text, 18, 16);
+      const texture = new THREE.CanvasTexture(canvas); texture.encoding = THREE.sRGBEncoding;
+      texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); legends.set(cacheKey, texture); return texture;
+    }
+    function boardTexture() {
+      const canvas = document.createElement('canvas'); canvas.width = 2048; canvas.height = 768;
+      const c = canvas.getContext('2d');
+      if (!c) throw new Error('无法创建电路板纹理：Canvas 2D 不可用。');
+      c.fillStyle = '#216648'; c.fillRect(0, 0, canvas.width, canvas.height);
+      c.strokeStyle = '#8d9a50'; c.lineWidth = 2;
+      // Routed horizontal buses and angled branches follow the real key matrix.
+      for (let row = 0; row < 5; row++) {
+        for (let lane = 0; lane < 4; lane++) {
+          const y = 70 + row * 143 + lane * 8;
+          c.beginPath(); c.moveTo(33, y); c.lineTo(1980 - lane * 12, y); c.lineTo(2010 - lane * 12, y + 30); c.stroke();
+        }
+      }
+      for (let col = 0; col < 16; col++) {
+        const x = 64 + col * 124;
+        for (let row = 0; row < 5; row++) {
+          const y = 35 + row * 142;
+          c.strokeStyle = row % 2 ? '#b2a466' : '#759b54'; c.lineWidth = 2.3;
+          c.beginPath(); c.moveTo(x, y); c.lineTo(x + 36, y); c.lineTo(x + 57, y + 21); c.lineTo(x + 57, y + 91); c.lineTo(x + 78, y + 112); c.lineTo(x + 112, y + 112); c.stroke();
+          c.strokeStyle = '#c4cdaa'; c.lineWidth = 1.4; c.strokeRect(x + 5, y + 25, 70, 66);
+          c.fillStyle = '#dfd6a1';
+          for (let pad = 0; pad < 3; pad++) { c.beginPath(); c.arc(x + 12 + pad * 27, y + 108, 4, 0, Math.PI * 2); c.fill(); }
+          c.fillStyle = '#d9e3c5'; c.font = '11px monospace'; c.fillText('D' + (row * 16 + col + 1), x + 3, y + 20);
+        }
+      }
+      c.strokeStyle = '#d4dfb7'; c.lineWidth = 3; c.strokeRect(17, 17, 2014, 734);
+      c.fillStyle = '#e0e8cc'; c.font = 'bold 24px monospace'; c.fillText('FORM / 68', 700, 733);
+      c.font = '14px monospace'; c.fillText('REV 02   |   HOT SWAP   |   FR-4', 952, 730);
+      const t = new THREE.CanvasTexture(canvas); t.encoding = THREE.sRGBEncoding;
+      t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); return t;
+    }
+    function createModel() {
+      materials.key = new THREE.MeshStandardMaterial({ color: '#f5f5ed', roughness: 0.37, metalness: 0.02 });
+      materials.accent = new THREE.MeshStandardMaterial({ color: '#e96150', roughness: 0.32, metalness: 0.03 });
+      materials.aluminum = new THREE.MeshStandardMaterial({ color: '#b7c0be', metalness: 0.78, roughness: 0.31 });
+      materials.edge = new THREE.MeshStandardMaterial({ color: '#d5ded9', metalness: 0.75, roughness: 0.26 });
+      materials.darkMetal = new THREE.MeshStandardMaterial({ color: '#333e3b', metalness: 0.65, roughness: 0.4 });
+      materials.steel = new THREE.MeshStandardMaterial({ color: '#dbe0d5', metalness: 0.83, roughness: 0.23 });
+      materials.board = new THREE.MeshStandardMaterial({ color: '#276849', roughness: 0.55, metalness: 0.13 });
+      materials.black = new THREE.MeshStandardMaterial({ color: '#1e2824', roughness: 0.58 });
+      materials.switch = new THREE.MeshStandardMaterial({ color: '#cfddd0', roughness: 0.25, metalness: 0.1 });
+      materials.stem = new THREE.MeshStandardMaterial({ color: '#e79580', roughness: 0.4 });
+      materials.copper = new THREE.MeshStandardMaterial({ color: '#cda969', metalness: 0.72, roughness: 0.35 });
+      materials.rubber = new THREE.MeshStandardMaterial({ color: '#65716a', roughness: 0.95 });
+      model = new THREE.Group(); model.name = 'FORM 68'; scene.add(model);
+      capLayer = new THREE.Group(); capLayer.name = 'keycaps'; model.add(capLayer);
+      pcbLayer = new THREE.Group(); pcbLayer.name = 'pcb'; model.add(pcbLayer);
+      baseLayer = new THREE.Group(); baseLayer.name = 'base'; model.add(baseLayer);
+      box(baseLayer, 10.12, 0.33, 3.59, materials.aluminum, 0, 0, 0, 0.16);
+      box(baseLayer, 9.73, 0.043, 3.22, materials.darkMetal, 0, 0.18, 0, 0.1);
+      box(baseLayer, 9.45, 0.02, 2.96, materials.rubber, 0, 0.207, 0, 0.08);
+      box(baseLayer, 10.05, 0.16, 0.11, materials.edge, 0, 0.215, -1.72, 0.04);
+      box(baseLayer, 10.05, 0.16, 0.11, materials.edge, 0, 0.215, 1.72, 0.04);
+      box(baseLayer, 0.11, 0.16, 3.41, materials.edge, -4.97, 0.215, 0, 0.035);
+      box(baseLayer, 0.11, 0.16, 3.41, materials.edge, 4.97, 0.215, 0, 0.035);
+      for (const x of [-4.76, 0, 4.76]) for (const z of [-1.48, 1.48]) {
+        cylinder(baseLayer, 0.11, 0.085, materials.aluminum, x, 0.235, z);
+        addScrew(baseLayer, x, 0.29, z);
+      }
+      for (const x of [-4.3, 4.3]) for (const z of [-1.25, 1.25]) box(baseLayer, 0.65, 0.085, 0.24, materials.rubber, x, -0.205, z);
+      const badge = box(baseLayer, 1.22, 0.105, 0.018, materials.darkMetal, 3.85, 0, 1.801, 0.015);
+      badge.name = 'engraved maker badge';
+      const badgeCanvas = document.createElement('canvas'); badgeCanvas.width = 256; badgeCanvas.height = 40;
+      const badgeContext = badgeCanvas.getContext('2d'); badgeContext.fillStyle = '#cfd8cf'; badgeContext.font = '21px monospace'; badgeContext.fillText('FORM / 68', 28, 27);
+      const badgeTexture = new THREE.CanvasTexture(badgeCanvas); badgeTexture.encoding = THREE.sRGBEncoding;
+      piece(baseLayer, new THREE.PlaneGeometry(1.12, 0.1), new THREE.MeshBasicMaterial({ map: badgeTexture, transparent: true }), 3.85, 0.002, 1.815, false);
+      box(pcbLayer, 9.7, 0.105, 3.24, materials.board, 0, 0, 0, 0.075);
+      const pcbSurface = piece(pcbLayer, new THREE.PlaneGeometry(9.64, 3.18), new THREE.MeshStandardMaterial({ map: boardTexture(), roughness: 0.48, metalness: 0.16 }), 0, 0.055, 0, false);
+      pcbSurface.rotation.x = -Math.PI / 2;
+      for (const x of [-4.73, 0, 4.73]) for (const z of [-1.49, 1.49]) {
+        cylinder(pcbLayer, 0.084, 0.012, materials.copper, x, 0.065, z);
+        cylinder(pcbLayer, 0.042, 0.014, materials.black, x, 0.073, z);
+      }
+      box(pcbLayer, 0.5, 0.18, 0.28, materials.steel, -3.9, 0.08, -1.64, 0.028);
+      box(pcbLayer, 0.36, 0.097, 0.02, materials.black, -3.9, 0.084, -1.79, 0.022);
+      box(pcbLayer, 0.56, 0.08, 0.4, materials.black, 0.1, 0.1, 1.15, 0.012);
+      for (let i = 0; i < 9; i++) for (const side of [-1, 1]) box(pcbLayer, 0.025, 0.045, 0.075, materials.steel, -0.12 + i * 0.055, 0.085, 1.15 + side * 0.235, 0.002);
+      for (let i = 0; i < 18; i++) {
+        const x = -4.5 + i * 0.5, z = i % 2 ? 0.27 : -0.32;
+        box(pcbLayer, 0.115, 0.045, 0.05, materials.black, x, 0.08, z, 0.005);
+        for (const dx of [-0.065, 0.065]) box(pcbLayer, 0.033, 0.045, 0.058, materials.steel, x + dx, 0.08, z, 0.004);
+      }
+      const rows = [
+        [['Esc',1,1],['1',1],['2',1],['3',1],['4',1],['5',1],['6',1],['7',1],['8',1],['9',1],['0',1],['-',1],['=',1],['Back',2],['Del',1,1]],
+        [['Tab',1.5],['Q',1],['W',1],['E',1],['R',1],['T',1],['Y',1],['U',1],['I',1],['O',1],['P',1],['[',1],[']',1],['\\',1.5],['PgUp',1]],
+        [['Caps',1.75],['A',1],['S',1],['D',1],['F',1],['G',1],['H',1],['J',1],['K',1],['L',1],[';',1],["'",1],['Enter',2.25,1],['PgDn',1]],
+        [['Shift',2.25],['Z',1],['X',1],['C',1],['V',1],['B',1],['N',1],['M',1],[',',1],['.',1],['/',1],['Shift',1.75],['↑',1,1],['End',1]],
+        [['Ctrl',1.25],['Win',1.25],['Alt',1.25],['FORM',6.25,1],['Alt',1],['Fn',1],['Ctrl',1],['←',1,1],['↓',1,1],['→',1,1]]
+      ];
+      const switchGeo = roundedGeometry(0.34, 0.34, 0.11, 0.028, 0.01);
+      const socketGeo = roundedGeometry(0.38, 0.38, 0.047, 0.025, 0.007);
+      const stemGeo = new THREE.BoxGeometry(0.12, 0.11, 0.057);
+      const padGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.009, 10);
+      rows.forEach((row, rowIndex) => {
+        let cursor = -4.8;
+        row.forEach(([text, units, accent]) => {
+          const width = units * 0.6 - 0.055, x = cursor + units * 0.3, z = (rowIndex - 2) * 0.6;
+          cursor += units * 0.6;
+          const key = piece(capLayer, roundedGeometry(width, 0.543, 0.34, 0.052, 0.038, 0.13), accent ? materials.accent : materials.key, x, 0, z);
+          key.name = 'key-' + text; key.userData.accent = Boolean(accent); keyMeshes.push(key);
+          const textPlane = piece(capLayer, new THREE.PlaneGeometry(width * 0.84, 0.455), new THREE.MeshBasicMaterial({ map: legendTexture(text, Boolean(accent)), transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1 }), x, 0.171, z, false);
+          textPlane.rotation.x = -Math.PI / 2; legendMeshes.push(textPlane);
+          piece(pcbLayer, socketGeo, materials.black, x, 0.083, z);
+          piece(pcbLayer, switchGeo, materials.switch, x, 0.16, z);
+          piece(pcbLayer, stemGeo, materials.stem, x, 0.255, z);
+          const cross = piece(pcbLayer, stemGeo, materials.stem, x, 0.255, z); cross.rotation.y = Math.PI / 2;
+          for (const dx of [-0.225, 0.225]) piece(pcbLayer, padGeo, materials.copper, x + dx, 0.066, z + 0.13, false);
+          if (units >= 2) for (const direction of [-1, 1]) {
+            const offset = Math.min(width / 2 - 0.16, units > 5 ? 1.5 : 0.48);
+            box(pcbLayer, 0.13, 0.125, 0.22, materials.black, x + direction * offset, 0.16, z);
+          }
+        });
+      });
+      layerPins.push({ group: capLayer, element: document.getElementById('pin-caps'), point: new THREE.Vector3(5.23, 0.15, -0.35) }, { group: pcbLayer, element: document.getElementById('pin-pcb'), point: new THREE.Vector3(5.11, 0.02, -0.35) }, { group: baseLayer, element: document.getElementById('pin-base'), point: new THREE.Vector3(5.23, -0.06, -0.35) });
+    }
+    function frameCamera() {
+      const aspect = stageWidth / stageHeight;
+      // Open the orthographic framing with the layers, keeping the entire assembly visible.
+      const height = Math.max(7.15 + current * 2.1, 11.85 / aspect);
+      camera.left = -height * aspect / 2; camera.right = height * aspect / 2;
+      camera.top = height / 2; camera.bottom = -height / 2;
+      camera.updateProjectionMatrix();
+    }
+    function resize() {
+      stageWidth = stage.clientWidth; stageHeight = stage.clientHeight;
+      if (!renderer || !stageWidth || !stageHeight) return;
+      frameCamera(); renderer.setSize(stageWidth, stageHeight, false);
+    }
+    function updateExplosion() {
+      capLayer.position.y = basePositions.keycaps + current * 3.45;
+      pcbLayer.position.y = basePositions.pcb + current * 1.57;
+      const targetY = 0.48 + current * 1.62, delta = targetY - lastTargetY;
+      controls.target.y += delta; camera.position.y += delta; lastTargetY = targetY;
+      frameCamera();
+    }
+    const projectedPoint = { value: null };
+    function updatePins() {
+      if (!projectedPoint.value) projectedPoint.value = new THREE.Vector3();
+      for (const pin of layerPins) {
+        const p = projectedPoint.value.copy(pin.point); pin.group.localToWorld(p); p.project(camera);
+        const x = (p.x * 0.5 + 0.5) * stageWidth, y = (-p.y * 0.5 + 0.5) * stageHeight;
+        pin.element.style.left = x.toFixed(1) + 'px'; pin.element.style.top = y.toFixed(1) + 'px';
+        pin.element.style.opacity = current > 0.24 && x > 16 && x < stageWidth - 16 && y > 16 && y < stageHeight - 16 ? '1' : '0';
+      }
+    }
+    function tick(time) {
+      if (!running || document.hidden || lostContext) return;
+      const dt = Math.min((time - (previousTime || time)) / 1000, 0.05); previousTime = time;
+      current = reducedMotion ? target : current + (target - current) * (1 - Math.exp(-dt * 10));
+      if (Math.abs(target - current) < 0.00005) current = target;
+      updateExplosion(); controls.update();
+      scene.updateMatrixWorld(); updatePins();
+      try { renderer.render(scene, camera); frameCount++; } catch (error) { fail(error); return; }
+      animationId = requestAnimationFrame(tick);
+    }
+    function setExplosion(value) {
+      target = Math.min(100, Math.max(0, Number(value))) / 100;
+      slider.value = String(Math.round(target * 100)); slider.style.setProperty('--fill', slider.value + '%');
+      slider.setAttribute('aria-valuetext', '拆解 ' + slider.value + '%');
+      output.replaceChildren(document.createTextNode(slider.value), Object.assign(document.createElement('small'), { textContent: '%' }));
+    }
+    function setPalette(name) {
+      if (!paletteColors[name]) return;
+      palette = name; const colors = paletteColors[name];
+      materials.accent.color.set(colors.accent); materials.key.color.set(colors.key);
+      document.documentElement.style.setProperty('--accent', colors.accent);
+      document.getElementById('palette-name').textContent = colors.label;
+      document.querySelectorAll('[data-palette]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.palette === name)));
+    }
+    function resetView() {
+      const damping = controls.enableDamping;
+      controls.enableDamping = false; controls.update(); controls.enableDamping = damping;
+      lastTargetY = 0.48 + current * 1.62;
+      controls.target.set(0, lastTargetY, 0);
+      camera.position.set(8.3, lastTargetY + 10.5, 13.5); camera.zoom = 1; camera.updateProjectionMatrix();
+      camera.lookAt(controls.target); controls.update();
+    }
+    try {
+      if (!window.THREE) throw new Error('本地资源缺失：assets/three.min.js');
+      if (!THREE.OrbitControls) throw new Error('本地资源缺失：assets/OrbitControls.js');
+      if (!window.lucide) throw new Error('本地资源缺失：assets/lucide.min.js');
+      lucide.createIcons();
+      THREE.ColorManagement.legacyMode = false;
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+      renderer.setClearColor(0x000000, 0); renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.78;
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.domElement.setAttribute('aria-label', 'FORM 68 可交互三维机械键盘');
+      renderer.domElement.setAttribute('role', 'img');
+      stage.prepend(renderer.domElement);
+      renderer.domElement.addEventListener('webglcontextlost', event => { event.preventDefault(); lostContext = true; fail('WebGL 图形上下文已丢失，请重新加载页面。'); });
+      scene = new THREE.Scene();
+      camera = new THREE.OrthographicCamera(-8, 8, 5, -5, 0.1, 120);
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
+      controls.minZoom = 0.72; controls.maxZoom = 2.15; controls.minPolarAngle = 0.18; controls.maxPolarAngle = Math.PI * 0.465;
+      controls.rotateSpeed = 0.65; controls.zoomSpeed = 0.75;
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x9fae9e, 0.58));
+      const keyLight = new THREE.DirectionalLight(0xfffaf2, 1.1); keyLight.position.set(-5, 12, 7); keyLight.castShadow = true;
+      keyLight.shadow.mapSize.set(2048, 2048); keyLight.shadow.camera.left = -9; keyLight.shadow.camera.right = 9;
+      keyLight.shadow.camera.top = 9; keyLight.shadow.camera.bottom = -9; keyLight.shadow.camera.near = 0.5; keyLight.shadow.camera.far = 32;
+      keyLight.shadow.normalBias = 0.018; keyLight.shadow.bias = -0.00015; keyLight.shadow.radius = 3; scene.add(keyLight);
+      const fill = new THREE.DirectionalLight(0xe0edf2, 0.32); fill.position.set(5, 4, -7); scene.add(fill);
+      const rim = new THREE.DirectionalLight(0xffffff, 0.22); rim.position.set(-7, 3, -4); scene.add(rim);
+      const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.ShadowMaterial({ color: 0x536253, opacity: 0.2 }));
+      ground.rotation.x = -Math.PI / 2; ground.position.y = -0.25; ground.receiveShadow = true; scene.add(ground);
+      createModel(); resetView(); updateExplosion(); resize();
+      slider.addEventListener('input', () => setExplosion(slider.value));
+      document.getElementById('reset').addEventListener('click', resetView);
+      document.querySelectorAll('[data-palette]').forEach(button => button.addEventListener('click', () => setPalette(button.dataset.palette)));
+      new ResizeObserver(resize).observe(stage);
+      document.addEventListener('visibilitychange', () => {
+        cancelAnimationFrame(animationId); previousTime = 0;
+        if (!document.hidden && !lastError) { running = true; animationId = requestAnimationFrame(tick); }
+      });
+      running = true; animationId = requestAnimationFrame(tick);
+    } catch (error) { fail(error); }
+  })();
+  </script>
+</body>
+</html>

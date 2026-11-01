@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>太阳系 · 轨道观测</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f1f5ff;
+      --muted: #8f9ab7;
+      --line: rgba(160, 189, 244, .18);
+      --panel: rgba(11, 18, 42, .72);
+      --panel-strong: rgba(12, 21, 52, .9);
+      --accent: #8fe9ff;
+      --accent-warm: #ffcc72;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 75% 15%, rgba(41, 68, 139, .24), transparent 34rem),
+        radial-gradient(circle at 10% 82%, rgba(34, 91, 111, .13), transparent 29rem),
+        #050817;
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: .01em;
+    }
+
+    .app-shell {
+      width: min(1480px, 100%);
+      margin: 0 auto;
+      padding: clamp(20px, 3.4vw, 48px) clamp(16px, 4vw, 62px) 30px;
+    }
+
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 28px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 65px);
+      font-weight: 650;
+      letter-spacing: -.055em;
+      line-height: .98;
+    }
+
+    .intro {
+      max-width: 560px;
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: clamp(13px, 1.25vw, 15px);
+      line-height: 1.7;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(14, 24, 53, .62);
+      color: #cbd9fb;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #79ecbb;
+      box-shadow: 0 0 0 4px rgba(121, 236, 187, .12), 0 0 16px rgba(121, 236, 187, .85);
+    }
+
+    .observatory {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 245px;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .viewport {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #060a1b;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, .32), inset 0 0 70px rgba(85, 127, 232, .05);
+    }
+
+    .viewport::after {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .025), inset 0 -90px 110px rgba(2, 5, 17, .4);
+    }
+
+    #solar-system {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 540px;
+    }
+
+    .legend {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .legend-head {
+      padding: 21px 20px 17px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .legend-head p { margin: 0; }
+
+    .legend-kicker {
+      color: #7282aa;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .legend-title {
+      margin-top: 8px !important;
+      color: #dfe7ff;
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: -.03em;
+    }
+
+    .planet-list {
+      display: grid;
+      gap: 0;
+      padding: 5px 0;
+    }
+
+    .planet-row {
+      display: grid;
+      grid-template-columns: 12px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 49px;
+      padding: 7px 19px;
+      border-bottom: 1px solid rgba(160, 189, 244, .08);
+    }
+
+    .planet-row:last-child { border-bottom: 0; }
+
+    .planet-swatch {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      box-shadow: 0 0 13px currentColor;
+    }
+
+    .planet-name {
+      color: #e7edff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .planet-period {
+      color: #7f8bab;
+      font-size: 11px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .legend-note {
+      margin-top: auto;
+      padding: 16px 19px 18px;
+      border-top: 1px solid var(--line);
+      color: #7e8bad;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px 24px;
+      align-items: center;
+      margin-top: 14px;
+      padding: 13px 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+    }
+
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      border: 1px solid rgba(143, 233, 255, .28);
+      border-radius: 10px;
+      padding: 9px 13px;
+      background: rgba(143, 233, 255, .08);
+      color: #c8f3ff;
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .button:hover { border-color: rgba(143, 233, 255, .68); background: rgba(143, 233, 255, .14); }
+    .button:active { transform: translateY(1px); }
+    .button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .timeline-readout {
+      color: #8492b7;
+      font-size: 12px;
+    }
+
+    .timeline-readout strong { color: #dce6ff; font-weight: 600; }
+
+    .speed-control {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #8796bb;
+      font-size: 11px;
+    }
+
+    input[type="range"] {
+      width: 125px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .speed-value {
+      min-width: 37px;
+      color: #dce6ff;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .footnote {
+      margin: 17px 2px 0;
+      color: #5f6c8e;
+      font-size: 11px;
+    }
+
+    svg text { user-select: none; }
+
+    .star { animation: twinkle var(--twinkle-duration, 3.6s) ease-in-out infinite; animation-delay: var(--twinkle-delay, 0s); }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: .22; }
+      50% { opacity: 1; }
+    }
+
+    .sun-corona { animation: breathe 4.8s ease-in-out infinite; transform-origin: 600px 400px; }
+
+    @keyframes breathe {
+      0%, 100% { opacity: .5; transform: scale(.96); }
+      50% { opacity: .82; transform: scale(1.04); }
+    }
+
+    .orbit-ring { fill: none; stroke: rgba(163, 194, 255, .2); stroke-width: 1.25; stroke-dasharray: 2 9; }
+    .orbit-ring.major { stroke: rgba(163, 194, 255, .26); stroke-dasharray: 1 10; }
+    .orbit-pulse { fill: none; stroke: rgba(143, 233, 255, .13); stroke-width: 5; filter: url(#softGlow); }
+    .axis-line { stroke: rgba(143, 233, 255, .12); stroke-width: 1; stroke-dasharray: 1 11; }
+
+    .planet-label {
+      fill: #e8eeff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      paint-order: stroke;
+      stroke: #070b1f;
+      stroke-width: 4px;
+      stroke-linejoin: round;
+    }
+
+    .moon-label { fill: #91a1c9; font-size: 9px; }
+    .sun-label { fill: #ffe1a3; font-size: 14px; font-weight: 700; letter-spacing: .12em; }
+    .orbit-index { fill: #637297; font-size: 9px; letter-spacing: .1em; }
+
+    .planet-body { stroke: rgba(255, 255, 255, .36); stroke-width: 1; }
+    .earth-glow { fill: #6ecbff; opacity: .22; filter: url(#softGlow); }
+    .moon-path { fill: none; stroke: rgba(198, 217, 255, .24); stroke-width: 1; stroke-dasharray: 2 4; }
+    .saturn-ring { fill: none; stroke: #d8b577; stroke-width: 5.6; opacity: .86; }
+    .saturn-ring-thin { fill: none; stroke: #ffe4a8; stroke-width: 1.3; opacity: .68; }
+    .ring-front { fill: none; stroke: #eac87f; stroke-width: 5.6; opacity: .94; }
+
+    @media (max-width: 980px) {
+      .observatory { grid-template-columns: 1fr; }
+      .legend { display: grid; grid-template-columns: 1fr; }
+      .planet-list { grid-template-columns: repeat(3, 1fr); }
+      .planet-row { border-right: 1px solid rgba(160, 189, 244, .08); }
+      .planet-row:nth-child(3n) { border-right: 0; }
+      .legend-note { margin-top: 0; }
+    }
+
+    @media (max-width: 680px) {
+      .app-shell { padding: 20px 12px 23px; }
+      .masthead { display: block; }
+      .status-chip { margin-top: 19px; }
+      .viewport { border-radius: 18px; }
+      #solar-system { min-height: 0; }
+      .planet-list { grid-template-columns: repeat(2, 1fr); }
+      .planet-row:nth-child(3n) { border-right: 1px solid rgba(160, 189, 244, .08); }
+      .planet-row:nth-child(2n) { border-right: 0; }
+      .toolbar { align-items: flex-start; }
+      .toolbar-group { width: 100%; justify-content: space-between; }
+      .speed-control { width: 100%; justify-content: space-between; }
+      input[type="range"] { flex: 1; max-width: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .star, .sun-corona { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">Orbital study / 01</p>
+        <h1>太阳系 · 轨道观测</h1>
+        <p class="intro">以地球公转为时间基准，把行星的真实周期压缩到一张可以慢慢观察的星图里。轨道大小为视觉化示意，公转节奏按比例缩放。</p>
+      </div>
+      <div class="status-chip"><span class="status-dot" aria-hidden="true"></span><span id="motion-status">轨道运行中</span></div>
+    </header>
+
+    <section class="observatory" aria-label="太阳系动画与公转周期图例">
+      <div class="viewport">
+        <svg id="solar-system" viewBox="0 0 1200 800" role="img" aria-label="深色星空背景中的太阳系公转动画">
+          <title>太阳系公转动画</title>
+          <desc>太阳位于中心，水星、金星、地球、火星、木星、土星沿轨道运行；地球有月球，土星有光环。</desc>
+          <defs>
+            <radialGradient id="space-gradient" cx="50%" cy="45%" r="72%">
+              <stop offset="0" stop-color="#111b3c"/>
+              <stop offset=".56" stop-color="#080e25"/>
+              <stop offset="1" stop-color="#030512"/>
+            </radialGradient>
+            <radialGradient id="sun-gradient" cx="36%" cy="32%">
+              <stop offset="0" stop-color="#fffbd2"/>
+              <stop offset=".28" stop-color="#ffe68d"/>
+              <stop offset=".72" stop-color="#ffae3d"/>
+              <stop offset="1" stop-color="#ec6e2d"/>
+            </radialGradient>
+            <radialGradient id="mercury-gradient" cx="35%" cy="32%">
+              <stop offset="0" stop-color="#e8e4d8"/>
+              <stop offset="1" stop-color="#77798a"/>
+            </radialGradient>
+            <radialGradient id="venus-gradient" cx="34%" cy="28%">
+              <stop offset="0" stop-color="#ffe8a7"/>
+              <stop offset="1" stop-color="#be714d"/>
+            </radialGradient>
+            <radialGradient id="earth-gradient" cx="32%" cy="28%">
+              <stop offset="0" stop-color="#b6f3ff"/>
+              <stop offset=".42" stop-color="#4bb5e8"/>
+              <stop offset="1" stop-color="#1958ae"/>
+            </radialGradient>
+            <radialGradient id="mars-gradient" cx="33%" cy="28%">
+              <stop offset="0" stop-color="#ffbd93"/>
+              <stop offset="1" stop-color="#a6453b"/>
+            </radialGradient>
+            <radialGradient id="jupiter-gradient" cx="32%" cy="27%">
+              <stop offset="0" stop-color="#ffe7bd"/>
+              <stop offset="1" stop-color="#9b5f42"/>
+            </radialGradient>
+            <radialGradient id="saturn-gradient" cx="31%" cy="27%">
+              <stop offset="0" stop-color="#fff0b6"/>
+              <stop offset="1" stop-color="#b97845"/>
+            </radialGradient>
+            <filter id="sun-glow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="16" result="blur"/>
+              <feColorMatrix in="blur" type="matrix" values="1 0 0 0 1  0 0 0 0 .5  0 0 0 0 .08  0 0 0 1 0"/>
+            </filter>
+            <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
+            <clipPath id="jupiter-clip"><circle r="24"/></clipPath>
+          </defs>
+
+          <rect width="1200" height="800" fill="url(#space-gradient)"/>
+          <g id="starfield" aria-hidden="true"></g>
+          <g opacity=".58" aria-hidden="true">
+            <line class="axis-line" x1="70" y1="400" x2="1130" y2="400"/>
+            <line class="axis-line" x1="600" y1="50" x2="600" y2="750"/>
+          </g>
+
+          <g class="orbit-layer" aria-hidden="true">
+            <circle class="orbit-ring" cx="600" cy="400" r="78"/>
+            <circle class="orbit-ring" cx="600" cy="400" r="118"/>
+            <circle class="orbit-ring major" cx="600" cy="400" r="162"/>
+            <circle class="orbit-ring" cx="600" cy="400" r="210"/>
+            <circle class="orbit-ring major" cx="600" cy="400" r="270"/>
+            <circle class="orbit-ring major" cx="600" cy="400" r="340"/>
+            <circle class="orbit-pulse" cx="600" cy="400" r="162"/>
+          </g>
+
+          <g id="planet-layer">
+            <g id="mercury" data-planet="mercury">
+              <circle class="planet-body" r="6" fill="url(#mercury-gradient)"/>
+              <circle cx="-2" cy="-2" r="1.2" fill="#797a83" opacity=".6"/>
+              <text class="planet-label" x="11" y="4">水星</text>
+            </g>
+
+            <g id="venus" data-planet="venus">
+              <circle class="planet-body" r="10" fill="url(#venus-gradient)"/>
+              <circle cx="-3" cy="-3" r="2" fill="#fff0c4" opacity=".33"/>
+              <text class="planet-label" x="15" y="4">金星</text>
+            </g>
+
+            <g id="earth" data-planet="earth">
+              <circle class="earth-glow" r="18"/>
+              <circle class="planet-body" r="12" fill="url(#earth-gradient)"/>
+              <path d="M-8 -1C-5-7 0-9 4-6C7-4 7 1 3 3C0 4-1 8-5 7C-9 6-11 2-8-1Z" fill="#54c97e" opacity=".78"/>
+              <path d="M2 6C6 4 9 5 10 8C7 11 3 12 0 10Z" fill="#6fd98e" opacity=".68"/>
+              <circle cx="-4" cy="-5" r="2.4" fill="#e8fbff" opacity=".45"/>
+              <circle class="moon-path" r="27"/>
+              <g id="moon-node">
+                <circle cx="27" cy="0" r="3.2" fill="#d9e0ec" stroke="#fff" stroke-opacity=".38"/>
+                <circle cx="26" cy="-1" r=".8" fill="#a6b0c2"/>
+              </g>
+              <text class="planet-label" x="18" y="4">地球</text>
+              <text class="moon-label" x="27" y="-11">月球</text>
+            </g>
+
+            <g id="mars" data-planet="mars">
+              <circle class="planet-body" r="8" fill="url(#mars-gradient)"/>
+              <path d="M-5 0C-2-3 2-3 5-1C3 2-1 4-5 3Z" fill="#80382f" opacity=".55"/>
+              <text class="planet-label" x="14" y="4">火星</text>
+            </g>
+
+            <g id="jupiter" data-planet="jupiter">
+              <circle class="planet-body" r="24" fill="url(#jupiter-gradient)"/>
+              <g clip-path="url(#jupiter-clip)" opacity=".5">
+                <path d="M-26-11 Q0-4 26-11" stroke="#bd795e" stroke-width="5" fill="none"/>
+                <path d="M-25-1 Q0 5 25-1" stroke="#f9e2bc" stroke-width="4" fill="none"/>
+                <path d="M-25 9 Q0 15 25 9" stroke="#a65a48" stroke-width="5" fill="none"/>
+              </g>
+              <ellipse cx="9" cy="7" rx="7" ry="3.6" fill="#a84e43" opacity=".72"/>
+              <text class="planet-label" x="31" y="4">木星</text>
+            </g>
+
+            <g id="saturn" data-planet="saturn">
+              <g transform="rotate(-18)">
+                <ellipse class="saturn-ring" rx="37" ry="12"/>
+                <ellipse class="saturn-ring-thin" rx="45" ry="15"/>
+              </g>
+              <circle class="planet-body" r="19" fill="url(#saturn-gradient)"/>
+              <path d="M-18-4 Q0 2 18-4" stroke="#c28a50" stroke-width="3" opacity=".45" fill="none"/>
+              <path d="M-16 6 Q0 12 16 6" stroke="#f8d990" stroke-width="2" opacity=".5" fill="none"/>
+              <g transform="rotate(-18)">
+                <path class="ring-front" d="M-37 0 A37 12 0 0 0 37 0"/>
+              </g>
+              <text class="planet-label" x="47" y="4">土星</text>
+            </g>
+          </g>
+
+          <g class="sun-corona" aria-hidden="true">
+            <circle cx="600" cy="400" r="72" fill="#ffab38" opacity=".22" filter="url(#sun-glow)"/>
+            <circle cx="600" cy="400" r="58" fill="none" stroke="#ffc660" stroke-opacity=".35" stroke-width="1" stroke-dasharray="1 7"/>
+          </g>
+          <circle cx="600" cy="400" r="42" fill="url(#sun-gradient)" stroke="#ffe3a1" stroke-opacity=".7" stroke-width="1.5"/>
+          <circle cx="586" cy="386" r="12" fill="#fff8cf" opacity=".3"/>
+          <text class="sun-label" x="600" y="407" text-anchor="middle">太阳</text>
+          <text class="orbit-index" x="600" y="463" text-anchor="middle">CENTER OF THE SYSTEM</text>
+        </svg>
+      </div>
+
+      <aside class="legend" aria-label="行星公转周期">
+        <div class="legend-head">
+          <p class="legend-kicker">Period index</p>
+          <p class="legend-title">公转周期</p>
+        </div>
+        <div class="planet-list">
+          <div class="planet-row"><span class="planet-swatch" style="color:#cfc8bb;background:#cfc8bb"></span><span class="planet-name">水星</span><span class="planet-period">0.24 年</span></div>
+          <div class="planet-row"><span class="planet-swatch" style="color:#e9a679;background:#e9a679"></span><span class="planet-name">金星</span><span class="planet-period">0.62 年</span></div>
+          <div class="planet-row"><span class="planet-swatch" style="color:#69d2ed;background:#69d2ed"></span><span class="planet-name">地球</span><span class="planet-period">1.00 年</span></div>
+          <div class="planet-row"><span class="planet-swatch" style="color:#d56f59;background:#d56f59"></span><span class="planet-name">火星</span><span class="planet-period">1.88 年</span></div>
+          <div class="planet-row"><span class="planet-swatch" style="color:#e7bd8b;background:#e7bd8b"></span><span class="planet-name">木星</span><span class="planet-period">11.86 年</span></div>
+          <div class="planet-row"><span class="planet-swatch" style="color:#edcb84;background:#edcb84"></span><span class="planet-name">土星</span><span class="planet-period">29.46 年</span></div>
+        </div>
+        <p class="legend-note">轨道间距为视觉比例示意。计时以地球 1 圈为 24 秒，水星约 4 圈，土星约 1/29 圈。</p>
+      </aside>
+    </section>
+
+    <div class="toolbar" aria-label="动画控制">
+      <div class="toolbar-group">
+        <button class="button" id="toggle-motion" type="button">暂停动画</button>
+        <button class="button" id="reset-motion" type="button">回到起点</button>
+        <span class="timeline-readout">模拟时间 <strong id="time-readout">0.00 年</strong></span>
+      </div>
+      <label class="speed-control" for="speed-range"><span>观测速度</span><input id="speed-range" type="range" min="0.25" max="4" step="0.25" value="1"><span class="speed-value" id="speed-value">1.00×</span></label>
+    </div>
+    <p class="footnote">提示：点击“暂停动画”可比较各行星的相对位置；月球持续绕地球运行。</p>
+  </main>
+
+  <script>
+    (() => {
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = document.getElementById("solar-system");
+      const starfield = document.getElementById("starfield");
+      const timeReadout = document.getElementById("time-readout");
+      const motionStatus = document.getElementById("motion-status");
+      const toggleButton = document.getElementById("toggle-motion");
+      const resetButton = document.getElementById("reset-motion");
+      const speedRange = document.getElementById("speed-range");
+      const speedValue = document.getElementById("speed-value");
+      const TAU = Math.PI * 2;
+      const EARTH_PERIOD_MS = 24000;
+      const CENTER = { x: 600, y: 400 };
+      const moonNode = document.getElementById("moon-node");
+      const planets = [
+        { id: "mercury", radius: 78, period: 0.240846, phase: -.7 },
+        { id: "venus", radius: 118, period: 0.615, phase: 1.15 },
+        { id: "earth", radius: 162, period: 1, phase: -.1 },
+        { id: "mars", radius: 210, period: 1.881, phase: 2.2 },
+        { id: "jupiter", radius: 270, period: 11.862, phase: 2.95 },
+        { id: "saturn", radius: 340, period: 29.457, phase: 4.35 }
+      ].map((planet) => ({ ...planet, node: document.getElementById(planet.id) }));
+
+      let seed = 13829;
+      const random = () => {
+        seed = (seed * 1664525 + 1013904223) >>> 0;
+        return seed / 4294967296;
+      };
+
+      for (let i = 0; i < 170; i += 1) {
+        const star = document.createElementNS(NS, "circle");
+        const x = 34 + random() * 1132;
+        const y = 25 + random() * 750;
+        const radius = random() < .86 ? .55 + random() * 1.25 : 1.6 + random() * 1.8;
+        star.setAttribute("class", "star");
+        star.setAttribute("cx", x.toFixed(2));
+        star.setAttribute("cy", y.toFixed(2));
+        star.setAttribute("r", radius.toFixed(2));
+        star.setAttribute("fill", random() > .84 ? "#b6d9ff" : "#ffffff");
+        star.style.opacity = (.2 + random() * .55).toFixed(2);
+        star.style.setProperty("--twinkle-delay", `${(-random() * 4.5).toFixed(2)}s`);
+        star.style.setProperty("--twinkle-duration", `${(2.4 + random() * 3.8).toFixed(2)}s`);
+        starfield.appendChild(star);
+      }
+
+      let elapsed = 0;
+      let last = performance.now();
+      let running = true;
+      let speed = 1;
+
+      const render = (now) => {
+        const delta = Math.min(80, now - last);
+        last = now;
+        if (running) elapsed += delta * speed;
+
+        planets.forEach((planet) => {
+          const angle = planet.phase + (elapsed / (EARTH_PERIOD_MS * planet.period)) * TAU;
+          const x = CENTER.x + planet.radius * Math.cos(angle);
+          const y = CENTER.y + planet.radius * Math.sin(angle);
+          planet.node.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
+        });
+
+        const moonAngle = (elapsed / 2200) * 360;
+        moonNode.setAttribute("transform", `rotate(${moonAngle.toFixed(2)})`);
+        timeReadout.textContent = `${(elapsed / EARTH_PERIOD_MS).toFixed(2)} 年`;
+        window.requestAnimationFrame(render);
+      };
+
+      toggleButton.addEventListener("click", () => {
+        running = !running;
+        toggleButton.textContent = running ? "暂停动画" : "继续动画";
+        motionStatus.textContent = running ? "轨道运行中" : "动画已暂停";
+        document.querySelector(".status-dot").style.background = running ? "#79ecbb" : "#ffcf78";
+        document.querySelector(".status-dot").style.boxShadow = running
+          ? "0 0 0 4px rgba(121, 236, 187, .12), 0 0 16px rgba(121, 236, 187, .85)"
+          : "0 0 0 4px rgba(255, 207, 120, .12), 0 0 16px rgba(255, 207, 120, .85)";
+      });
+
+      resetButton.addEventListener("click", () => {
+        elapsed = 0;
+        last = performance.now();
+        running = true;
+        toggleButton.textContent = "暂停动画";
+        motionStatus.textContent = "轨道运行中";
+      });
+
+      speedRange.addEventListener("input", (event) => {
+        speed = Number(event.target.value);
+        speedValue.textContent = `${speed.toFixed(2)}×`;
+      });
+
+      window.requestAnimationFrame(render);
+    })();
+  </script>
+</body>
+</html>
