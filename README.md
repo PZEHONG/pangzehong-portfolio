@@ -8,6 +8,8 @@
 
 **在线作品集：[https://zpj.aist.ink/index.html](https://zpj.aist.ink/index.html)**
 
+**Sites 独立镜像：[https://pangzehong-portfolio.localglobe1.chatgpt.site](https://pangzehong-portfolio.localglobe1.chatgpt.site)**
+
 ![作品集首页预览](previews/portfolio-identity-desktop.png)
 
 ## 工作投递书
@@ -46,6 +48,10 @@ GitHub 中的 HTML 链接用于阅读源码；实际交互可通过 [在线作�
 本作品集通过 GitHub Pages 发布，桌面和手机均可直接访问，无需安装环境：
 
 **[打开在线作品集](https://zpj.aist.ink/index.html)**
+
+**[打开 Sites 独立镜像（HTTPS）](https://pangzehong-portfolio.localglobe1.chatgpt.site)**
+
+Sites 镜像独立托管完整作品集，可与 GitHub Pages 同时使用。两个平台分别发布：GitHub Pages 跟随 `main` 分支更新，Sites 需要同步源码并重新发布。
 
 发布来源为 `main` 分支根目录，后续推送更新后由 GitHub Pages 自动重新部署。根目录 `.nojekyll` 用于保持静态文件原样发布。站点包含首页、48 件作品及其本地图片、音频和视频资源；两个外部实战项目通过原有地址访问。
 
