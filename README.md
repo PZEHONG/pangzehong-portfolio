@@ -6,7 +6,7 @@
 **联系邮箱：[15322523080@163.com](mailto:15322523080@163.com)**  
 **GitHub：[PZEHONG](https://github.com/PZEHONG)**
 
-**在线作品集：[https://zpj.aist.ink/index.html](https://zpj.aist.ink/index.html)**
+**在线作品集：[https://pzh.aist.ink/](https://pzh.aist.ink/)**
 
 **GitHub Pages：[https://pzehong.github.io/pangzehong-portfolio/index.html](https://pzehong.github.io/pangzehong-portfolio/index.html)**
 
@@ -43,13 +43,13 @@ PANGZEHONG
 | 收山录 | 三维地球与山野档案交互 | [本仓库页面](works/shoushanlu/index.html) · [独立仓库](https://github.com/PZEHONG/shoushanlu) |
 | DeepSeek Harness 开屏动画 | 4 秒 4K 动画与独立播放器展示 | [本仓库页面](works/deepseek-splash/index.html) · [独立仓库](https://github.com/PZEHONG/deepseek-splash) |
 
-GitHub 中的 HTML 链接用于阅读源码；实际交互可通过 [在线作品集](https://zpj.aist.ink/index.html) 体验，也可下载仓库后本地运行。外部实战项目可能需要登录，本仓库不包含其服务端、账号或访问凭据。截图中的性能数据仅代表对应测试场景，不构成通用性能承诺。
+GitHub 中的 HTML 链接用于阅读源码；实际交互可通过 [在线作品集](https://pzh.aist.ink/) 体验，也可下载仓库后本地运行。外部实战项目可能需要登录，本仓库不包含其服务端、账号或访问凭据。截图中的性能数据仅代表对应测试场景，不构成通用性能承诺。
 
 ## 公网访问与部署
 
 本作品集通过 GitHub Pages 与 Sites 双平台发布，桌面和手机均可直接访问，无需安装环境：
 
-**[打开在线作品集](https://zpj.aist.ink/index.html)**
+**[打开在线作品集](https://pzh.aist.ink/)**
 
 **[打开 Sites 独立镜像（HTTPS）](https://pangzehong-portfolio.localglobe1.chatgpt.site)**
 
@@ -59,7 +59,7 @@ Sites 镜像独立托管完整作品集，可与 GitHub Pages 同时使用。两
 
 发布来源为 `main` 分支根目录，后续推送更新后由 GitHub Pages 自动重新部署。根目录 `.nojekyll` 用于保持静态文件原样发布。站点包含首页、48 件作品及其本地图片、音频和视频资源；两个外部实战项目通过原有地址访问。
 
-自定义域名 `zpj.aist.ink` 绑定到 Sites。在 Cloudflare 的 `aist.ink` DNS 中，`zpj` 的 `CNAME` 目标为 `custom-domains.chatgpt.site`，代理状态为“仅 DNS”，TTL 为自动；同时保留 Sites 提供的域名验证 TXT 记录。域名与 HTTPS 由 Sites 管理，GitHub Pages 使用其原始地址独立访问，不再绑定该域名。
+自定义域名 `pzh.aist.ink` 绑定到 Sites。在 Cloudflare 的 `aist.ink` DNS 中，`pzh` 的 `CNAME` 目标为 `custom-domains.chatgpt.site`，代理状态为“仅 DNS”，TTL 为自动；同时保留 Sites 提供的域名验证 TXT 记录。域名与 HTTPS 由 Sites 管理，GitHub Pages 使用其原始地址独立访问，不再绑定该域名。
 
 ## 本地运行
 
