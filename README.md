@@ -47,19 +47,19 @@ GitHub 中的 HTML 链接用于阅读源码；实际交互可通过 [在线作�
 
 ## 公网访问与部署
 
-本作品集通过 GitHub Pages 与 Sites 双平台发布，桌面和手机均可直接访问，无需安装环境：
+本作品集通过 GitHub Pages 与 Sites 双平台发布，桌面和手机均可直接访问，无需安装环境；国内网络可达性以实际测试为准：
 
 **[打开在线作品集](https://pzh.aist.ink/)**
 
 **[打开 Sites 独立镜像（HTTPS）](https://pangzehong-portfolio.localglobe1.chatgpt.site)**
 
-**[打开 GitHub Pages](https://pzehong.github.io/pangzehong-portfolio/index.html)**
+**[打开 GitHub Pages 原始地址（会跳转至短域名）](https://pzehong.github.io/pangzehong-portfolio/index.html)**
 
 Sites 镜像独立托管完整作品集，可与 GitHub Pages 同时使用。两个平台分别发布：GitHub Pages 跟随 `main` 分支更新，Sites 需要同步源码并重新发布。
 
 发布来源为 `main` 分支根目录，后续推送更新后由 GitHub Pages 自动重新部署。根目录 `.nojekyll` 用于保持静态文件原样发布。站点包含首页、48 件作品及其本地图片、音频和视频资源；两个外部实战项目通过原有地址访问。
 
-自定义域名 `pzh.aist.ink` 绑定到 Sites。在 Cloudflare 的 `aist.ink` DNS 中，`pzh` 的 `CNAME` 目标为 `custom-domains.chatgpt.site`，代理状态为“仅 DNS”，TTL 为自动；同时保留 Sites 提供的域名验证 TXT 记录。域名与 HTTPS 由 Sites 管理，GitHub Pages 使用其原始地址独立访问，不再绑定该域名。
+自定义域名 `pzh.aist.ink` 直接绑定到 GitHub Pages。在 Cloudflare 的 `aist.ink` DNS 中，`pzh` 的 `CNAME` 目标为 `pzehong.github.io`（不含仓库路径），代理状态为“仅 DNS”，TTL 为自动。仓库根目录的 `CNAME` 文件保存该短域名，域名与 HTTPS 由 GitHub Pages 管理；GitHub Pages 原始地址会跳转至短域名。Sites 使用上方独立镜像地址访问。
 
 ## 本地运行
 
