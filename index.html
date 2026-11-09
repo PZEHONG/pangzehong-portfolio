@@ -6,12 +6,17 @@
   <meta name="description" content="PANGZEHONG 的应聘作品集：展示 AI 智能实习工作台、Token 代理中心、TikTok 自动化实习经历，以及 48 件 AI 辅助创作与交互实验作品。">
   <title>应聘作品集 — PANGZEHONG</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css">
+  <script>try{if(localStorage.getItem('portfolio-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+  <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/theme.css">
+  <script src="assets/theme.js" defer></script>
   <script src="assets/works.js" defer></script><script src="assets/app.js" defer></script><script src="assets/previews.js" defer></script>
   <script src="assets/internship.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#projects">跳至实战项目</a>
+  <button class="theme-toggle" type="button" aria-label="切换到明亮模式" aria-pressed="false" title="切换到明亮模式">
+    <span class="theme-hanger" aria-hidden="true"><span class="theme-cord"></span><svg class="theme-bulb" viewBox="0 0 40 48" fill="none"><path class="bulb-glass" d="M20 4.5c-7 0-12.5 5.3-12.5 12 0 4.4 2.2 7.6 5 10.4 1.5 1.5 2.1 3.4 2.2 5.1h10.6c.1-1.7.7-3.6 2.2-5.1 2.8-2.8 5-6 5-10.4 0-6.7-5.5-12-12.5-12Z"/><path class="bulb-filament" d="M16 32V20l4 4 4-4v12M15 35h10M16.5 38h7M18 41h4M20 41v7"/></svg></span><span class="theme-label">亮色</span>
+  </button>
   <header class="site-header wrap">
     <a class="brand" href="#top" aria-label="PANGZEHONG 应聘作品集首页"><span class="brand-symbol" aria-hidden="true">✳</span><span>PANGZEHONG<small>应聘作品集 / PORTFOLIO</small></span></a>
     <nav aria-label="主导航"><a class="nav-active" href="#works">作品集 <sup>48</sup></a><a href="#projects">实战项目 <sup>02</sup></a><a href="#cycling" data-cycling>骑行专列</a><a href="#about">关于我与实习</a></nav>
@@ -90,7 +95,6 @@
         <div class="internship-heading"><p class="eyebrow"><span class="tiny-square" aria-hidden="true"></span> INTERNSHIP / AUTOMATION IN PRACTICE</p><span class="internship-label">个人实习经历</span></div>
         <div class="internship-lead">
           <div><h3 id="internship-title">搭建 TikTok<br>自动化工作流<span>。</span></h3><p class="internship-description">实习期间，搭建 TikTok 自动化工作流，将工具应用于实际运营场景。结合带货后台的 GMV、成交件数与商品曝光，记录业务表现，让实习成果有据可查。</p><div class="internship-tags"><span>工作流搭建</span><span>TikTok 电商</span><span>运营数据</span></div></div>
-          <a class="internship-site" href="http://qingkongai.com/" target="_blank" rel="noopener noreferrer" aria-label="访问 TikTok 自动化工作流项目 qingkongai.com（在新标签页打开）"><span class="internship-site-top">PROJECT LINK <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></span><strong>qingkong<span>ai</span>.com</strong><span class="internship-site-bottom">TikTok 自动化工作流<span>访问项目 ↗</span></span></a>
         </div>
         <div class="internship-metrics" aria-label="后台报表中的实习成果">
           <div><span class="metric-label">精选 6、7 月 Commission GMV</span><strong><small>约 $</small>7.6<small>K</small></strong><p>两份完整月报展示值合计 · 412 件商品</p></div>
