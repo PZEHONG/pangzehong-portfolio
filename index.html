@@ -8,6 +8,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <script>try{if(localStorage.getItem('portfolio-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
   <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/theme.css">
+  <link rel="stylesheet" href="assets/ai-video-gallery.css">
+  <script src="assets/ai-video-gallery.js" defer></script>
   <script src="assets/theme.js" defer></script>
   <script src="assets/works.js" defer></script><script src="assets/app.js" defer></script><script src="assets/previews.js" defer></script>
   <script src="assets/internship.js" defer></script>
@@ -19,7 +21,7 @@
   </button>
   <header class="site-header wrap">
     <a class="brand" href="#top" aria-label="PANGZEHONG 应聘作品集首页"><span class="brand-symbol" aria-hidden="true">✳</span><span>PANGZEHONG<small>应聘作品集 / PORTFOLIO</small></span></a>
-    <nav aria-label="主导航"><a class="nav-active" href="#works">作品集 <sup>48</sup></a><a href="#projects">实战项目 <sup>02</sup></a><a href="#cycling" data-cycling>骑行专列</a><a href="#about">关于我与实习</a></nav>
+    <nav aria-label="主导航"><a class="nav-active" href="#works">作品集 <sup>48</sup></a><a href="#ai-videos">AI 视频展</a><a href="#projects">实战项目 <sup>02</sup></a><a href="#cycling" data-cycling>骑行专列</a><a href="#about">关于与实习</a></nav>
     <a class="header-link" href="#works">进入展馆 <span class="small-cross" aria-hidden="true">＋</span></a>
   </header>
   <main id="top">
@@ -79,8 +81,28 @@
         </article>
       </div>
     </section>
+    <section id="ai-videos" class="ai-exhibition wrap" aria-labelledby="ai-videos-title">
+      <div class="section-heading">
+        <div><p class="eyebrow section-index">02 / AI FILM SELECTION</p><h2 id="ai-videos-title">AI 视频展<span>。</span></h2></div>
+        <p class="section-intro">6 个创作现场，30 部精选影像。<br>从商业短片到电影叙事，发现不同的表达。</p>
+      </div>
+      <div class="ai-exhibition-intro"><span class="ai-exhibition-mark" aria-hidden="true">▶</span><p>外部作品精选 · 保留原作者署名。<br><span>先看封面，点击播放；部分为创作参考。</span></p><span class="ai-exhibition-count">06 SITES<br>30 FILMS</span></div>
+      <div class="ai-source-filters" role="group" aria-label="按视频来源筛选">
+        <button class="ai-source-filter active" type="button" data-video-source="all" aria-pressed="true" disabled>全部精选 <span>30</span></button>
+        <button class="ai-source-filter" type="button" data-video-source="chenghong" aria-pressed="false" disabled>呈鸿 AI <span>05</span></button>
+        <button class="ai-source-filter" type="button" data-video-source="deng" aria-pressed="false" disabled>邓慧灵 <span>05</span></button>
+        <button class="ai-source-filter" type="button" data-video-source="leo" aria-pressed="false" disabled>Leo Film <span>05</span></button>
+        <button class="ai-source-filter" type="button" data-video-source="zjk" aria-pressed="false" disabled>张建坤 <span>05</span></button>
+        <button class="ai-source-filter" type="button" data-video-source="yuren" aria-pressed="false" disabled>宇人 AIGC <span>05</span></button>
+        <button class="ai-source-filter" type="button" data-video-source="runway" aria-pressed="false" disabled>Runway AIF <span>05</span></button>
+      </div>
+      <p id="ai-video-status" class="ai-video-status" role="status" aria-live="polite">30 部作品，每个来源精选 5 部。</p>
+      <div id="ai-video-grid" class="ai-video-grid" aria-busy="true"><p class="ai-video-loading">正在载入精选片单…</p></div>
+      <div class="ai-video-more"><button id="ai-video-expand" class="button button-outline" type="button" aria-expanded="false" aria-controls="ai-video-grid" hidden>展开全部 30 部 <span aria-hidden="true">＋</span></button><button id="ai-video-retry" class="button button-outline" type="button" hidden>重新载入片单</button></div>
+      <noscript><p>请启用 JavaScript 浏览片单，也可直接访问原站：<a href="https://chenghongai.com/works/">呈鸿 AI</a> · <a href="https://denghuiling.cn/">邓慧灵</a> · <a href="https://leixiang.top/film">Leo Film</a> · <a href="https://zjkvideo.cn/works">张建坤</a> · <a href="https://yraigc.com/gallery.html">宇人 AIGC</a> · <a href="https://aif.runwayml.com/">Runway AIF</a>。</p></noscript>
+    </section>
     <section id="works" class="collection wrap" aria-labelledby="collection-title">
-      <div class="section-heading"><div><p class="eyebrow section-index">02 / THE COLLECTION</p><h2 id="collection-title">每个灵感，都有自己的宇宙<span>。</span></h2></div><p class="section-intro">从一场海边骑行，到一座未来之城。<br>点击作品，亲自走进去。</p></div>
+      <div class="section-heading"><div><p class="eyebrow section-index">03 / THE COLLECTION</p><h2 id="collection-title">每个灵感，都有自己的宇宙<span>。</span></h2></div><p class="section-intro">从一场海边骑行，到一座未来之城。<br>点击作品，亲自走进去。</p></div>
       <div class="collection-tools"><div class="filters" role="group" aria-label="作品类别"><button class="filter active" data-filter="all" aria-pressed="true">全部作品 <span>48</span></button><button class="filter" data-filter="3d" aria-pressed="false">三维世界</button><button class="filter" data-filter="animation" aria-pressed="false">灵动动画</button><button class="filter" data-filter="game" aria-pressed="false">互动游戏</button><button class="filter" data-filter="visual" aria-pressed="false">视觉实验</button><button class="filter" data-filter="cycling" aria-pressed="false">骑行专列</button></div></div>
       <div class="results-line"><p id="results-status" role="status" aria-live="polite">48 件作品，等待探索</p><span>SELECTED EXPERIMENTS / 2026</span></div>
       <div id="work-grid" class="work-grid"></div>
@@ -88,8 +110,8 @@
       <noscript><p>请启用 JavaScript 查看作品目录，或直接浏览<a href="works/gpt6-works/index.html">原版作品集</a>。</p></noscript>
       <div class="collection-bottom"><span class="tiny-square"></span><p>好奇心没有终点，探索也是。</p><span id="collection-count">48 / 48</span></div>
     </section>
-    <section id="cycling" class="cycling-section wrap" aria-labelledby="cycling-title"><div class="cycling-visual"><img src="previews/pelican-seaside.jpg" loading="lazy" alt="白色鹈鹕骑着自行车，沿灯塔旁的海岸前行"><span>THE CYCLING COLLECTION</span></div><div class="cycling-copy"><p class="eyebrow">03 / A LITTLE JOY IN MOTION</p><h2 id="cycling-title">慢一点，<br>让想象兜个风。</h2><p>鹈鹕、青蛙、熊猫，还有一只爱兜风的茶壶。<br>19 段奇妙骑行，从海岸线一路驶向霓虹夜色。</p><button class="button button-lime" id="browse-cycling">搭上骑行专列 <span aria-hidden="true">＋</span></button></div></section>
-    <section id="about" class="about-section wrap"><div><p class="eyebrow">04 / ABOUT ME &amp; MY EXPERIENCE</p><h2>把想法落地，<br>用作品表达<span>。</span></h2><img class="personal-signature about-signature" src="assets/signature.svg" alt="PANGZEHONG 个人艺术签名" width="600" height="135" loading="lazy"></div><div class="about-copy"><p>我是 PANGZEHONG。<br>这是我的应聘作品集。</p><p>这里收录了我的 AI 辅助创作、实战项目与实习经历。从可浏览、互动、游玩的创意实验，到服务实习管理与 AI 调用的实战项目，用作品展示探索过程，用真实记录呈现实践成果。</p><div class="about-stats"><div><strong>48</strong><span>创意作品</span></div><div><strong>02</strong><span>实战项目</span></div><div><strong>∞</strong><span>想象空间</span></div></div></div>
+    <section id="cycling" class="cycling-section wrap" aria-labelledby="cycling-title"><div class="cycling-visual"><img src="previews/pelican-seaside.jpg" loading="lazy" alt="白色鹈鹕骑着自行车，沿灯塔旁的海岸前行"><span>THE CYCLING COLLECTION</span></div><div class="cycling-copy"><p class="eyebrow">04 / A LITTLE JOY IN MOTION</p><h2 id="cycling-title">慢一点，<br>让想象兜个风。</h2><p>鹈鹕、青蛙、熊猫，还有一只爱兜风的茶壶。<br>19 段奇妙骑行，从海岸线一路驶向霓虹夜色。</p><button class="button button-lime" id="browse-cycling">搭上骑行专列 <span aria-hidden="true">＋</span></button></div></section>
+    <section id="about" class="about-section wrap"><div><p class="eyebrow">05 / ABOUT ME &amp; MY EXPERIENCE</p><h2>把想法落地，<br>用作品表达<span>。</span></h2><img class="personal-signature about-signature" src="assets/signature.svg" alt="PANGZEHONG 个人艺术签名" width="600" height="135" loading="lazy"></div><div class="about-copy"><p>我是 PANGZEHONG。<br>这是我的应聘作品集。</p><p>这里收录了我的 AI 辅助创作、实战项目与实习经历。从可浏览、互动、游玩的创意实验，到服务实习管理与 AI 调用的实战项目，用作品展示探索过程，用真实记录呈现实践成果。</p><div class="about-stats"><div><strong>48</strong><span>创意作品</span></div><div><strong>02</strong><span>实战项目</span></div><div><strong>∞</strong><span>想象空间</span></div></div></div>
       <!-- INTERNSHIP:START -->
       <article class="internship" aria-labelledby="internship-title">
         <div class="internship-heading"><p class="eyebrow"><span class="tiny-square" aria-hidden="true"></span> INTERNSHIP / AUTOMATION IN PRACTICE</p><span class="internship-label">个人实习经历</span></div>
@@ -204,6 +226,12 @@
   </main>
   <footer class="site-footer wrap"><a class="brand" href="#top"><span class="brand-symbol" aria-hidden="true">✳</span><span>PANGZEHONG</span></a><p>保持好奇。让作品说话。</p><a href="#top">回到顶部 <span aria-hidden="true">＋</span></a><div class="footer-bottom"><span>© 2026 PANGZEHONG · 应聘作品集</span><span>IDEAS INTO PRACTICE.</span></div></footer>
   <dialog id="prompt-dialog" aria-labelledby="prompt-title"><div class="dialog-header"><span class="eyebrow">BEHIND THE CREATION</span><button id="close-dialog" aria-label="关闭提示词">×</button></div><h2 id="prompt-title"></h2><p class="dialog-label">一切，从这个想法开始。</p><pre id="prompt-content" tabindex="0"></pre><div class="dialog-actions"><button class="button button-lime" id="copy-prompt">复制提示词</button><a id="prompt-work" class="button button-outline" target="_blank" rel="noopener">打开作品</a></div><p id="copy-status" role="status" aria-live="polite"></p></dialog>
+  <dialog id="ai-video-dialog" class="ai-video-dialog" aria-labelledby="ai-video-title" aria-describedby="ai-video-credit">
+    <div class="ai-player-heading"><div><p class="eyebrow">AI FILM SELECTION / NOW SHOWING</p><h2 id="ai-video-title"></h2></div><button id="ai-video-close" type="button" aria-label="关闭视频" autofocus>×</button></div>
+    <div id="ai-video-stage" class="ai-video-stage"></div>
+    <p id="ai-video-player-status" class="ai-video-player-status" role="status" aria-live="polite"></p>
+    <div class="ai-player-footer"><p id="ai-video-credit"></p><a id="ai-video-original" target="_blank" rel="noopener noreferrer">原站观看 <span aria-hidden="true">↗</span></a></div>
+  </dialog>
   <dialog id="evidence-dialog" class="evidence-dialog" aria-labelledby="evidence-title" aria-describedby="evidence-caption">
     <div class="dialog-header"><span class="eyebrow">TIKTOK / ORIGINAL RECORDS</span><button id="evidence-close" aria-label="关闭实拍大图" autofocus>×</button></div>
     <h2 id="evidence-title"></h2><p id="evidence-caption"></p>
