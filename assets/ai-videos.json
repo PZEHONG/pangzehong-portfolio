@@ -1,461 +1,846 @@
 {
   "updatedAt": "2026-11-12",
-  "sources": [
+  "tools": [
     {
-      "id": "chenghong",
-      "name": "呈鸿 AI",
-      "url": "https://chenghongai.com/works/"
+      "id": "kling",
+      "name": "可灵AI"
     },
     {
-      "id": "deng",
-      "name": "邓慧灵",
-      "url": "https://denghuiling.cn/"
+      "id": "jimeng",
+      "name": "即梦"
     },
     {
-      "id": "leo",
-      "name": "Leo Film",
-      "url": "https://leixiang.top/film"
+      "id": "hailuo",
+      "name": "海螺"
     },
     {
-      "id": "zjk",
-      "name": "张建坤",
-      "url": "https://zjkvideo.cn/"
+      "id": "doubao",
+      "name": "豆包"
     },
     {
-      "id": "yuren",
-      "name": "宇人 AIGC",
-      "url": "https://yraigc.com/gallery.html"
+      "id": "flow",
+      "name": "flow"
     },
     {
-      "id": "runway",
-      "name": "Runway AIF",
-      "url": "https://aif.runwayml.com/"
+      "id": "libtv",
+      "name": "LibTV"
     }
+  ],
+  "featured": [
+    "kling-official-1",
+    "jimeng-official-1",
+    "ch-minimax-h3",
+    "seedance25-official-1",
+    "flow-OmVhvs3OEvVxxP08qgFg",
+    "zjk-semir-commerce-workbench"
   ],
   "videos": [
     {
-      "id": "ch-womenswear-explain",
-      "source": "chenghong",
-      "title": "女装展示｜服装讲解",
-      "creator": "呈鸿",
-      "genre": "商品展示",
-      "description": "看人物表演与服装细节如何配合。",
-      "video": "https://chenghongai.com/media/works/womenswear-explain/womenswear-explain.mp4",
+      "id": "kling-official-1",
+      "title": "酒店大堂动作场面",
+      "tools": [
+        "kling"
+      ],
+      "genre": "动作叙事",
+      "description": "连续动作与音画配合，营造紧张的电影场面。",
       "type": "video",
-      "sourceUrl": "https://chenghongai.com/works/womenswear-explain/",
+      "video": "assets/ai-videos/kling-official-1.mp4",
+      "poster": "assets/video-posters/v2-kling-official-1.webp",
       "duration": "0:15",
-      "orientation": "portrait",
-      "poster": "assets/video-posters/ch-womenswear-explain.webp"
-    },
-    {
-      "id": "deng-bianjing-yimeng",
-      "source": "deng",
-      "title": "AIGC短片《汴京一梦》",
-      "creator": "邓慧灵 Deng Huiling",
-      "genre": "AIGC 文化短片",
-      "description": "借宋代生活图景，展开一段回到汴京的梦境。",
-      "sourceUrl": "https://denghuiling.cn/#:~:text=AIGC%E7%9F%AD%E7%89%87%E3%80%8A%E6%B1%B4%E4%BA%AC%E4%B8%80%E6%A2%A6%E3%80%8B",
-      "type": "video",
-      "video": "https://portfolio-site-d0gwwrvg6c7ceb85f-1439647223.tcloudbaseapp.com/videos/selected-works/bianjing-yimeng.mp4",
-      "duration": "1:01",
+      "durationSeconds": 15.068005,
+      "bytes": 1674977,
       "orientation": "landscape",
-      "aiVerified": true,
-      "playbackNote": "原片较大，加载需要一些时间",
-      "poster": "assets/video-posters/deng-bianjing-yimeng.webp"
+      "model": "Kling 4.0",
+      "provenance": {
+        "creator": "可灵AI官方",
+        "sourceUrl": "https://kling.ai/",
+        "evidenceUrl": "https://kling.ai/",
+        "originalVideo": "https://s16-kling.klingai.com/kos/s101/nlav112918/kling-homepage-aio/hero-v4-banner-2.f0c5d7d68d994e0d.mp4",
+        "originalDurationSeconds": 15.068005,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
     },
     {
-      "id": "leo-prj-mirror",
-      "source": "leo",
-      "title": "AI短片《镜中人》",
-      "creator": "Leo Film",
-      "genre": "创意短片",
-      "description": "以镜像叙事制造悬念，观察画面的连接。",
-      "type": "external",
-      "sourceUrl": "https://leixiang.top/film#shelf-brand:~:text=AI%E7%9F%AD%E7%89%87%E3%80%8A%E9%95%9C%E4%B8%AD%E4%BA%BA%E3%80%8B",
-      "playbackNote": "此来源在原站播放",
-      "poster": "assets/video-posters/leo-prj-mirror.webp"
-    },
-    {
-      "id": "zjk-gold-ion-outing",
-      "source": "zjk",
-      "title": "《当金离子出门后…》",
-      "creator": "张建坤",
-      "genre": "角色叙事",
-      "description": "跟随同一角色穿行不同场景，观察连续叙事。",
-      "video": "https://zjkvideo.cn/media/web/hero-gold-ion.mp4",
+      "id": "jimeng-official-1",
+      "title": "水母在海底遨游",
+      "tools": [
+        "jimeng"
+      ],
+      "genre": "想象场景",
+      "description": "捕捉水下光影，让水母在深海缓缓游动。",
       "type": "video",
-      "sourceUrl": "https://zjkvideo.cn/works#ai",
-      "duration": "0:32",
-      "orientation": "portrait",
-      "poster": "assets/video-posters/zjk-gold-ion-outing.webp"
-    },
-    {
-      "id": "yr-huagu-2d-anime",
-      "source": "yuren",
-      "title": "2D 动态漫《画骨》",
-      "creator": "宇人 · AIGC 学员与导师团队",
-      "genre": "国风动画",
-      "description": "以二维角色与工笔视觉构建动态画面。",
-      "video": "https://yraigc.com/assets/video/huagu-2d-anime.mp4",
-      "type": "video",
-      "sourceUrl": "https://yraigc.com/gallery.html",
-      "duration": "0:22",
+      "video": "assets/ai-videos/jimeng-official-1.mp4",
+      "poster": "assets/video-posters/v2-jimeng-official-1.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.9,
+      "bytes": 618541,
       "orientation": "landscape",
-      "poster": "assets/video-posters/yr-huagu-2d-anime.webp"
+      "provenance": {
+        "creator": "即梦AI 官方案例",
+        "sourceUrl": "https://jimeng.jianying.com/",
+        "evidenceUrl": "https://jimeng.jianying.com/",
+        "originalVideo": "https://lf3-lv-buz.vlabstatic.com/obj/image-lvweb-buz/growth/jimeng/landing_page/static/media/1.video.7a8931e8.mp4",
+        "originalDurationSeconds": 5.9,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
     },
     {
-      "id": "runway-a-face-only-a-mother-could-love",
-      "source": "runway",
-      "title": "A Face Only A Mother Could Love",
-      "creator": "Robert Gaudette",
-      "genre": "温情叙事",
-      "description": "在巴黎街头，两位孤独的人因勇气与音乐相遇。",
-      "sourceUrl": "https://aif.runwayml.com/?film=a-face-only-a-mother-could-love",
-      "type": "youtube",
-      "youtubeId": "ZkEi1KU6DtQ",
-      "duration": "7:50",
-      "orientation": "landscape",
-      "award": "Grand Prix",
-      "playbackNote": "使用 YouTube 官方播放器，需当前网络支持；也可前往原站观看",
-      "poster": "assets/video-posters/runway-a-face-only-a-mother-could-love.webp"
-    },
-    {
-      "id": "ch-pepper-remake-compare",
-      "source": "chenghong",
-      "title": "胡椒带货｜原参考 vs AI复刻",
-      "creator": "呈鸿",
-      "genre": "同屏对照",
-      "description": "把参考与生成画面并置，比较动作和节奏。",
-      "video": "https://chenghongai.com/media/works/pepper-remake-compare/pepper-remake-compare.mp4",
+      "id": "ch-minimax-h3",
+      "title": "MiniMax H3｜人物特效",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "MiniMax H3",
+      "description": "MiniMax H3 人物特效示例，观察动作与视觉变化。",
       "type": "video",
-      "sourceUrl": "https://chenghongai.com/works/pepper-remake-compare/",
+      "video": "assets/ai-videos/ch-minimax-h3.mp4",
+      "poster": "assets/video-posters/v2-ch-minimax-h3.webp",
       "duration": "0:15",
+      "durationSeconds": 15.104,
+      "bytes": 2628175,
       "orientation": "landscape",
-      "poster": "assets/video-posters/ch-pepper-remake-compare.webp"
+      "model": "MiniMax H3",
+      "provenance": {
+        "creator": "呈鸿个人实操演示",
+        "sourceUrl": "https://chenghongai.com/works/minimax-h3-fx/",
+        "evidenceUrl": "https://chenghongai.com/works/minimax-h3-fx/",
+        "toolEvidenceUrl": "https://design.minimax.io/h3",
+        "originalVideo": "https://chenghongai.com/media/works/minimax-h3-fx/minimax-h3-fx.mp4",
+        "originalDurationSeconds": 15.104,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "Explicit model; Hailuo family mapping supported by official MiniMax documentation"
+      }
     },
     {
-      "id": "deng-wanli-haisi",
-      "source": "deng",
-      "title": "AIGC短片《万里海丝》",
-      "creator": "邓慧灵 Deng Huiling",
-      "genre": "AIGC 文化短片",
-      "description": "以海上丝绸之路为线索，呈现中印刺绣文化的相遇。",
-      "sourceUrl": "https://denghuiling.cn/#:~:text=AIGC%E7%9F%AD%E7%89%87%E3%80%8A%E4%B8%87%E9%87%8C%E6%B5%B7%E4%B8%9D%E3%80%8B",
-      "type": "external",
-      "playbackNote": "原片较大，前往原站观看",
-      "aiVerified": true,
-      "poster": "assets/video-posters/deng-wanli-haisi.svg"
+      "id": "seedance25-official-1",
+      "title": "歌手从后台走向舞台",
+      "tools": [
+        "doubao"
+      ],
+      "genre": "Seedance 2.5",
+      "description": "Seedance 2.5 模型示例：从后台到舞台的一镜叙事。",
+      "type": "video",
+      "video": "assets/ai-videos/seedance25-official-1.mp4",
+      "poster": "assets/video-posters/v2-seedance25-official-1.webp",
+      "duration": "0:30",
+      "durationSeconds": 30,
+      "bytes": 4785132,
+      "orientation": "landscape",
+      "model": "Seedance 2.5",
+      "provenance": {
+        "creator": "字节跳动 Seed 官方",
+        "sourceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "evidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "toolEvidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "originalVideo": "https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/user-upload/4xfa4ms8egv8p.mp4",
+        "originalDurationSeconds": 30.079,
+        "excerpt": false,
+        "titleNote": "据官方描述拟定的中文展签",
+        "toolBasis": "豆包模型官方示例"
+      }
     },
     {
-      "id": "leo-prj-libai-ja",
-      "source": "leo",
-      "title": "AI短片《李白穿越静安》",
-      "creator": "Leo Film",
-      "genre": "城市文化",
-      "description": "把古代诗人与当代城市放进同一段旅程。",
-      "type": "external",
-      "sourceUrl": "https://leixiang.top/film#shelf-brand:~:text=AI%E7%9F%AD%E7%89%87%E3%80%8A%E6%9D%8E%E7%99%BD%E7%A9%BF%E8%B6%8A%E9%9D%99%E5%AE%89%E3%80%8B",
-      "playbackNote": "此来源在原站播放",
-      "poster": "assets/video-posters/leo-prj-libai-ja.webp"
+      "id": "flow-OmVhvs3OEvVxxP08qgFg",
+      "title": "面团动画小剧场",
+      "tools": [
+        "flow"
+      ],
+      "genre": "定格动画",
+      "description": "让面团拥有表情与动作，展开一段微型故事。",
+      "type": "video",
+      "video": "assets/ai-videos/flow-OmVhvs3OEvVxxP08qgFg.mp4",
+      "poster": "assets/video-posters/v2-flow-OmVhvs3OEvVxxP08qgFg.webp",
+      "duration": "0:08",
+      "durationSeconds": 8,
+      "bytes": 298244,
+      "orientation": "landscape",
+      "model": "Veo 3",
+      "provenance": {
+        "creator": "Google Flow TV 官方示例",
+        "sourceUrl": "https://labs.google/flow/tv/channel/doughmotion/OmVhvs3OEvVxxP08qgFg",
+        "evidenceUrl": "https://labs.google/flow/tv/channel/doughmotion/OmVhvs3OEvVxxP08qgFg",
+        "toolEvidenceUrl": "https://labs.google/flow/tv/faq",
+        "originalVideo": "https://storage.googleapis.com/gweb-tveo-website.appspot.com/uploads/video/generations/07e3987e-6f36-4b57-9637-c46267a9b020.mp4",
+        "originalDurationSeconds": 8,
+        "excerpt": false,
+        "titleNote": "官网单片未设置标题，此中文标题为描述性展签",
+        "toolBasis": "原站明确软件生成案例"
+      }
     },
     {
       "id": "zjk-semir-commerce-workbench",
-      "source": "zjk",
-      "title": "森马内容电商AI工作台",
-      "creator": "张建坤",
-      "genre": "活动开场",
-      "description": "微缩三维与动态图形结合的活动开场。",
-      "video": "https://zjkvideo.cn/media/web/archive/event/semir-commerce-workbench.mp4",
+      "title": "森马电商｜AI 开场短片",
+      "tools": [
+        "libtv"
+      ],
+      "genre": "商业影像",
+      "description": "将脚本、视觉方案与人工精修结合。原片开场 30 秒节选。",
       "type": "video",
-      "sourceUrl": "https://zjkvideo.cn/works#event",
-      "duration": "1:39",
-      "orientation": "landscape",
-      "poster": "assets/video-posters/zjk-semir-commerce-workbench.webp"
-    },
-    {
-      "id": "yr-3d-cg-white-city",
-      "source": "yuren",
-      "title": "3D 动画漫《白城》",
-      "creator": "宇人 · AIGC 学员与导师团队",
-      "genre": "三维动画",
-      "description": "用建筑、空间和光线建立动画世界。",
-      "video": "https://yraigc.com/assets/video/3d-cg-white-city.mp4",
-      "type": "video",
-      "sourceUrl": "https://yraigc.com/gallery.html",
-      "duration": "0:28",
-      "orientation": "landscape",
-      "poster": "assets/video-posters/yr-3d-cg-white-city.webp"
-    },
-    {
-      "id": "runway-the-well",
-      "source": "runway",
-      "title": "THE WELL",
-      "creator": "Dorian & Daniel",
-      "genre": "动物悬疑",
-      "description": "雪地营地里，一只野兔追查井底狼尸的秘密。",
-      "sourceUrl": "https://aif.runwayml.com/?film=the-well",
-      "type": "youtube",
-      "youtubeId": "yBs_pMUDrrk",
-      "duration": "5:29",
-      "orientation": "landscape",
-      "award": "Gold",
-      "playbackNote": "使用 YouTube 官方播放器，需当前网络支持；也可前往原站观看",
-      "poster": "assets/video-posters/runway-the-well.webp"
-    },
-    {
-      "id": "ch-emotion-continuous",
-      "source": "chenghong",
-      "title": "人物情绪控制｜连续表演",
-      "creator": "呈鸿",
-      "genre": "人物表演",
-      "description": "从连续表演观察神态与情绪的变化。",
-      "video": "https://chenghongai.com/media/works/emotion-continuous/emotion-continuous.mp4",
-      "type": "video",
-      "sourceUrl": "https://chenghongai.com/works/emotion-continuous/",
-      "duration": "0:20",
-      "orientation": "landscape",
-      "poster": "assets/video-posters/ch-emotion-continuous.webp"
-    },
-    {
-      "id": "deng-dont-rush-road",
-      "source": "deng",
-      "title": "自制综艺先导片《别赶路 感受路》",
-      "creator": "邓慧灵 Deng Huiling",
-      "genre": "综艺先导片 · 创作参考",
-      "description": "从旅途观察创意策划、节奏与综艺表达。",
-      "sourceUrl": "https://denghuiling.cn/#:~:text=%E8%87%AA%E5%88%B6%E7%BB%BC%E8%89%BA%E5%85%88%E5%AF%BC%E7%89%87%E3%80%8A%E5%88%AB%E8%B5%B6%E8%B7%AF%20%E6%84%9F%E5%8F%97%E8%B7%AF%E3%80%8B",
-      "type": "video",
-      "video": "https://portfolio-site-d0gwwrvg6c7ceb85f-1439647223.tcloudbaseapp.com/videos/selected-works/dont-rush-road.mp4",
-      "duration": "1:58",
-      "orientation": "landscape",
-      "aiVerified": false,
-      "playbackNote": "原片较大，加载需要一些时间",
-      "poster": "assets/video-posters/deng-dont-rush-road.webp"
-    },
-    {
-      "id": "leo-prj-mazu",
-      "source": "leo",
-      "title": "妈祖文化·敦煌壁画风格AI视频",
-      "creator": "Leo Film",
-      "genre": "东方美学",
-      "description": "用壁画质感重新组织文化题材的视觉表达。",
-      "type": "external",
-      "sourceUrl": "https://leixiang.top/film#shelf-brand:~:text=%E5%A6%88%E7%A5%96%E6%96%87%E5%8C%96%C2%B7%E6%95%A6%E7%85%8C%E5%A3%81%E7%94%BB%E9%A3%8E%E6%A0%BCAI%E8%A7%86%E9%A2%91",
-      "playbackNote": "此来源在原站播放",
-      "poster": "assets/video-posters/leo-prj-mazu.webp"
-    },
-    {
-      "id": "zjk-ai-denim-2",
-      "source": "zjk",
-      "title": "AI 2.0 牛仔",
-      "creator": "张建坤",
-      "genre": "商品视觉",
-      "description": "把人物与牛仔服饰放进生成场景。",
-      "video": "https://zjkvideo.cn/media/web/archive/ai/ai-denim-2.mp4",
-      "type": "video",
-      "sourceUrl": "https://zjkvideo.cn/works#ai",
-      "duration": "0:13",
-      "orientation": "portrait",
-      "poster": "assets/video-posters/zjk-ai-denim-2.webp"
-    },
-    {
-      "id": "yr-kouhong-ad",
-      "source": "yuren",
-      "title": "AI 产品广告片",
-      "creator": "宇人 · AIGC 学员与导师团队",
-      "genre": "产品广告",
-      "description": "近距离观察产品材质、灯光与广告节奏。",
-      "video": "https://yraigc.com/assets/video/kouhong-ad.mp4",
-      "type": "video",
-      "sourceUrl": "https://yraigc.com/gallery.html",
-      "duration": "0:24",
-      "orientation": "portrait",
-      "poster": "assets/video-posters/yr-kouhong-ad.webp"
-    },
-    {
-      "id": "runway-where-knights-fall",
-      "source": "runway",
-      "title": "Where Knights Fall",
-      "creator": "Mathery",
-      "genre": "奇幻童话",
-      "description": "高塔下的骑士接连倒下，童话迎来意外闯入者。",
-      "sourceUrl": "https://aif.runwayml.com/?film=where-knights-fall",
-      "type": "youtube",
-      "youtubeId": "dcXw2VyYEPU",
-      "duration": "3:36",
-      "orientation": "landscape",
-      "award": "Silver",
-      "playbackNote": "使用 YouTube 官方播放器，需当前网络支持；也可前往原站观看",
-      "poster": "assets/video-posters/runway-where-knights-fall.webp"
-    },
-    {
-      "id": "ch-outfit-street-duo",
-      "source": "chenghong",
-      "title": "双人穿搭｜街头时装展示",
-      "creator": "呈鸿",
-      "genre": "时装短片",
-      "description": "双人街头造型，观察服饰与人物一致性。",
-      "video": "https://chenghongai.com/media/works/outfit-street-duo/outfit-street-duo.mp4",
-      "type": "video",
-      "sourceUrl": "https://chenghongai.com/works/outfit-street-duo/",
-      "duration": "0:13",
-      "orientation": "portrait",
-      "poster": "assets/video-posters/ch-outfit-street-duo.webp"
-    },
-    {
-      "id": "deng-naaisi-ad",
-      "source": "deng",
-      "title": "广告片《纳爱斯，让美好从“齿”零距离》",
-      "creator": "邓慧灵 Deng Huiling",
-      "genre": "广告片 · 创作参考",
-      "description": "用日常场景与轻快镜头表达口腔护理品牌。",
-      "sourceUrl": "https://denghuiling.cn/#:~:text=%E5%B9%BF%E5%91%8A%E7%89%87%E3%80%8A%E7%BA%B3%E7%88%B1%E6%96%AF%EF%BC%8C%E8%AE%A9%E7%BE%8E%E5%A5%BD%E4%BB%8E%E2%80%9C%E9%BD%BF%E2%80%9D%E9%9B%B6%E8%B7%9D%E7%A6%BB%E3%80%8B",
-      "type": "video",
-      "video": "https://portfolio-site-d0gwwrvg6c7ceb85f-1439647223.tcloudbaseapp.com/videos/selected-works/naaisi-ad.mp4",
+      "video": "assets/ai-videos/zjk-semir-commerce-workbench.mp4",
+      "poster": "assets/video-posters/v2-zjk-semir-commerce-workbench.webp",
       "duration": "0:30",
+      "durationSeconds": 30,
+      "bytes": 5996711,
       "orientation": "landscape",
-      "aiVerified": false,
-      "playbackNote": "原片较大，加载需要一些时间",
-      "poster": "assets/video-posters/deng-naaisi-ad.webp"
+      "provenance": {
+        "creator": "张建坤",
+        "sourceUrl": "https://zjkvideo.cn/works#event",
+        "evidenceUrl": "https://zjkvideo.cn/",
+        "originalVideo": "https://zjkvideo.cn/media/web/archive/event/semir-commerce-workbench.mp4",
+        "originalDurationSeconds": 99.380998,
+        "excerpt": true,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "项目责任描述明确结合 LibTV 和人工精修完成开场片。"
+      }
     },
     {
-      "id": "leo-prj-nutcracker",
-      "source": "leo",
-      "title": "AIGC动画《胡桃夹子的童话世界》",
-      "creator": "Leo Film",
-      "genre": "风格动画",
-      "description": "在童话角色与流行舞台之间切换视觉风格。",
-      "type": "external",
-      "sourceUrl": "https://leixiang.top/film#shelf-pixar:~:text=AIGC%E5%8A%A8%E7%94%BB%E3%80%8A%E8%83%A1%E6%A1%83%E5%A4%B9%E5%AD%90%E7%9A%84%E7%AB%A5%E8%AF%9D%E4%B8%96%E7%95%8C%E3%80%8B",
-      "playbackNote": "此来源在原站播放",
-      "poster": "assets/video-posters/leo-prj-nutcracker.webp"
-    },
-    {
-      "id": "zjk-ai-father-son",
-      "source": "zjk",
-      "title": "父子AI短片",
-      "creator": "张建坤",
-      "genre": "亲子叙事",
-      "description": "以人物关系和字幕推进亲子短片。",
-      "video": "https://zjkvideo.cn/media/web/archive/ai/ai-father-son.mp4",
+      "id": "kling-official-2",
+      "title": "超跑追逐",
+      "tools": [
+        "kling"
+      ],
+      "genre": "速度镜头",
+      "description": "以跑车追逐展示速度、运镜与环境变化。",
       "type": "video",
-      "sourceUrl": "https://zjkvideo.cn/works#ai",
-      "duration": "0:06",
-      "orientation": "portrait",
-      "poster": "assets/video-posters/zjk-ai-father-son.webp"
-    },
-    {
-      "id": "yr-ai-lifestyle-morning",
-      "source": "yuren",
-      "title": "生活美学短片《晨光》",
-      "creator": "宇人 · AIGC 学员与导师团队",
-      "genre": "生活美学",
-      "description": "让日常场景成为光影与氛围的主角。",
-      "video": "https://yraigc.com/assets/video/ai-lifestyle-morning.mp4",
-      "type": "video",
-      "sourceUrl": "https://yraigc.com/gallery.html",
-      "duration": "0:30",
-      "orientation": "landscape",
-      "poster": "assets/video-posters/yr-ai-lifestyle-morning.webp"
-    },
-    {
-      "id": "runway-tairell-isnt-real",
-      "source": "runway",
-      "title": "TAIRELL ISN'T REAL",
-      "creator": "Dave Clark",
-      "genre": "数字身份",
-      "description": "完美网红遭全网质疑，在真伪边界寻找自我。",
-      "sourceUrl": "https://aif.runwayml.com/?film=tairell-isnt-real",
-      "type": "youtube",
-      "youtubeId": "-hcn82vwCr8",
-      "duration": "5:04",
-      "orientation": "landscape",
-      "award": "Honoree",
-      "playbackNote": "使用 YouTube 官方播放器，需当前网络支持；也可前往原站观看",
-      "poster": "assets/video-posters/runway-tairell-isnt-real.webp"
-    },
-    {
-      "id": "ch-minimax-h3-fx",
-      "source": "chenghong",
-      "title": "MiniMax H3｜人物特效",
-      "creator": "呈鸿",
-      "genre": "视觉特效",
-      "description": "人物面部与材质变化构成的特效实验。",
-      "video": "https://chenghongai.com/media/works/minimax-h3-fx/minimax-h3-fx.mp4",
-      "type": "video",
-      "sourceUrl": "https://chenghongai.com/works/minimax-h3-fx/",
+      "video": "assets/ai-videos/kling-official-2.mp4",
+      "poster": "assets/video-posters/v2-kling-official-2.webp",
       "duration": "0:15",
+      "durationSeconds": 15,
+      "bytes": 2117313,
       "orientation": "landscape",
-      "poster": "assets/video-posters/ch-minimax-h3-fx.webp"
+      "model": "Kling 4.0",
+      "provenance": {
+        "creator": "可灵AI官方",
+        "sourceUrl": "https://kling.ai/",
+        "evidenceUrl": "https://kling.ai/",
+        "originalVideo": "https://s16-kling.klingai.com/kos/s101/nlav112918/kling-homepage-aio/model-v4-supercar-chase.4f1b25616987379f.mp4",
+        "originalDurationSeconds": 15,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
     },
     {
-      "id": "deng-tanglao-zhongshan-jiniantang",
-      "source": "deng",
-      "title": "人物专访《跟着汤老探索中山纪念堂》",
-      "creator": "邓慧灵 Deng Huiling",
-      "genre": "人物专访 · 创作参考",
-      "description": "以人物带领串联文化场所的历史与空间。",
-      "sourceUrl": "https://denghuiling.cn/#:~:text=%E4%BA%BA%E7%89%A9%E4%B8%93%E8%AE%BF%E3%80%8A%E8%B7%9F%E7%9D%80%E6%B1%A4%E8%80%81%E6%8E%A2%E7%B4%A2%E4%B8%AD%E5%B1%B1%E7%BA%AA%E5%BF%B5%E5%A0%82%E3%80%8B",
-      "type": "external",
-      "playbackNote": "原片较大，前往原站观看",
-      "aiVerified": false,
-      "poster": "assets/video-posters/deng-tanglao-zhongshan-jiniantang.svg"
-    },
-    {
-      "id": "leo-prj-luma",
-      "source": "leo",
-      "title": "AI短片《卢马假日》科幻",
-      "creator": "Leo Film",
-      "genre": "科幻冒险",
-      "description": "未来度假村里的浪漫科幻想象。",
-      "type": "external",
-      "sourceUrl": "https://leixiang.top/film#shelf-brand:~:text=AI%E7%9F%AD%E7%89%87%E3%80%8A%E5%8D%A2%E9%A9%AC%E5%81%87%E6%97%A5%E3%80%8B%E7%A7%91%E5%B9%BB",
-      "playbackNote": "此来源在原站播放",
-      "poster": "assets/video-posters/leo-prj-luma.webp"
-    },
-    {
-      "id": "zjk-ai-film",
-      "source": "zjk",
-      "title": "AI影像实验",
-      "creator": "张建坤",
-      "genre": "影像实验",
-      "description": "观察生成画面与后期精修形成的质感。",
-      "video": "https://zjkvideo.cn/media/web/archive/ai/ai-film.mp4",
+      "id": "jimeng-official-2",
+      "title": "时尚斑马在水里吐泡泡",
+      "tools": [
+        "jimeng"
+      ],
+      "genre": "想象场景",
+      "description": "一只时尚斑马，在水中吐出奇妙的泡泡。",
       "type": "video",
-      "sourceUrl": "https://zjkvideo.cn/works#ai",
-      "duration": "0:18",
+      "video": "assets/ai-videos/jimeng-official-2.mp4",
+      "poster": "assets/video-posters/v2-jimeng-official-2.webp",
+      "duration": "0:02",
+      "durationSeconds": 2.4,
+      "bytes": 545523,
+      "orientation": "landscape",
+      "provenance": {
+        "creator": "即梦AI 官方案例",
+        "sourceUrl": "https://jimeng.jianying.com/",
+        "evidenceUrl": "https://jimeng.jianying.com/",
+        "originalVideo": "https://lf3-lv-buz.vlabstatic.com/obj/image-lvweb-buz/growth/jimeng/landing_page/static/media/2.video.25d2b0f2.mp4",
+        "originalDurationSeconds": 2.4,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-0",
+      "title": "氛围感影像",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "视觉短片",
+      "description": "以照片与文字构建一段有氛围的动态影像。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-0.mp4",
+      "poster": "assets/video-posters/v2-hailuo-0.webp",
+      "duration": "0:15",
+      "durationSeconds": 15.066667,
+      "bytes": 2865447,
+      "orientation": "landscape",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2026-07-31-13/video_agent/1785474791307411680-0_1edc447a.mp4",
+        "originalDurationSeconds": 15.066667,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "seedance25-official-3",
+      "title": "京剧水袖与环绕运镜",
+      "tools": [
+        "doubao"
+      ],
+      "genre": "Seedance 2.5",
+      "description": "Seedance 2.5 模型示例：以水袖动作衔接环绕镜头。",
+      "type": "video",
+      "video": "assets/ai-videos/seedance25-official-3.mp4",
+      "poster": "assets/video-posters/v2-seedance25-official-3.webp",
+      "duration": "0:20",
+      "durationSeconds": 20.041667,
+      "bytes": 3841030,
+      "orientation": "landscape",
+      "model": "Seedance 2.5",
+      "provenance": {
+        "creator": "字节跳动 Seed 官方",
+        "sourceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "evidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "toolEvidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "originalVideo": "https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/user-upload/4xfa4ms8atnr8.mp4",
+        "originalDurationSeconds": 20.041667,
+        "excerpt": false,
+        "titleNote": "据官方描述拟定的中文展签",
+        "toolBasis": "豆包模型官方示例"
+      }
+    },
+    {
+      "id": "flow-aftUIrkObN7F23ya9aEh",
+      "title": "霓虹代码",
+      "tools": [
+        "flow"
+      ],
+      "genre": "科幻场景",
+      "description": "代码屏幕前的一刻，探索角色与科幻场景的表达。",
+      "type": "video",
+      "video": "assets/ai-videos/flow-aftUIrkObN7F23ya9aEh.mp4",
+      "poster": "assets/video-posters/v2-flow-aftUIrkObN7F23ya9aEh.webp",
+      "duration": "0:08",
+      "durationSeconds": 8,
+      "bytes": 678546,
+      "orientation": "landscape",
+      "model": "Veo 3",
+      "provenance": {
+        "creator": "Google Flow TV 官方示例",
+        "sourceUrl": "https://labs.google/flow/tv/channel/inaction-figures/aftUIrkObN7F23ya9aEh",
+        "evidenceUrl": "https://labs.google/flow/tv/channel/inaction-figures/aftUIrkObN7F23ya9aEh",
+        "toolEvidenceUrl": "https://labs.google/flow/tv/faq",
+        "originalVideo": "https://storage.googleapis.com/gweb-tveo-website.appspot.com/uploads/video/generations/bccec469-6727-4888-ad2b-28037a9b9365.mp4",
+        "originalDurationSeconds": 8,
+        "excerpt": false,
+        "titleNote": "官网单片未设置标题，此中文标题为描述性展签",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "kling-official-3",
+      "title": "巨龙咆哮",
+      "tools": [
+        "kling"
+      ],
+      "genre": "奇幻生物",
+      "description": "让巨龙的动作、材质与环境声融为一体。",
+      "type": "video",
+      "video": "assets/ai-videos/kling-official-3.mp4",
+      "poster": "assets/video-posters/v2-kling-official-3.webp",
+      "duration": "0:28",
+      "durationSeconds": 27.933333,
+      "bytes": 4329757,
+      "orientation": "landscape",
+      "model": "Kling 4.0",
+      "provenance": {
+        "creator": "可灵AI官方",
+        "sourceUrl": "https://kling.ai/",
+        "evidenceUrl": "https://kling.ai/",
+        "originalVideo": "https://s16-kling.klingai.com/kos/s101/nlav112918/kling-homepage-aio/model-v4-dragon-roar.678c7991a2b816b6.mp4",
+        "originalDurationSeconds": 27.933333,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "jimeng-official-3",
+      "title": "宇航员沉浸在缤纷迷幻的世界",
+      "tools": [
+        "jimeng"
+      ],
+      "genre": "想象场景",
+      "description": "让宇航员走入色彩与幻想交织的世界。",
+      "type": "video",
+      "video": "assets/ai-videos/jimeng-official-3.mp4",
+      "poster": "assets/video-posters/v2-jimeng-official-3.webp",
+      "duration": "0:03",
+      "durationSeconds": 2.933333,
+      "bytes": 684857,
+      "orientation": "landscape",
+      "provenance": {
+        "creator": "即梦AI 官方案例",
+        "sourceUrl": "https://jimeng.jianying.com/",
+        "evidenceUrl": "https://jimeng.jianying.com/",
+        "originalVideo": "https://lf3-lv-buz.vlabstatic.com/obj/image-lvweb-buz/growth/jimeng/landing_page/static/media/3.video.667e9ea3.mp4",
+        "originalDurationSeconds": 2.933333,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-3",
+      "title": "雪道追逐",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "动作场景",
+      "description": "滑雪与追逐相遇，观察角色运动和镜头节奏。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-3.mp4",
+      "poster": "assets/video-posters/v2-hailuo-3.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.873991,
+      "bytes": 1329341,
       "orientation": "portrait",
-      "poster": "assets/video-posters/zjk-ai-film.webp"
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2026-03-18-14/video-agent-template/1773816081783492162-熊哥2.mp4",
+        "originalDurationSeconds": 5.873991,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
     },
     {
-      "id": "yr-night-harbor",
-      "source": "yuren",
-      "title": "港片《夜·港》",
-      "creator": "宇人 · AIGC 学员与导师团队",
-      "genre": "城市氛围",
-      "description": "借夜景、霓虹与色彩构成城市情绪。",
-      "video": "https://yraigc.com/assets/video/night-harbor.mp4",
+      "id": "seedance25-official-6",
+      "title": "绿幕到赛场",
+      "tools": [
+        "doubao"
+      ],
+      "genre": "Seedance 2.5",
+      "description": "Seedance 2.5 模型示例：绿幕素材与多场景成片的对照。",
       "type": "video",
-      "sourceUrl": "https://yraigc.com/gallery.html",
-      "duration": "0:30",
+      "video": "assets/ai-videos/seedance25-official-6.mp4",
+      "poster": "assets/video-posters/v2-seedance25-official-6.webp",
+      "duration": "0:17",
+      "durationSeconds": 17.166667,
+      "bytes": 1783002,
       "orientation": "landscape",
-      "poster": "assets/video-posters/yr-night-harbor.webp"
+      "model": "Seedance 2.5",
+      "provenance": {
+        "creator": "字节跳动 Seed 官方",
+        "sourceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "evidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "toolEvidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "originalVideo": "https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/user-upload/4xfa4ms8awohg.mp4",
+        "originalDurationSeconds": 17.166667,
+        "excerpt": false,
+        "titleNote": "据官方描述拟定的中文展签",
+        "toolBasis": "豆包模型官方示例"
+      }
     },
     {
-      "id": "runway-postman",
-      "source": "runway",
-      "title": "POSTMAN",
-      "creator": "YUUUKI",
-      "genre": "未来动画",
-      "description": "书信消失的未来，一次投递唤回被遗忘的情感。",
-      "sourceUrl": "https://aif.runwayml.com/?film=postman",
-      "type": "youtube",
-      "youtubeId": "0eiwtCpNo2c",
-      "duration": "7:00",
+      "id": "flow-Wx23NNDvxsNpttpBucB2",
+      "title": "追逐日光",
+      "tools": [
+        "flow"
+      ],
+      "genre": "电影感",
+      "description": "跟随光线、场景和镜头，捕捉片刻氛围。",
+      "type": "video",
+      "video": "assets/ai-videos/flow-Wx23NNDvxsNpttpBucB2.mp4",
+      "poster": "assets/video-posters/v2-flow-Wx23NNDvxsNpttpBucB2.webp",
+      "duration": "0:08",
+      "durationSeconds": 8,
+      "bytes": 1734311,
       "orientation": "landscape",
-      "award": "Merit",
-      "playbackNote": "使用 YouTube 官方播放器，需当前网络支持；也可前往原站观看",
-      "poster": "assets/video-posters/runway-postman.webp"
+      "model": "Veo 3",
+      "provenance": {
+        "creator": "Google Flow TV 官方示例",
+        "sourceUrl": "https://labs.google/flow/tv/channel/day-chasers/Wx23NNDvxsNpttpBucB2",
+        "evidenceUrl": "https://labs.google/flow/tv/channel/day-chasers/Wx23NNDvxsNpttpBucB2",
+        "toolEvidenceUrl": "https://labs.google/flow/tv/faq",
+        "originalVideo": "https://storage.googleapis.com/gweb-tveo-website.appspot.com/uploads/video/generations/96c4b84b-3361-4fec-9bbf-833463c0cece.mp4",
+        "originalDurationSeconds": 8,
+        "excerpt": false,
+        "titleNote": "官网单片未设置标题，此中文标题为描述性展签",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "kling-official-4",
+      "title": "多风格内容",
+      "tools": [
+        "kling"
+      ],
+      "genre": "风格实验",
+      "description": "在不同视觉风格之间探索叙事的可能。",
+      "type": "video",
+      "video": "assets/ai-videos/kling-official-4.mp4",
+      "poster": "assets/video-posters/v2-kling-official-4.webp",
+      "duration": "0:15",
+      "durationSeconds": 15.041667,
+      "bytes": 1438444,
+      "orientation": "landscape",
+      "model": "Kling 4.0",
+      "provenance": {
+        "creator": "可灵AI官方",
+        "sourceUrl": "https://kling.ai/",
+        "evidenceUrl": "https://kling.ai/",
+        "originalVideo": "https://s16-kling.klingai.com/kos/s101/nlav112918/kling-homepage-aio/model-v4-diverse-content.586215c02e90076e.mp4",
+        "originalDurationSeconds": 15.041667,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "ch-xiaogu-jimeng",
+      "title": "小谷老师真人感 AI 视频",
+      "tools": [
+        "jimeng"
+      ],
+      "genre": "人物表演",
+      "description": "用多参考图与音频，组合自然的人物动作与表达。",
+      "type": "video",
+      "video": "assets/ai-videos/ch-xiaogu-jimeng.mp4",
+      "poster": "assets/video-posters/v2-ch-xiaogu-jimeng.webp",
+      "duration": "0:08",
+      "durationSeconds": 8.08,
+      "bytes": 1344353,
+      "orientation": "portrait",
+      "provenance": {
+        "creator": "深圳市呈鸿无限进步科技有限公司",
+        "sourceUrl": "https://chenghongai.com/cases/xiaogu-ai-video/",
+        "evidenceUrl": "https://chenghongai.com/cases/xiaogu-ai-video/#输入资料",
+        "originalVideo": "https://chenghongai.com/media/cases/xiaogu/xiaogu-realism-case.mp4",
+        "originalDurationSeconds": 8.08,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "Explicit platform named by source"
+      }
+    },
+    {
+      "id": "hailuo-4",
+      "title": "走进动作捕捉现场",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "幕后想象",
+      "description": "让人物穿越到动作捕捉片场，转换画面语境。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-4.mp4",
+      "poster": "assets/video-posters/v2-hailuo-4.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.866667,
+      "bytes": 897083,
+      "orientation": "landscape",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2025-11-24-14/video-agent-template/1763965390748357170-1763965027482752502-19c3cd31.mp4",
+        "originalDurationSeconds": 5.866667,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "seedance25-official-7",
+      "title": "早餐镜头重构",
+      "tools": [
+        "doubao"
+      ],
+      "genre": "Seedance 2.5",
+      "description": "Seedance 2.5 模型示例：以吐司、煎蛋和咖啡，展示运镜编辑效果。",
+      "type": "video",
+      "video": "assets/ai-videos/seedance25-official-7.mp4",
+      "poster": "assets/video-posters/v2-seedance25-official-7.webp",
+      "duration": "0:18",
+      "durationSeconds": 18.04,
+      "bytes": 1202061,
+      "orientation": "landscape",
+      "model": "Seedance 2.5",
+      "provenance": {
+        "creator": "字节跳动 Seed 官方",
+        "sourceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "evidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "toolEvidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "originalVideo": "https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/user-upload/4xfa4ms8awtl3.mp4",
+        "originalDurationSeconds": 18.040454,
+        "excerpt": false,
+        "titleNote": "据官方描述拟定的中文展签",
+        "toolBasis": "豆包模型官方示例"
+      }
+    },
+    {
+      "id": "flow-OsPhQxrPFeowWj7WAVk9",
+      "title": "深夜教室",
+      "tools": [
+        "flow"
+      ],
+      "genre": "悬念叙事",
+      "description": "深夜教室里的一个动静，带出短暂的悬念。",
+      "type": "video",
+      "video": "assets/ai-videos/flow-OsPhQxrPFeowWj7WAVk9.mp4",
+      "poster": "assets/video-posters/v2-flow-OsPhQxrPFeowWj7WAVk9.webp",
+      "duration": "0:08",
+      "durationSeconds": 8,
+      "bytes": 312722,
+      "orientation": "landscape",
+      "model": "Veo 3",
+      "provenance": {
+        "creator": "Google Flow TV 官方示例",
+        "sourceUrl": "https://labs.google/flow/tv/channel/hello/OsPhQxrPFeowWj7WAVk9",
+        "evidenceUrl": "https://labs.google/flow/tv/channel/hello/OsPhQxrPFeowWj7WAVk9",
+        "toolEvidenceUrl": "https://labs.google/flow/tv/faq",
+        "originalVideo": "https://storage.googleapis.com/gweb-tveo-website.appspot.com/uploads/video/generations/6fbc2d46-7cdd-41bc-b0c9-d598c4eeb6d6.mp4",
+        "originalDurationSeconds": 8,
+        "excerpt": false,
+        "titleNote": "官网单片未设置标题，此中文标题为描述性展签",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "kling-official-5",
+      "title": "Flash模式",
+      "tools": [
+        "kling"
+      ],
+      "genre": "快速生成",
+      "description": "观察 Flash 模式下的画面运动与细节。",
+      "type": "video",
+      "video": "assets/ai-videos/kling-official-5.mp4",
+      "poster": "assets/video-posters/v2-kling-official-5.webp",
+      "duration": "0:15",
+      "durationSeconds": 15.041667,
+      "bytes": 1648463,
+      "orientation": "landscape",
+      "model": "Kling 4.0",
+      "provenance": {
+        "creator": "可灵AI官方",
+        "sourceUrl": "https://kling.ai/",
+        "evidenceUrl": "https://kling.ai/",
+        "originalVideo": "https://s16-kling.klingai.com/kos/s101/nlav112918/kling-homepage-aio/model-v4-flash-mode.8fc687d2a15761f7.mp4",
+        "originalDurationSeconds": 15.041667,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-6",
+      "title": "极速方程式",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "速度镜头",
+      "description": "从静态人物照片，想象一场速度竞赛。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-6.mp4",
+      "poster": "assets/video-posters/v2-hailuo-6.webp",
+      "duration": "0:12",
+      "durationSeconds": 11.666667,
+      "bytes": 2492025,
+      "orientation": "portrait",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2026-03-18-17/video-agent-template/1773827376935584047-赛车.mp4",
+        "originalDurationSeconds": 11.666667,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "seedance25-official-8",
+      "title": "豆包课堂：南宋临安",
+      "tools": [
+        "doubao"
+      ],
+      "genre": "Seedance 2.5",
+      "description": "豆包课堂场景示例，用动态影像走进南宋临安。",
+      "type": "video",
+      "video": "assets/ai-videos/seedance25-official-8.mp4",
+      "poster": "assets/video-posters/v2-seedance25-official-8.webp",
+      "duration": "0:30",
+      "durationSeconds": 30,
+      "bytes": 3800737,
+      "orientation": "landscape",
+      "model": "Seedance 2.5",
+      "provenance": {
+        "creator": "字节跳动 Seed 官方",
+        "sourceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "evidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "toolEvidenceUrl": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "originalVideo": "https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/user-upload/4xfa4ms8awvr0.mp4",
+        "originalDurationSeconds": 30.041667,
+        "excerpt": false,
+        "titleNote": "据官方描述拟定的中文展签",
+        "toolBasis": "豆包模型官方示例"
+      }
+    },
+    {
+      "id": "flow-LUJpBQYQPClQ82rwMmS0",
+      "title": "即兴现场",
+      "tools": [
+        "flow"
+      ],
+      "genre": "超现实",
+      "description": "在飞行的机翼上击鼓，让想象冲出日常。",
+      "type": "video",
+      "video": "assets/ai-videos/flow-LUJpBQYQPClQ82rwMmS0.mp4",
+      "poster": "assets/video-posters/v2-flow-LUJpBQYQPClQ82rwMmS0.webp",
+      "duration": "0:08",
+      "durationSeconds": 8,
+      "bytes": 464215,
+      "orientation": "landscape",
+      "model": "Veo 3",
+      "provenance": {
+        "creator": "Google Flow TV 官方示例",
+        "sourceUrl": "https://labs.google/flow/tv/channel/live-from-anywhere/LUJpBQYQPClQ82rwMmS0",
+        "evidenceUrl": "https://labs.google/flow/tv/channel/live-from-anywhere/LUJpBQYQPClQ82rwMmS0",
+        "toolEvidenceUrl": "https://labs.google/flow/tv/faq",
+        "originalVideo": "https://storage.googleapis.com/gweb-tveo-website.appspot.com/uploads/video/generations/ea0e96cf-a0de-4921-811a-e61fdd1fe1d0.mp4",
+        "originalDurationSeconds": 8,
+        "excerpt": false,
+        "titleNote": "官网单片未设置标题，此中文标题为描述性展签",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-9",
+      "title": "魔法变身",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "视觉特效",
+      "description": "以两张图像衔接角色变化与特效过渡。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-9.mp4",
+      "poster": "assets/video-posters/v2-hailuo-9.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.966009,
+      "bytes": 1325884,
+      "orientation": "portrait",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2025-11-14-22/video-agent-template/1763129323128820236-瞬间移动.mp4",
+        "originalDurationSeconds": 5.966009,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-10",
+      "title": "云端滑雪",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "超现实",
+      "description": "让滑雪的动作延伸到云层之上。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-10.mp4",
+      "poster": "assets/video-posters/v2-hailuo-10.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.866667,
+      "bytes": 1069188,
+      "orientation": "portrait",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2025-11-10-19/video-agent-template/1762773867821274333-1762768078468151755-95071eb8.mp4",
+        "originalDurationSeconds": 5.866667,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-11",
+      "title": "化作飞鸦",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "视觉特效",
+      "description": "让人物与飞鸦转换，呈现瞬间移动的想象。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-11.mp4",
+      "poster": "assets/video-posters/v2-hailuo-11.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.943991,
+      "bytes": 1313024,
+      "orientation": "portrait",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2026-03-18-13/video-agent-template/1773812876250195651-1762771674137472465-showcasebgm版本.mp4",
+        "originalDurationSeconds": 5.943991,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-17",
+      "title": "画中人出逃",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "艺术实验",
+      "description": "让画作中的人物走出画框，打破平面的边界。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-17.mp4",
+      "poster": "assets/video-posters/v2-hailuo-17.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.88,
+      "bytes": 853521,
+      "orientation": "portrait",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2025-11-04-14/video-agent-template/1762237903185331318-1762236760514498344-7a7938a6.mp4",
+        "originalDurationSeconds": 5.88,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
+    },
+    {
+      "id": "hailuo-23",
+      "title": "热气球玩具",
+      "tools": [
+        "hailuo"
+      ],
+      "genre": "微缩世界",
+      "description": "用热气球与玩具的组合，展开一个微型场景。",
+      "type": "video",
+      "video": "assets/ai-videos/hailuo-23.mp4",
+      "poster": "assets/video-posters/v2-hailuo-23.webp",
+      "duration": "0:06",
+      "durationSeconds": 5.866016,
+      "bytes": 445839,
+      "orientation": "landscape",
+      "provenance": {
+        "creator": "海螺 AI 官方案例",
+        "sourceUrl": "https://hailuoai.video/",
+        "evidenceUrl": "https://hailuoai.video/",
+        "originalVideo": "https://cdn.hailuoai.video/moss/prod/2025-09-12-14/video_agent/1757660159644919843-10087b24.mp4",
+        "originalDurationSeconds": 5.866667,
+        "excerpt": false,
+        "titleNote": "展示标题可能为描述性展签。",
+        "toolBasis": "原站明确软件生成案例"
+      }
     }
   ]
 }
