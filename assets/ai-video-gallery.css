@@ -24,7 +24,6 @@
 .ai-video-card h3{font-size:18px;line-height:1.5;font-weight:600;margin:0 0 8px;overflow-wrap:anywhere}
 .ai-video-title{padding:0;min-height:44px;background:transparent;border:0;text-align:left;line-height:inherit;font:inherit;color:var(--ink)}
 .ai-video-title:hover{color:var(--lime)}
-.ai-video-description{font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 16px}
 .ai-video-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;border-top:1px solid var(--line);padding-top:6px}
 .ai-video-actions>span{font:10px var(--mono);color:var(--muted)}
 .ai-video-actions a{display:flex;align-items:center;gap:8px;min-height:44px;font-size:12px;color:var(--ink)}
